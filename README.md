@@ -16,7 +16,6 @@ Alat PDF client-side (PWA). Semua proses jalan di browser, gak ada file yang diu
 - PDF ke Word (alpha: ekstrak teks polos aja, tabel/kolom/gambar belum ikut, .docx dibangun manual pakai JSZip — bukan library docx)
 
 ## Belum ada (placeholder "segera" di UI)
-- Kompres
 - Kunci / Buka Kunci PDF (butuh library enkripsi tambahan)
 
 ## Catatan teknis
