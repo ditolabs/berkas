@@ -1,4 +1,4 @@
-const CACHE_NAME = 'berkas-alpha-v1';
+const CACHE_NAME = 'berkas-alpha-v2';
 const APP_SHELL = [
   './',
   './index.html',
@@ -11,7 +11,9 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL))
   );
-  self.skipWaiting();
+  // Do NOT auto skipWaiting here — we want the app to control the
+  // update prompt (see message listener below), so a new version
+  // waits until the user taps "Muat ulang".
 });
 
 self.addEventListener('activate', (event) => {
@@ -21,6 +23,12 @@ self.addEventListener('activate', (event) => {
     )
   );
   self.clients.claim();
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 // Cache-first for app shell, network-first fallback for everything else (incl. CDN libs)
