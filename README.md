@@ -2,11 +2,9 @@
 
 Alat PDF client-side (PWA). Semua proses jalan di browser, gak ada file yang diunggah ke server.
 
-## Cara deploy (pola sama kayak project ditolabs lainnya)
-1. Push folder ini ke repo baru, mis. `ditolabs/berkas`
-2. Aktifkan GitHub Pages (branch `main`, root) — atau connect ke Cloudflare Pages
-3. Akses via `https://ditolabs.github.io/berkas/`
-4. Buka di HP → menu browser → "Add to Home Screen" biar keinstall kayak app
+## Cara menggunakan:
+1. Akses via `https://ditolabs.github.io/berkas/`
+2. Buka di HP → menu browser → "Add to Home Screen" biar keinstall kayak app
 
 ## Status alpha — sudah jalan
 - Gabung PDF
