@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Berkas — Alat PDF di HP kamu</title>
+<meta name="description" content="Alat PDF yang berjalan langsung di HP kamu. Tidak ada file yang diunggah ke server.">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#14171c">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+  :root{
+    --ink-900:#14171c; --ink-800:#1b1f26; --ink-700:#232830; --ink-line:#333a44;
+    --paper:#e9eae2; --paper-dim:#c9cbc0; --teal:#3fa88f; --teal-dim:#2c7566;
+    --amber:#e3a548; --ivory:#f3f1ea; --danger:#c96a5a;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--ink-900);font-family:'Inter',sans-serif;color:var(--ivory);
+    min-height:100vh; max-width:520px; margin-inline:auto; display:flex; flex-direction:column;}
+  header.app-header{padding:18px 20px 14px;}
+  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:6px;display:flex;align-items:center;gap:8px;}
+  .badge-alpha{background:var(--amber);color:var(--ink-900);font-weight:700;padding:2px 7px;border-radius:6px;font-size:9px;letter-spacing:.06em;}
+  h1{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin:0 0 4px;letter-spacing:-.02em;}
+  header.app-header p{margin:0;font-size:13px;color:#9aa0a8;line-height:1.5;}
+
+  .search{margin:14px 20px 4px;background:var(--ink-700);border:1px solid var(--ink-line);border-radius:12px;
+    padding:11px 14px;display:flex;align-items:center;gap:10px;color:#7d838c;font-size:14px;}
+  .chips{display:flex;gap:8px;padding:14px 20px 6px;overflow-x:auto;}
+  .chip{font-family:'JetBrains Mono',monospace;font-size:11px;padding:7px 13px;border-radius:20px;
+    border:1px solid var(--ink-line);color:#9aa0a8;white-space:nowrap;cursor:pointer;}
+  .chip.active{background:var(--teal);border-color:var(--teal);color:var(--ink-900);font-weight:500;}
+
+  main{flex:1;overflow-y:auto;padding:8px 20px 30px;}
+  .section-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#5c626b;margin:14px 2px 10px;}
+  .tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .tool-card{position:relative;background:var(--paper);border-radius:14px 4px 14px 14px;padding:16px 14px 14px;
+    color:var(--ink-900);min-height:96px;display:flex;flex-direction:column;justify-content:space-between;
+    cursor:pointer;border:none;text-align:left;font-family:inherit;}
+  .tool-card:disabled{opacity:.45;cursor:not-allowed;}
+  .tool-card .icon{width:24px;height:24px;margin-bottom:12px;}
+  .tool-card .name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;line-height:1.25;}
+  .tool-card .tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal-dim);margin-top:4px;}
+  .tool-card.soon .tag{color:var(--danger);}
+
+  /* Tool screen */
+  .screen{display:none;flex-direction:column;flex:1;}
+  .screen.active{display:flex;}
+  .topbar{display:flex;align-items:center;gap:12px;padding:16px 20px 12px;}
+  .back{width:34px;height:34px;border-radius:10px;background:var(--ink-700);border:1px solid var(--ink-line);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;cursor:pointer;color:var(--ivory);}
+  .topbar-title{font-family:'Space Grotesk',sans-serif;font-size:17px;font-weight:600;}
+  .topbar-sub{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--teal);letter-spacing:.06em;text-transform:uppercase;}
+
+  .dropzone{margin:0 20px 14px;border:1.5px dashed var(--ink-line);border-radius:16px;padding:22px 16px;
+    text-align:center;cursor:pointer;}
+  .dropzone .dz-title{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;margin-bottom:4px;}
+  .dropzone .dz-sub{font-size:12px;color:#7d838c;}
+
+  .file-scroll{flex:1;overflow-y:auto;padding:0 20px;}
+  .file-row{display:flex;align-items:center;gap:10px;background:var(--ink-700);border:1px solid var(--ink-line);
+    border-radius:12px;padding:10px 12px;margin-bottom:8px;}
+  .file-row .num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--teal);width:16px;flex-shrink:0;}
+  .file-row .thumb{width:30px;height:38px;background:var(--paper);border-radius:4px 2px 4px 4px;flex-shrink:0;}
+  .file-row .meta{flex:1;min-width:0;}
+  .file-row .fname{font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .file-row .fsize{font-family:'JetBrains Mono',monospace;font-size:10px;color:#7d838c;margin-top:2px;}
+  .file-row button{background:none;border:none;color:#7d838c;cursor:pointer;padding:4px;flex-shrink:0;}
+  .file-row button:hover{color:var(--ivory);}
+
+  .field{margin:0 20px 14px;}
+  .field label{display:block;font-size:12px;color:#9aa0a8;margin-bottom:6px;}
+  .field select, .field input[type=text], .field input[type=number], .field input[type=password]{
+    width:100%;background:var(--ink-700);border:1px solid var(--ink-line);border-radius:10px;color:var(--ivory);
+    padding:11px 12px;font-family:'Inter',sans-serif;font-size:14px;}
+  .field-row{display:flex;gap:10px;margin:0 20px 14px;}
+  .field-row .field{margin:0;flex:1;}
+
+  .action-bar{flex-shrink:0;padding:14px 20px 26px;border-top:1px solid var(--ink-line);}
+  .privacy-note{display:flex;align-items:center;gap:8px;font-size:11px;color:#7d838c;margin-bottom:12px;}
+  .privacy-note svg{color:var(--teal);flex-shrink:0;}
+  .btn-primary{width:100%;background:var(--teal);color:var(--ink-900);border:none;border-radius:12px;padding:15px;
+    font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;text-align:center;cursor:pointer;}
+  .btn-primary:disabled{opacity:.4;cursor:not-allowed;}
+  .status-msg{text-align:center;font-size:12px;color:var(--teal);margin-top:10px;font-family:'JetBrains Mono',monospace;}
+  .status-msg.err{color:var(--danger);}
+  input[type=file]{display:none;}
+  .empty{text-align:center;padding:30px 10px;color:#5c626b;font-size:13px;}
+</style>
+</head>
+<body>
+
+<div id="home-screen" class="screen active">
+  <header class="app-header">
+    <div class="eyebrow">Berkas · by ditolabs <span class="badge-alpha">ALPHA</span></div>
+    <h1>Rapikan berkas.</h1>
+    <p>Semua diproses langsung di HP kamu. Gak ada file yang dikirim ke server.</p>
+  </header>
+  <div class="chips">
+    <div class="chip active">Semua</div>
+    <div class="chip">Susun</div>
+    <div class="chip">Ubah Format</div>
+    <div class="chip">Keamanan</div>
+  </div>
+  <main>
+    <div class="section-label">Siap dipakai</div>
+    <div class="tool-grid">
+      <button class="tool-card" onclick="openScreen('merge')">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="10" height="14" rx="1.5"/><rect x="10" y="7" width="10" height="14" rx="1.5"/></svg>
+        <div><div class="name">Gabung PDF</div><div class="tag">Susun</div></div>
+      </button>
+      <button class="tool-card" onclick="openScreen('split')">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M5 12h14" stroke-dasharray="2 2"/></svg>
+        <div><div class="name">Pisah Halaman</div><div class="tag">Susun</div></div>
+      </button>
+      <button class="tool-card" onclick="openScreen('rotate')">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12a10 10 0 1 1 4 8"/><path d="M2 20v-6h6"/></svg>
+        <div><div class="name">Putar Halaman</div><div class="tag">Susun</div></div>
+      </button>
+      <button class="tool-card" onclick="openScreen('watermark')">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M8 16l8-8"/></svg>
+        <div><div class="name">Tera Air</div><div class="tag">Susun</div></div>
+      </button>
+      <button class="tool-card" onclick="openScreen('img2pdf')">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m5 18 4.5-5 3 3 3.5-4.5L20 17"/></svg>
+        <div><div class="name">JPG ke PDF</div><div class="tag">Ubah Format</div></div>
+      </button>
+      <button class="tool-card" onclick="openScreen('pdf2img')">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 15l2-2 2 2 2-3"/></svg>
+        <div><div class="name">PDF ke JPG</div><div class="tag">Ubah Format</div></div>
+      </button>
+    </div>
+
+    <div class="section-label">Segera hadir</div>
+    <div class="tool-grid">
+      <button class="tool-card soon" disabled>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 14l4 4M4 14l4-4M4 14h16M20 10l-4-4M20 10l-4 4M20 10H4"/></svg>
+        <div><div class="name">Kompres</div><div class="tag">Segera</div></div>
+      </button>
+      <button class="tool-card soon" disabled>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <div><div class="name">Kunci PDF</div><div class="tag">Segera</div></div>
+      </button>
+      <button class="tool-card soon" disabled>
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>
+        <div><div class="name">PDF ke Word</div><div class="tag">Segera</div></div>
+      </button>
+    </div>
+  </main>
+</div>
+
+<!-- MERGE -->
+<div id="merge-screen" class="screen">
+  <div class="topbar">
+    <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div><div class="topbar-title">Gabung PDF</div><div class="topbar-sub" id="merge-count">0 file dipilih</div></div>
+  </div>
+  <div class="dropzone" onclick="document.getElementById('merge-input').click()">
+    <div class="dz-title">Tambah file PDF</div>
+    <div class="dz-sub">Ketuk untuk pilih dari HP kamu</div>
+  </div>
+  <input type="file" id="merge-input" accept="application/pdf" multiple onchange="handleMergeFiles(this.files)">
+  <div class="file-scroll" id="merge-list"><div class="empty">Belum ada file dipilih</div></div>
+  <div class="action-bar">
+    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Diproses di HP ini — tidak diunggah</div>
+    <button class="btn-primary" id="merge-btn" disabled onclick="doMerge()">Gabungkan File</button>
+    <div class="status-msg" id="merge-status"></div>
+  </div>
+</div>
+
+<!-- SPLIT -->
+<div id="split-screen" class="screen">
+  <div class="topbar">
+    <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div><div class="topbar-title">Pisah Halaman</div><div class="topbar-sub">Satu file PDF</div></div>
+  </div>
+  <div class="dropzone" onclick="document.getElementById('split-input').click()">
+    <div class="dz-title" id="split-filename">Pilih file PDF</div>
+    <div class="dz-sub">Ketuk untuk pilih dari HP kamu</div>
+  </div>
+  <input type="file" id="split-input" accept="application/pdf" onchange="handleSplitFile(this.files[0])">
+  <div class="field">
+    <label>Rentang halaman (mis. 1-3, 5, 7-9). Kosongkan untuk pisah semua halaman.</label>
+    <input type="text" id="split-range" placeholder="contoh: 1-3, 5">
+  </div>
+  <div class="action-bar">
+    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Diproses di HP ini — tidak diunggah</div>
+    <button class="btn-primary" id="split-btn" disabled onclick="doSplit()">Pisah Halaman</button>
+    <div class="status-msg" id="split-status"></div>
+  </div>
+</div>
+
+<!-- ROTATE -->
+<div id="rotate-screen" class="screen">
+  <div class="topbar">
+    <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div><div class="topbar-title">Putar Halaman</div><div class="topbar-sub">Satu file PDF</div></div>
+  </div>
+  <div class="dropzone" onclick="document.getElementById('rotate-input').click()">
+    <div class="dz-title" id="rotate-filename">Pilih file PDF</div>
+    <div class="dz-sub">Ketuk untuk pilih dari HP kamu</div>
+  </div>
+  <input type="file" id="rotate-input" accept="application/pdf" onchange="handleRotateFile(this.files[0])">
+  <div class="field">
+    <label>Putar searah jarum jam</label>
+    <select id="rotate-deg"><option value="90">90°</option><option value="180">180°</option><option value="270">270°</option></select>
+  </div>
+  <div class="action-bar">
+    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Diproses di HP ini — tidak diunggah</div>
+    <button class="btn-primary" id="rotate-btn" disabled onclick="doRotate()">Putar & Unduh</button>
+    <div class="status-msg" id="rotate-status"></div>
+  </div>
+</div>
+
+<!-- WATERMARK -->
+<div id="watermark-screen" class="screen">
+  <div class="topbar">
+    <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div><div class="topbar-title">Tera Air</div><div class="topbar-sub">Satu file PDF</div></div>
+  </div>
+  <div class="dropzone" onclick="document.getElementById('wm-input').click()">
+    <div class="dz-title" id="wm-filename">Pilih file PDF</div>
+    <div class="dz-sub">Ketuk untuk pilih dari HP kamu</div>
+  </div>
+  <input type="file" id="wm-input" accept="application/pdf" onchange="handleWmFile(this.files[0])">
+  <div class="field">
+    <label>Teks tera air</label>
+    <input type="text" id="wm-text" placeholder="mis. RAHASIA / DRAFT" value="DRAFT">
+  </div>
+  <div class="action-bar">
+    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Diproses di HP ini — tidak diunggah</div>
+    <button class="btn-primary" id="wm-btn" disabled onclick="doWatermark()">Tambah Tera Air</button>
+    <div class="status-msg" id="wm-status"></div>
+  </div>
+</div>
+
+<!-- IMG TO PDF -->
+<div id="img2pdf-screen" class="screen">
+  <div class="topbar">
+    <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div><div class="topbar-title">JPG ke PDF</div><div class="topbar-sub" id="img-count">0 gambar dipilih</div></div>
+  </div>
+  <div class="dropzone" onclick="document.getElementById('img-input').click()">
+    <div class="dz-title">Tambah gambar</div>
+    <div class="dz-sub">JPG atau PNG, bisa pilih beberapa</div>
+  </div>
+  <input type="file" id="img-input" accept="image/jpeg,image/png" multiple onchange="handleImgFiles(this.files)">
+  <div class="file-scroll" id="img-list"><div class="empty">Belum ada gambar dipilih</div></div>
+  <div class="action-bar">
+    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Diproses di HP ini — tidak diunggah</div>
+    <button class="btn-primary" id="img-btn" disabled onclick="doImg2Pdf()">Jadikan PDF</button>
+    <div class="status-msg" id="img-status"></div>
+  </div>
+</div>
+
+<!-- PDF TO IMG -->
+<div id="pdf2img-screen" class="screen">
+  <div class="topbar">
+    <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div><div class="topbar-title">PDF ke JPG</div><div class="topbar-sub">Satu file PDF</div></div>
+  </div>
+  <div class="dropzone" onclick="document.getElementById('p2i-input').click()">
+    <div class="dz-title" id="p2i-filename">Pilih file PDF</div>
+    <div class="dz-sub">Tiap halaman jadi satu gambar JPG</div>
+  </div>
+  <input type="file" id="p2i-input" accept="application/pdf" onchange="handleP2iFile(this.files[0])">
+  <div class="action-bar">
+    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Diproses di HP ini — tidak diunggah</div>
+    <button class="btn-primary" id="p2i-btn" disabled onclick="doPdf2Img()">Ubah ke JPG (.zip)</button>
+    <div class="status-msg" id="p2i-status"></div>
+  </div>
+</div>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+function openScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id+'-screen').classList.add('active');
+}
+function goHome(){ openScreen('home'); }
+
+function fmtSize(bytes){
+  if(bytes < 1024*1024) return (bytes/1024).toFixed(0)+' KB';
+  return (bytes/1024/1024).toFixed(1)+' MB';
+}
+function downloadBlob(blob, filename){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+}
+function setStatus(id, msg, isErr){
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = 'status-msg' + (isErr ? ' err' : '');
+}
+
+/* ===== MERGE ===== */
+let mergeFiles = [];
+function handleMergeFiles(fileList){
+  mergeFiles = mergeFiles.concat(Array.from(fileList));
+  renderMergeList();
+}
+function removeMergeFile(i){ mergeFiles.splice(i,1); renderMergeList(); }
+function moveMergeFile(i, dir){
+  const j = i+dir;
+  if(j<0 || j>=mergeFiles.length) return;
+  [mergeFiles[i], mergeFiles[j]] = [mergeFiles[j], mergeFiles[i]];
+  renderMergeList();
+}
+function renderMergeList(){
+  const list = document.getElementById('merge-list');
+  document.getElementById('merge-count').textContent = mergeFiles.length + ' file dipilih';
+  document.getElementById('merge-btn').disabled = mergeFiles.length < 2;
+  if(mergeFiles.length === 0){ list.innerHTML = '<div class="empty">Belum ada file dipilih</div>'; return; }
+  list.innerHTML = mergeFiles.map((f,i)=>`
+    <div class="file-row">
+      <div class="num">${String(i+1).padStart(2,'0')}</div>
+      <div class="thumb"></div>
+      <div class="meta"><div class="fname">${f.name}</div><div class="fsize">${fmtSize(f.size)}</div></div>
+      <button onclick="moveMergeFile(${i},-1)" title="Naik">↑</button>
+      <button onclick="moveMergeFile(${i},1)" title="Turun">↓</button>
+      <button onclick="removeMergeFile(${i})" title="Hapus">✕</button>
+    </div>`).join('');
+}
+async function doMerge(){
+  setStatus('merge-status', 'Menggabungkan...', false);
+  try{
+    const { PDFDocument } = PDFLib;
+    const merged = await PDFDocument.create();
+    for(const f of mergeFiles){
+      const bytes = await f.arrayBuffer();
+      const src = await PDFDocument.load(bytes);
+      const pages = await merged.copyPages(src, src.getPageIndices());
+      pages.forEach(p => merged.addPage(p));
+    }
+    const out = await merged.save();
+    downloadBlob(new Blob([out], {type:'application/pdf'}), 'gabungan.pdf');
+    setStatus('merge-status', 'Selesai — file terunduh.', false);
+  }catch(e){
+    setStatus('merge-status', 'Gagal: ' + e.message, true);
+  }
+}
+
+/* ===== SPLIT ===== */
+let splitFile = null;
+function handleSplitFile(f){
+  splitFile = f;
+  document.getElementById('split-filename').textContent = f ? f.name : 'Pilih file PDF';
+  document.getElementById('split-btn').disabled = !f;
+}
+function parseRanges(str, max){
+  if(!str.trim()) return Array.from({length:max}, (_,i)=>[i]); // each page separate
+  const groups = [];
+  str.split(',').forEach(part=>{
+    part = part.trim();
+    if(!part) return;
+    if(part.includes('-')){
+      const [a,b] = part.split('-').map(n=>parseInt(n.trim(),10));
+      const idxs = [];
+      for(let p=a; p<=b; p++) idxs.push(p-1);
+      groups.push(idxs);
+    } else {
+      groups.push([parseInt(part,10)-1]);
+    }
+  });
+  return groups;
+}
+async function doSplit(){
+  setStatus('split-status', 'Memisah halaman...', false);
+  try{
+    const { PDFDocument } = PDFLib;
+    const bytes = await splitFile.arrayBuffer();
+    const src = await PDFDocument.load(bytes);
+    const max = src.getPageCount();
+    const groups = parseRanges(document.getElementById('split-range').value, max);
+    const zip = new JSZip();
+    for(let g=0; g<groups.length; g++){
+      const doc = await PDFDocument.create();
+      const pages = await doc.copyPages(src, groups[g]);
+      pages.forEach(p=>doc.addPage(p));
+      const out = await doc.save();
+      zip.file(`bagian_${g+1}.pdf`, out);
+    }
+    const blob = await zip.generateAsync({type:'blob'});
+    downloadBlob(blob, 'hasil_pisah.zip');
+    setStatus('split-status', 'Selesai — ' + groups.length + ' file dalam .zip.', false);
+  }catch(e){
+    setStatus('split-status', 'Gagal: ' + e.message, true);
+  }
+}
+
+/* ===== ROTATE ===== */
+let rotateFile = null;
+function handleRotateFile(f){
+  rotateFile = f;
+  document.getElementById('rotate-filename').textContent = f ? f.name : 'Pilih file PDF';
+  document.getElementById('rotate-btn').disabled = !f;
+}
+async function doRotate(){
+  setStatus('rotate-status', 'Memutar halaman...', false);
+  try{
+    const { PDFDocument, degrees } = PDFLib;
+    const bytes = await rotateFile.arrayBuffer();
+    const doc = await PDFDocument.load(bytes);
+    const deg = parseInt(document.getElementById('rotate-deg').value,10);
+    doc.getPages().forEach(p=>{
+      const current = p.getRotation().angle;
+      p.setRotation(degrees((current + deg) % 360));
+    });
+    const out = await doc.save();
+    downloadBlob(new Blob([out],{type:'application/pdf'}), 'terputar.pdf');
+    setStatus('rotate-status', 'Selesai — file terunduh.', false);
+  }catch(e){
+    setStatus('rotate-status', 'Gagal: ' + e.message, true);
+  }
+}
+
+/* ===== WATERMARK ===== */
+let wmFile = null;
+function handleWmFile(f){
+  wmFile = f;
+  document.getElementById('wm-filename').textContent = f ? f.name : 'Pilih file PDF';
+  document.getElementById('wm-btn').disabled = !f;
+}
+async function doWatermark(){
+  setStatus('wm-status', 'Menambahkan tera air...', false);
+  try{
+    const { PDFDocument, rgb, degrees, StandardFonts } = PDFLib;
+    const bytes = await wmFile.arrayBuffer();
+    const doc = await PDFDocument.load(bytes);
+    const font = await doc.embedFont(StandardFonts.HelveticaBold);
+    const text = document.getElementById('wm-text').value || 'DRAFT';
+    doc.getPages().forEach(p=>{
+      const {width, height} = p.getSize();
+      p.drawText(text, {
+        x: width/2 - (text.length*14),
+        y: height/2,
+        size: 46,
+        font,
+        color: rgb(0.6,0.6,0.6),
+        opacity: 0.35,
+        rotate: degrees(35),
+      });
+    });
+    const out = await doc.save();
+    downloadBlob(new Blob([out],{type:'application/pdf'}), 'tera_air.pdf');
+    setStatus('wm-status', 'Selesai — file terunduh.', false);
+  }catch(e){
+    setStatus('wm-status', 'Gagal: ' + e.message, true);
+  }
+}
+
+/* ===== IMG TO PDF ===== */
+let imgFiles = [];
+function handleImgFiles(fileList){
+  imgFiles = imgFiles.concat(Array.from(fileList));
+  renderImgList();
+}
+function removeImgFile(i){ imgFiles.splice(i,1); renderImgList(); }
+function renderImgList(){
+  const list = document.getElementById('img-list');
+  document.getElementById('img-count').textContent = imgFiles.length + ' gambar dipilih';
+  document.getElementById('img-btn').disabled = imgFiles.length === 0;
+  if(imgFiles.length === 0){ list.innerHTML = '<div class="empty">Belum ada gambar dipilih</div>'; return; }
+  list.innerHTML = imgFiles.map((f,i)=>`
+    <div class="file-row">
+      <div class="num">${String(i+1).padStart(2,'0')}</div>
+      <div class="thumb"></div>
+      <div class="meta"><div class="fname">${f.name}</div><div class="fsize">${fmtSize(f.size)}</div></div>
+      <button onclick="removeImgFile(${i})" title="Hapus">✕</button>
+    </div>`).join('');
+}
+async function doImg2Pdf(){
+  setStatus('img-status', 'Membuat PDF...', false);
+  try{
+    const { PDFDocument } = PDFLib;
+    const doc = await PDFDocument.create();
+    for(const f of imgFiles){
+      const bytes = await f.arrayBuffer();
+      const img = f.type === 'image/png' ? await doc.embedPng(bytes) : await doc.embedJpg(bytes);
+      const page = doc.addPage([img.width, img.height]);
+      page.drawImage(img, {x:0, y:0, width:img.width, height:img.height});
+    }
+    const out = await doc.save();
+    downloadBlob(new Blob([out],{type:'application/pdf'}), 'gambar_ke_pdf.pdf');
+    setStatus('img-status', 'Selesai — file terunduh.', false);
+  }catch(e){
+    setStatus('img-status', 'Gagal: ' + e.message, true);
+  }
+}
+
+/* ===== PDF TO IMG ===== */
+let p2iFile = null;
+function handleP2iFile(f){
+  p2iFile = f;
+  document.getElementById('p2i-filename').textContent = f ? f.name : 'Pilih file PDF';
+  document.getElementById('p2i-btn').disabled = !f;
+}
+async function doPdf2Img(){
+  setStatus('p2i-status', 'Mengubah halaman...', false);
+  try{
+    const bytes = await p2iFile.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({data: bytes}).promise;
+    const zip = new JSZip();
+    for(let i=1; i<=pdf.numPages; i++){
+      const page = await pdf.getPage(i);
+      const viewport = page.getViewport({scale: 2});
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width; canvas.height = viewport.height;
+      const ctx = canvas.getContext('2d');
+      await page.render({canvasContext: ctx, viewport}).promise;
+      const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.92));
+      zip.file(`halaman_${String(i).padStart(2,'0')}.jpg`, blob);
+      setStatus('p2i-status', `Memproses halaman ${i}/${pdf.numPages}...`, false);
+    }
+    const outBlob = await zip.generateAsync({type:'blob'});
+    downloadBlob(outBlob, 'halaman_jpg.zip');
+    setStatus('p2i-status', 'Selesai — ' + pdf.numPages + ' gambar dalam .zip.', false);
+  }catch(e){
+    setStatus('p2i-status', 'Gagal: ' + e.message, true);
+  }
+}
+</script>
+</body>
+</html>
