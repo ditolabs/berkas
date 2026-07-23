@@ -111,6 +111,31 @@
   .update-toast button.dismiss{
     background:none; border:none; color:#7d838c; font-size:16px; padding:4px; flex-shrink:0; cursor:pointer;
   }
+
+  /* ===== RESPONSIVE: TABLET / DESKTOP ===== */
+  @media (min-width: 720px){
+    body{
+      max-width:820px;
+      margin:28px auto;
+      border-radius:22px;
+      border:1px solid var(--ink-line);
+      min-height:calc(100vh - 56px);
+      box-shadow:0 30px 70px -20px rgba(0,0,0,.5);
+    }
+    .tool-grid{ grid-template-columns:repeat(3, 1fr); }
+    .file-scroll{ display:grid; grid-template-columns:1fr 1fr; gap:0 10px; align-content:start; }
+    .file-scroll .file-row{ margin-bottom:8px; }
+    .dropzone{ cursor:pointer; }
+    .dropzone:hover{ border-color:var(--teal); }
+    .tool-card:not(:disabled):hover{ outline:2px solid var(--teal); outline-offset:-2px; }
+    .chip{ cursor:pointer; }
+    .back:hover{ border-color:var(--teal); }
+  }
+  @media (min-width: 1100px){
+    body{ max-width:1040px; }
+    .tool-grid{ grid-template-columns:repeat(4, 1fr); }
+    main{ padding-bottom:40px; }
+  }
 </style>
 </head>
 <body>
