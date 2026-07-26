@@ -16,45 +16,74 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <style>
   :root{
-    --ink-900:#14171c; --ink-800:#1b1f26; --ink-700:#232830; --ink-line:#333a44;
-    --paper:#e9eae2; --paper-dim:#c9cbc0; --teal:#3fa88f; --teal-dim:#2c7566;
-    --amber:#e3a548; --ivory:#f3f1ea; --danger:#c96a5a;
+    --ink-900:#0b0d12; --ink-800:#12141b; --ink-700:#151822; --ink-line:#282d3a;
+    --paper:#e9eae2; --paper-dim:#c9cbc0; --teal:#7c6bf0; --teal-dim:#5f4fc7;
+    --amber:#e3a548; --ivory:#f2f1ec; --danger:#c96a5a;
+    --dim:#8b8f9c; --dim-2:#5e6270;
+    --c-indigo:#7c6bf0; --c-emerald:#34c19c; --c-violet:#9b7cf0; --c-fuchsia:#e07cd0;
+    --c-cyan:#4fc3d9; --c-tealc:#3fa88f; --c-amber:#e3a548; --c-sky:#5b9df0; --c-rose:#e0708a;
   }
   *{box-sizing:border-box;}
   body{margin:0;background:var(--ink-900);font-family:'Inter',sans-serif;color:var(--ivory);
     min-height:100vh; max-width:520px; margin-inline:auto; display:flex; flex-direction:column;}
-  header.app-header{padding:18px 20px 14px;}
-  .eyebrow-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
-  .lang-switch{display:flex;gap:4px;background:var(--ink-700);border:1px solid var(--ink-line);border-radius:20px;padding:3px;flex-shrink:0;}
-  .lang-pill{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.04em;
-    border:none;background:none;color:#7d838c;padding:5px 10px;border-radius:16px;cursor:pointer;}
-  .lang-pill.active{background:var(--teal);color:var(--ink-900);font-weight:700;}
-  .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:6px;display:flex;align-items:center;gap:8px;}
-  .badge-alpha{background:var(--amber);color:var(--ink-900);font-weight:700;padding:2px 7px;border-radius:6px;font-size:9px;letter-spacing:.06em;}
-  h1{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin:0 0 4px;letter-spacing:-.02em;}
-  header.app-header p{margin:0;font-size:13px;color:#9aa0a8;line-height:1.5;}
+  header.app-header{padding:18px 20px 14px; position:relative; z-index:1;}
+  .brand-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand-badge{
+    width:36px;height:36px;border-radius:11px;flex-shrink:0;
+    background:linear-gradient(135deg,var(--c-indigo),#a06bf0);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 8px 20px -6px rgba(124,107,240,.55);
+  }
+  .brand-badge img{display:block;}
+  .brand-text{display:flex;flex-direction:column;line-height:1.15;}
+  .brand-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;}
+  .brand-by{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim-2);margin-top:2px;}
+  .privacy-pill{
+    display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:20px;
+    background:rgba(52,193,156,.12);border:1px solid rgba(52,193,156,.25);color:var(--c-emerald);
+    font-size:11px;font-weight:600;margin-bottom:16px;
+  }
+  .lang-switch{display:flex;gap:4px;background:var(--ink-700);border:1px solid var(--ink-line);border-radius:9px;padding:3px;flex-shrink:0;}
+  .lang-pill{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.04em;
+    border:none;background:none;color:#7d838c;padding:5px 10px;border-radius:6px;cursor:pointer;}
+  .lang-pill.active{background:var(--ink-800);color:var(--ivory);}
+  h1{font-family:'Space Grotesk',sans-serif;font-size:27px;font-weight:800;margin:0 0 8px;letter-spacing:-.02em;line-height:1.15;}
+  header.app-header p{margin:0;font-size:13.5px;color:var(--dim);line-height:1.5;max-width:320px;}
 
-  .search{margin:14px 20px 4px;background:var(--ink-700);border:1px solid var(--ink-line);border-radius:12px;
-    padding:11px 14px;display:flex;align-items:center;gap:10px;color:#7d838c;font-size:14px;}
-  .chips{display:flex;gap:8px;padding:14px 20px 6px;overflow-x:auto;}
-  .chip{font-family:'JetBrains Mono',monospace;font-size:11px;padding:7px 13px;border-radius:20px;
-    border:1px solid var(--ink-line);color:#9aa0a8;white-space:nowrap;cursor:pointer;}
-  .chip.active{background:var(--teal);border-color:var(--teal);color:var(--ink-900);font-weight:500;}
+  .search{margin:0 20px 12px;position:relative;z-index:1;}
+  .search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--dim-2);pointer-events:none;}
+  .search input{width:100%;background:var(--ink-700);border:1px solid var(--ink-line);border-radius:12px;
+    padding:11px 14px 11px 36px;color:var(--ivory);font-family:'Inter',sans-serif;font-size:13.5px;}
+  .chips{display:flex;gap:6px;padding:0 20px 14px;overflow-x:auto;position:relative;z-index:1;}
+  .chip{font-family:'Inter',sans-serif;font-size:12.5px;font-weight:500;padding:8px 13px;border-radius:10px;
+    border:1px solid transparent;color:var(--dim);white-space:nowrap;cursor:pointer;}
+  .chip.active{background:var(--ink-700);border-color:var(--ink-line);color:var(--ivory);}
 
-  main{flex:1;overflow-y:auto;padding:8px 20px 30px;}
-  .section-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#5c626b;margin:14px 2px 10px;}
-  .tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-  .tool-card{position:relative;background:var(--paper);border-radius:14px 4px 14px 14px;padding:16px 14px 14px;
-    color:var(--ink-900);min-height:96px;display:flex;flex-direction:column;justify-content:space-between;
-    cursor:pointer;border:none;text-align:left;font-family:inherit;}
-  .tool-card:disabled{opacity:.45;cursor:not-allowed;}
-  .tool-card .icon{width:24px;height:24px;margin-bottom:12px;}
-  .tool-card .name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;line-height:1.25;}
-  .tool-card .tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--teal-dim);margin-top:4px;}
-  .tool-card.soon .tag{color:var(--danger);}
+  main{flex:1;overflow-y:auto;padding:4px 20px 30px;position:relative;z-index:1;}
+  .tool-grid{display:grid;grid-template-columns:1fr;gap:10px;}
+  .tool-card{position:relative;display:flex;align-items:flex-start;gap:14px;text-align:left;
+    background:rgba(255,255,255,0.02);border:1px solid var(--ink-line);border-radius:16px;padding:15px;
+    color:var(--ivory);font-family:inherit;cursor:pointer;}
+  .tool-card:disabled{opacity:.4;cursor:not-allowed;}
+  .tool-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .tool-text .name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14.5px;line-height:1.25;margin-bottom:3px;}
+  .tool-text .desc{font-size:12px;color:var(--dim);line-height:1.4;}
+  .ic-indigo{background:rgba(124,107,240,.16);color:var(--c-indigo);}
+  .ic-emerald{background:rgba(52,193,156,.16);color:var(--c-emerald);}
+  .ic-violet{background:rgba(155,124,240,.16);color:var(--c-violet);}
+  .ic-fuchsia{background:rgba(224,124,208,.16);color:var(--c-fuchsia);}
+  .ic-cyan{background:rgba(79,195,217,.16);color:var(--c-cyan);}
+  .ic-teal{background:rgba(63,168,143,.18);color:var(--c-tealc);}
+  .ic-amber{background:rgba(227,165,72,.16);color:var(--c-amber);}
+  .ic-sky{background:rgba(91,157,240,.16);color:var(--c-sky);}
+  .ic-rose{background:rgba(224,112,138,.16);color:var(--c-rose);}
+  .glow{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;opacity:.28;z-index:0;}
+  .glow.a{width:220px;height:220px;background:var(--c-indigo);top:-70px;left:-70px;}
+  .glow.b{width:190px;height:190px;background:var(--c-emerald);top:220px;right:-80px;opacity:.18;}
 
   /* Tool screen */
-  .screen{display:none;flex-direction:column;flex:1;}
+  .screen{display:none;flex-direction:column;flex:1;position:relative;overflow:hidden;}
   .screen.active{display:flex;}
   .topbar{display:flex;align-items:center;gap:12px;padding:16px 20px 12px;}
   .back{width:34px;height:34px;border-radius:10px;background:var(--ink-700);border:1px solid var(--ink-line);
@@ -127,7 +156,7 @@
       min-height:calc(100vh - 56px);
       box-shadow:0 30px 70px -20px rgba(0,0,0,.5);
     }
-    .tool-grid{ grid-template-columns:repeat(3, 1fr); }
+    .tool-grid{ grid-template-columns:repeat(2, 1fr); }
     .file-scroll{ display:grid; grid-template-columns:1fr 1fr; gap:0 10px; align-content:start; }
     .file-scroll .file-row{ margin-bottom:8px; }
     .dropzone{ cursor:pointer; }
@@ -138,7 +167,7 @@
   }
   @media (min-width: 1100px){
     body{ max-width:1040px; }
-    .tool-grid{ grid-template-columns:repeat(4, 1fr); }
+    .tool-grid{ grid-template-columns:repeat(3, 1fr); }
     main{ padding-bottom:40px; }
   }
 </style>
@@ -146,63 +175,128 @@
 <body>
 
 <div id="home-screen" class="screen active">
+  <div class="glow a"></div>
+  <div class="glow b"></div>
   <header class="app-header">
-    <div class="eyebrow-row">
-      <div class="eyebrow">Berkas · by ditolabs <span class="badge-alpha">ALPHA</span></div>
+    <div class="brand-row">
+      <div class="brand">
+        <div class="brand-badge"><img src="icons/icon-192.png" alt="Berkas" width="24" height="24"></div>
+        <div class="brand-text">
+          <span class="brand-name">Berkas.</span>
+          <span class="brand-by">By ditolabs · Alpha</span>
+        </div>
+      </div>
       <div class="lang-switch">
         <button class="lang-pill" data-lang="id" onclick="applyLang('id')">ID</button>
         <button class="lang-pill" data-lang="en" onclick="applyLang('en')">EN</button>
       </div>
     </div>
-    <h1 data-i18n="heroTitle">Rapikan berkas.</h1>
-    <p data-i18n="heroSub">Semua diproses langsung di HP kamu. Gak ada file yang dikirim ke server.</p>
+    <div class="privacy-pill">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg>
+      <span data-i18n="privacyPill">100% Privasi Terjaga</span>
+    </div>
+    <h1 data-i18n="heroTitle">Mau ngapain hari ini?</h1>
+    <p data-i18n="heroSub">Semua proses dilakukan langsung di perangkat kamu. Cepat, aman, tanpa server.</p>
   </header>
+
+  <div class="search">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    <input type="text" id="tool-search" data-i18n-placeholder="searchPh" placeholder="Cari alat PDF (mis. Gabung)..." oninput="searchTools(this.value)">
+  </div>
+
   <div class="chips">
     <div class="chip active" data-filter="semua" onclick="filterTools('semua', this)" data-i18n="chipAll">Semua</div>
     <div class="chip" data-filter="susun" onclick="filterTools('susun', this)" data-i18n="chipOrganize">Susun</div>
     <div class="chip" data-filter="ubah-format" onclick="filterTools('ubah-format', this)" data-i18n="chipConvert">Ubah Format</div>
     <div class="chip" data-filter="keamanan" onclick="filterTools('keamanan', this)" data-i18n="chipSecurity">Keamanan</div>
+    <div class="chip" data-filter="ukuran" onclick="filterTools('ukuran', this)" data-i18n="tagSize">Ukuran</div>
   </div>
+
   <main>
-    <div class="section-label" data-i18n="sectionReady">Siap dipakai</div>
-    <div class="tool-grid">
-      <button class="tool-card" data-category="susun" onclick="openScreen('merge')">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="10" height="14" rx="1.5"/><rect x="10" y="7" width="10" height="14" rx="1.5"/></svg>
-        <div><div class="name" data-i18n="toolMerge">Gabung PDF</div><div class="tag" data-i18n="chipOrganize">Susun</div></div>
+    <div class="tool-grid" id="tool-list">
+      <button class="tool-card" data-category="susun" data-search="gabung merge pdf" onclick="openScreen('merge')">
+        <div class="tool-icon ic-indigo">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="10" height="14" rx="1.5"/><rect x="10" y="7" width="10" height="14" rx="1.5"/></svg>
+        </div>
+        <div class="tool-text">
+          <div class="name" data-i18n="toolMerge">Gabung PDF</div>
+          <div class="desc" data-i18n="toolMergeDesc">Satukan beberapa file PDF jadi satu dokumen utuh.</div>
+        </div>
       </button>
-      <button class="tool-card" data-category="susun" onclick="openScreen('split')">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M5 12h14" stroke-dasharray="2 2"/></svg>
-        <div><div class="name" data-i18n="toolSplit">Pisah Halaman</div><div class="tag" data-i18n="chipOrganize">Susun</div></div>
+      <button class="tool-card" data-category="susun" data-search="pisah split halaman" onclick="openScreen('split')">
+        <div class="tool-icon ic-emerald">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M5 12h14" stroke-dasharray="2 2"/></svg>
+        </div>
+        <div class="tool-text">
+          <div class="name" data-i18n="toolSplit">Pisah Halaman</div>
+          <div class="desc" data-i18n="toolSplitDesc">Ekstrak atau pisahkan halaman tertentu dari PDF.</div>
+        </div>
       </button>
-      <button class="tool-card" data-category="susun" onclick="openScreen('rotate')">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12a10 10 0 1 1 4 8"/><path d="M2 20v-6h6"/></svg>
-        <div><div class="name" data-i18n="toolRotate">Putar Halaman</div><div class="tag" data-i18n="chipOrganize">Susun</div></div>
+      <button class="tool-card" data-category="susun" data-search="putar rotate halaman" onclick="openScreen('rotate')">
+        <div class="tool-icon ic-violet">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12a10 10 0 1 1 4 8"/><path d="M2 20v-6h6"/></svg>
+        </div>
+        <div class="tool-text">
+          <div class="name" data-i18n="toolRotate">Putar Halaman</div>
+          <div class="desc" data-i18n="toolRotateDesc">Rotasi halaman PDF yang posisinya terbalik.</div>
+        </div>
       </button>
-      <button class="tool-card" data-category="susun" onclick="openScreen('watermark')">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M8 16l8-8"/></svg>
-        <div><div class="name" data-i18n="toolWatermark">Tera Air</div><div class="tag" data-i18n="chipOrganize">Susun</div></div>
+      <button class="tool-card" data-category="susun" data-search="tera air watermark" onclick="openScreen('watermark')">
+        <div class="tool-icon ic-fuchsia">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M8 16l8-8"/></svg>
+        </div>
+        <div class="tool-text">
+          <div class="name" data-i18n="toolWatermark">Tera Air</div>
+          <div class="desc" data-i18n="toolWatermarkDesc">Tambahkan teks tera air ke setiap halaman.</div>
+        </div>
       </button>
-      <button class="tool-card" data-category="ubah-format" onclick="openScreen('img2pdf')">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m5 18 4.5-5 3 3 3.5-4.5L20 17"/></svg>
-        <div><div class="name" data-i18n="toolImg2Pdf">JPG ke PDF</div><div class="tag" data-i18n="chipConvert">Ubah Format</div></div>
+      <button class="tool-card" data-category="ubah-format" data-search="jpg png ke pdf convert" onclick="openScreen('img2pdf')">
+        <div class="tool-icon ic-cyan">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m5 18 4.5-5 3 3 3.5-4.5L20 17"/></svg>
+        </div>
+        <div class="tool-text">
+          <div class="name" data-i18n="toolImg2Pdf">JPG ke PDF</div>
+          <div class="desc" data-i18n="toolImg2PdfDesc">Konversi gambar (JPG/PNG) jadi dokumen PDF.</div>
+        </div>
       </button>
-      <button class="tool-card" data-category="ubah-format" onclick="openScreen('pdf2img')">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 15l2-2 2 2 2-3"/></svg>
-        <div><div class="name" data-i18n="toolPdf2Img">PDF ke JPG</div><div class="tag" data-i18n="chipConvert">Ubah Format</div></div>
+      <button class="tool-card" data-category="ubah-format" data-search="pdf ke jpg gambar convert" onclick="openScreen('pdf2img')">
+        <div class="tool-icon ic-teal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 15l2-2 2 2 2-3"/></svg>
+        </div>
+        <div class="tool-text">
+          <div class="name" data-i18n="toolPdf2Img">PDF ke JPG</div>
+          <div class="desc" data-i18n="toolPdf2ImgDesc">Ubah tiap halaman PDF jadi gambar JPG.</div>
+        </div>
       </button>
-      <button class="tool-card" data-category="ubah-format" onclick="openScreen('pdf2word')">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>
-        <div><div class="name" data-i18n="toolPdf2Word">PDF ke Word</div><div class="tag" data-i18n="chipConvert">Ubah Format</div></div>
+      <button class="tool-card" data-category="ubah-format" data-search="pdf ke word docx convert" onclick="openScreen('pdf2word')">
+        <div class="tool-icon ic-sky">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>
+        </div>
+        <div class="tool-text">
+          <div class="name" data-i18n="toolPdf2Word">PDF ke Word</div>
+          <div class="desc" data-i18n="toolPdf2WordDesc">Ubah PDF jadi dokumen Word yang bisa diedit.</div>
+        </div>
       </button>
-      <button class="tool-card" data-category="susun" onclick="openScreen('compress')">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 14l4 4M4 14l4-4M4 14h16M20 10l-4-4M20 10l-4 4M20 10H4"/></svg>
-        <div><div class="name" data-i18n="toolCompress">Kompres</div><div class="tag" data-i18n="tagSize">Ukuran</div></div>
+      <button class="tool-card" data-category="ukuran" data-search="kompres compress ukuran" onclick="openScreen('compress')">
+        <div class="tool-icon ic-amber">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 14l4 4M4 14l4-4M4 14h16M20 10l-4-4M20 10l-4 4M20 10H4"/></svg>
+        </div>
+        <div class="tool-text">
+          <div class="name" data-i18n="toolCompress">Kompres</div>
+          <div class="desc" data-i18n="toolCompressDesc">Perkecil ukuran file, rapikan struktur & metadata.</div>
+        </div>
       </button>
-      <button class="tool-card" data-category="keamanan" onclick="openScreen('lock')">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        <div><div class="name" data-i18n="toolLock">Kunci PDF</div><div class="tag" data-i18n="chipSecurity">Keamanan</div></div>
+      <button class="tool-card" data-category="keamanan" data-search="kunci lock password" onclick="openScreen('lock')">
+        <div class="tool-icon ic-rose">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="tool-text">
+          <div class="name" data-i18n="toolLock">Kunci PDF</div>
+          <div class="desc" data-i18n="toolLockDesc">Amankan dokumen dengan menambahkan password.</div>
+        </div>
       </button>
     </div>
+    <div class="empty" id="tool-empty" style="display:none;" data-i18n="searchEmpty">Alat gak ketemu — coba kata kunci lain.</div>
   </main>
 </div>
 
@@ -409,13 +503,25 @@
 /* ===== I18N ===== */
 const I18N = {
   id: {
-    heroTitle: 'Rapikan berkas.',
-    heroSub: 'Semua diproses langsung di HP kamu. Gak ada file yang dikirim ke server.',
+    heroTitle: 'Mau ngapain hari ini?',
+    heroSub: 'Semua proses dilakukan langsung di perangkat kamu. Cepat, aman, tanpa server.',
+    privacyPill: '100% Privasi Terjaga',
+    searchPh: 'Cari alat PDF (mis. Gabung)...',
+    searchEmpty: 'Alat gak ketemu — coba kata kunci lain.',
     chipAll: 'Semua', chipOrganize: 'Susun', chipConvert: 'Ubah Format', chipSecurity: 'Keamanan',
     tagSize: 'Ukuran',
     sectionReady: 'Siap dipakai',
     toolMerge: 'Gabung PDF', toolSplit: 'Pisah Halaman', toolRotate: 'Putar Halaman', toolWatermark: 'Tera Air',
     toolImg2Pdf: 'JPG ke PDF', toolPdf2Img: 'PDF ke JPG', toolCompress: 'Kompres', toolLock: 'Kunci PDF', toolPdf2Word: 'PDF ke Word',
+    toolMergeDesc: 'Satukan beberapa file PDF jadi satu dokumen utuh.',
+    toolSplitDesc: 'Ekstrak atau pisahkan halaman tertentu dari PDF.',
+    toolRotateDesc: 'Rotasi halaman PDF yang posisinya terbalik.',
+    toolWatermarkDesc: 'Tambahkan teks tera air ke setiap halaman.',
+    toolImg2PdfDesc: 'Konversi gambar (JPG/PNG) jadi dokumen PDF.',
+    toolPdf2ImgDesc: 'Ubah tiap halaman PDF jadi gambar JPG.',
+    toolPdf2WordDesc: 'Ubah PDF jadi dokumen Word yang bisa diedit.',
+    toolCompressDesc: 'Perkecil ukuran file, rapikan struktur & metadata.',
+    toolLockDesc: 'Amankan dokumen dengan menambahkan password.',
     subOneFile: 'Satu file PDF',
     dzAddPdf: 'Tambah file PDF', dzChoosePdf: 'Pilih file PDF', dzTapChoose: 'Ketuk untuk pilih dari HP kamu',
     dzAddImg: 'Tambah gambar', dzImgHint: 'JPG atau PNG, bisa pilih beberapa',
@@ -448,13 +554,25 @@ const I18N = {
     errGeneric: 'Gagal: {msg}',
   },
   en: {
-    heroTitle: 'Tidy up your files.',
-    heroSub: 'Everything is processed right on your device. No files are ever uploaded to a server.',
+    heroTitle: 'What do you want to do today?',
+    heroSub: 'Everything happens right on your device. Fast, secure, no server.',
+    privacyPill: '100% Privacy Protected',
+    searchPh: 'Search PDF tools (e.g. Merge)...',
+    searchEmpty: 'No tools found — try a different keyword.',
     chipAll: 'All', chipOrganize: 'Organize', chipConvert: 'Convert', chipSecurity: 'Security',
     tagSize: 'Size',
     sectionReady: 'Ready to use',
     toolMerge: 'Merge PDF', toolSplit: 'Split Pages', toolRotate: 'Rotate Pages', toolWatermark: 'Watermark',
     toolImg2Pdf: 'JPG to PDF', toolPdf2Img: 'PDF to JPG', toolCompress: 'Compress', toolLock: 'Lock PDF', toolPdf2Word: 'PDF to Word',
+    toolMergeDesc: 'Combine multiple PDF files into a single document.',
+    toolSplitDesc: 'Extract or separate specific pages from your PDF.',
+    toolRotateDesc: 'Rotate pages that are upside down.',
+    toolWatermarkDesc: 'Add watermark text to every page.',
+    toolImg2PdfDesc: 'Convert images (JPG/PNG) into a PDF document.',
+    toolPdf2ImgDesc: 'Turn each PDF page into a JPG image.',
+    toolPdf2WordDesc: 'Convert PDFs into editable Word documents.',
+    toolCompressDesc: 'Shrink file size, tidy up structure & metadata.',
+    toolLockDesc: 'Secure your document by adding a password.',
     subOneFile: 'One PDF file',
     dzAddPdf: 'Add PDF files', dzChoosePdf: 'Choose a PDF file', dzTapChoose: 'Tap to pick from your device',
     dzAddImg: 'Add images', dzImgHint: 'JPG or PNG, multiple allowed',
@@ -564,13 +682,30 @@ function openScreen(id){
 }
 function goHome(){ openScreen('home'); }
 
+let toolFilterCat = 'semua';
+let toolSearchQuery = '';
 function filterTools(cat, chipEl){
+  toolFilterCat = cat;
   document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
   chipEl.classList.add('active');
+  applyToolVisibility();
+}
+function searchTools(q){
+  toolSearchQuery = q.trim().toLowerCase();
+  applyToolVisibility();
+}
+function applyToolVisibility(){
+  let anyVisible = false;
   document.querySelectorAll('.tool-card[data-category]').forEach(card=>{
-    const show = cat === 'semua' || card.dataset.category === cat;
+    const matchesCat = toolFilterCat === 'semua' || card.dataset.category === toolFilterCat;
+    const haystack = (card.dataset.search || '') + ' ' + card.querySelector('.name').textContent.toLowerCase();
+    const matchesSearch = toolSearchQuery === '' || haystack.toLowerCase().includes(toolSearchQuery);
+    const show = matchesCat && matchesSearch;
     card.style.display = show ? '' : 'none';
+    if(show) anyVisible = true;
   });
+  const emptyEl = document.getElementById('tool-empty');
+  if(emptyEl) emptyEl.style.display = anyVisible ? 'none' : 'block';
 }
 
 function fmtSize(bytes){
