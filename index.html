@@ -24,6 +24,11 @@
   body{margin:0;background:var(--ink-900);font-family:'Inter',sans-serif;color:var(--ivory);
     min-height:100vh; max-width:520px; margin-inline:auto; display:flex; flex-direction:column;}
   header.app-header{padding:18px 20px 14px;}
+  .eyebrow-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .lang-switch{display:flex;gap:4px;background:var(--ink-700);border:1px solid var(--ink-line);border-radius:20px;padding:3px;flex-shrink:0;}
+  .lang-pill{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.04em;
+    border:none;background:none;color:#7d838c;padding:5px 10px;border-radius:16px;cursor:pointer;}
+  .lang-pill.active{background:var(--teal);color:var(--ink-900);font-weight:700;}
   .eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:6px;display:flex;align-items:center;gap:8px;}
   .badge-alpha{background:var(--amber);color:var(--ink-900);font-weight:700;padding:2px 7px;border-radius:6px;font-size:9px;letter-spacing:.06em;}
   h1{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;margin:0 0 4px;letter-spacing:-.02em;}
@@ -142,58 +147,60 @@
 
 <div id="home-screen" class="screen active">
   <header class="app-header">
-    <div class="eyebrow">Berkas · by ditolabs <span class="badge-alpha">ALPHA</span></div>
-    <h1>Rapikan berkas.</h1>
-    <p>Semua diproses langsung di HP kamu. Gak ada file yang dikirim ke server.</p>
+    <div class="eyebrow-row">
+      <div class="eyebrow">Berkas · by ditolabs <span class="badge-alpha">ALPHA</span></div>
+      <div class="lang-switch">
+        <button class="lang-pill" data-lang="id" onclick="applyLang('id')">ID</button>
+        <button class="lang-pill" data-lang="en" onclick="applyLang('en')">EN</button>
+      </div>
+    </div>
+    <h1 data-i18n="heroTitle">Rapikan berkas.</h1>
+    <p data-i18n="heroSub">Semua diproses langsung di HP kamu. Gak ada file yang dikirim ke server.</p>
   </header>
   <div class="chips">
-    <div class="chip active" data-filter="semua" onclick="filterTools('semua', this)">Semua</div>
-    <div class="chip" data-filter="susun" onclick="filterTools('susun', this)">Susun</div>
-    <div class="chip" data-filter="ubah-format" onclick="filterTools('ubah-format', this)">Ubah Format</div>
-    <div class="chip" data-filter="keamanan" onclick="filterTools('keamanan', this)">Keamanan</div>
+    <div class="chip active" data-filter="semua" onclick="filterTools('semua', this)" data-i18n="chipAll">Semua</div>
+    <div class="chip" data-filter="susun" onclick="filterTools('susun', this)" data-i18n="chipOrganize">Susun</div>
+    <div class="chip" data-filter="ubah-format" onclick="filterTools('ubah-format', this)" data-i18n="chipConvert">Ubah Format</div>
+    <div class="chip" data-filter="keamanan" onclick="filterTools('keamanan', this)" data-i18n="chipSecurity">Keamanan</div>
   </div>
   <main>
-    <div class="section-label">Siap dipakai</div>
+    <div class="section-label" data-i18n="sectionReady">Siap dipakai</div>
     <div class="tool-grid">
       <button class="tool-card" data-category="susun" onclick="openScreen('merge')">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="10" height="14" rx="1.5"/><rect x="10" y="7" width="10" height="14" rx="1.5"/></svg>
-        <div><div class="name">Gabung PDF</div><div class="tag">Susun</div></div>
+        <div><div class="name" data-i18n="toolMerge">Gabung PDF</div><div class="tag" data-i18n="chipOrganize">Susun</div></div>
       </button>
       <button class="tool-card" data-category="susun" onclick="openScreen('split')">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M5 12h14" stroke-dasharray="2 2"/></svg>
-        <div><div class="name">Pisah Halaman</div><div class="tag">Susun</div></div>
+        <div><div class="name" data-i18n="toolSplit">Pisah Halaman</div><div class="tag" data-i18n="chipOrganize">Susun</div></div>
       </button>
       <button class="tool-card" data-category="susun" onclick="openScreen('rotate')">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12a10 10 0 1 1 4 8"/><path d="M2 20v-6h6"/></svg>
-        <div><div class="name">Putar Halaman</div><div class="tag">Susun</div></div>
+        <div><div class="name" data-i18n="toolRotate">Putar Halaman</div><div class="tag" data-i18n="chipOrganize">Susun</div></div>
       </button>
       <button class="tool-card" data-category="susun" onclick="openScreen('watermark')">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M8 16l8-8"/></svg>
-        <div><div class="name">Tera Air</div><div class="tag">Susun</div></div>
+        <div><div class="name" data-i18n="toolWatermark">Tera Air</div><div class="tag" data-i18n="chipOrganize">Susun</div></div>
       </button>
       <button class="tool-card" data-category="ubah-format" onclick="openScreen('img2pdf')">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m5 18 4.5-5 3 3 3.5-4.5L20 17"/></svg>
-        <div><div class="name">JPG ke PDF</div><div class="tag">Ubah Format</div></div>
+        <div><div class="name" data-i18n="toolImg2Pdf">JPG ke PDF</div><div class="tag" data-i18n="chipConvert">Ubah Format</div></div>
       </button>
       <button class="tool-card" data-category="ubah-format" onclick="openScreen('pdf2img')">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 15l2-2 2 2 2-3"/></svg>
-        <div><div class="name">PDF ke JPG</div><div class="tag">Ubah Format</div></div>
+        <div><div class="name" data-i18n="toolPdf2Img">PDF ke JPG</div><div class="tag" data-i18n="chipConvert">Ubah Format</div></div>
       </button>
       <button class="tool-card" data-category="ubah-format" onclick="openScreen('pdf2word')">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 9h6M9 13h6M9 17h3"/></svg>
-        <div><div class="name">PDF ke Word</div><div class="tag">Ubah Format</div></div>
+        <div><div class="name" data-i18n="toolPdf2Word">PDF ke Word</div><div class="tag" data-i18n="chipConvert">Ubah Format</div></div>
       </button>
       <button class="tool-card" data-category="susun" onclick="openScreen('compress')">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 14l4 4M4 14l4-4M4 14h16M20 10l-4-4M20 10l-4 4M20 10H4"/></svg>
-        <div><div class="name">Kompres</div><div class="tag">Ukuran</div></div>
+        <div><div class="name" data-i18n="toolCompress">Kompres</div><div class="tag" data-i18n="tagSize">Ukuran</div></div>
       </button>
-    </div>
-
-    <div class="section-label">Segera hadir</div>
-    <div class="tool-grid">
-      <button class="tool-card soon" data-category="keamanan" disabled>
+      <button class="tool-card" data-category="keamanan" onclick="openScreen('lock')">
         <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        <div><div class="name">Kunci PDF</div><div class="tag">Segera</div></div>
+        <div><div class="name" data-i18n="toolLock">Kunci PDF</div><div class="tag" data-i18n="chipSecurity">Keamanan</div></div>
       </button>
     </div>
   </main>
@@ -203,17 +210,17 @@
 <div id="merge-screen" class="screen">
   <div class="topbar">
     <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
-    <div><div class="topbar-title">Gabung PDF</div><div class="topbar-sub" id="merge-count">0 file dipilih</div></div>
+    <div><div class="topbar-title" data-i18n="toolMerge">Gabung PDF</div><div class="topbar-sub" id="merge-count">0</div></div>
   </div>
   <div class="dropzone" onclick="document.getElementById('merge-input').click()">
-    <div class="dz-title">Tambah file PDF</div>
-    <div class="dz-sub">Ketuk untuk pilih dari HP kamu</div>
+    <div class="dz-title" data-i18n="dzAddPdf">Tambah file PDF</div>
+    <div class="dz-sub" data-i18n="dzTapChoose">Ketuk untuk pilih dari HP kamu</div>
   </div>
   <input type="file" id="merge-input" accept="application/pdf" multiple onchange="handleMergeFiles(this.files)">
-  <div class="file-scroll" id="merge-list"><div class="empty">Belum ada file dipilih</div></div>
+  <div class="file-scroll" id="merge-list"><div class="empty" data-i18n="emptyNoFiles">Belum ada file dipilih</div></div>
   <div class="action-bar">
-    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Diproses di HP ini — tidak diunggah</div>
-    <button class="btn-primary" id="merge-btn" disabled onclick="doMerge()">Gabungkan File</button>
+    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="privacyNote">Diproses di HP ini — tidak diunggah</span></div>
+    <button class="btn-primary" id="merge-btn" disabled onclick="doMerge()" data-i18n="btnMerge">Gabungkan File</button>
     <div class="status-msg" id="merge-status"></div>
   </div>
 </div>
@@ -222,20 +229,20 @@
 <div id="split-screen" class="screen">
   <div class="topbar">
     <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
-    <div><div class="topbar-title">Pisah Halaman</div><div class="topbar-sub">Satu file PDF</div></div>
+    <div><div class="topbar-title" data-i18n="toolSplit">Pisah Halaman</div><div class="topbar-sub" data-i18n="subOneFile">Satu file PDF</div></div>
   </div>
   <div class="dropzone" onclick="document.getElementById('split-input').click()">
-    <div class="dz-title" id="split-filename">Pilih file PDF</div>
-    <div class="dz-sub">Ketuk untuk pilih dari HP kamu</div>
+    <div class="dz-title" id="split-filename" data-i18n="dzChoosePdf">Pilih file PDF</div>
+    <div class="dz-sub" data-i18n="dzTapChoose">Ketuk untuk pilih dari HP kamu</div>
   </div>
   <input type="file" id="split-input" accept="application/pdf" onchange="handleSplitFile(this.files[0])">
   <div class="field">
-    <label>Rentang halaman (mis. 1-3, 5, 7-9). Kosongkan untuk pisah semua halaman.</label>
-    <input type="text" id="split-range" placeholder="contoh: 1-3, 5">
+    <label data-i18n="splitRangeLabel">Rentang halaman (mis. 1-3, 5, 7-9). Kosongkan untuk pisah semua halaman.</label>
+    <input type="text" id="split-range" data-i18n-placeholder="splitRangePlaceholder" placeholder="contoh: 1-3, 5">
   </div>
   <div class="action-bar">
-    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Diproses di HP ini — tidak diunggah</div>
-    <button class="btn-primary" id="split-btn" disabled onclick="doSplit()">Pisah Halaman</button>
+    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="privacyNote">Diproses di HP ini — tidak diunggah</span></div>
+    <button class="btn-primary" id="split-btn" disabled onclick="doSplit()" data-i18n="btnSplit">Pisah Halaman</button>
     <div class="status-msg" id="split-status"></div>
   </div>
 </div>
@@ -244,20 +251,20 @@
 <div id="rotate-screen" class="screen">
   <div class="topbar">
     <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
-    <div><div class="topbar-title">Putar Halaman</div><div class="topbar-sub">Satu file PDF</div></div>
+    <div><div class="topbar-title" data-i18n="toolRotate">Putar Halaman</div><div class="topbar-sub" data-i18n="subOneFile">Satu file PDF</div></div>
   </div>
   <div class="dropzone" onclick="document.getElementById('rotate-input').click()">
-    <div class="dz-title" id="rotate-filename">Pilih file PDF</div>
-    <div class="dz-sub">Ketuk untuk pilih dari HP kamu</div>
+    <div class="dz-title" id="rotate-filename" data-i18n="dzChoosePdf">Pilih file PDF</div>
+    <div class="dz-sub" data-i18n="dzTapChoose">Ketuk untuk pilih dari HP kamu</div>
   </div>
   <input type="file" id="rotate-input" accept="application/pdf" onchange="handleRotateFile(this.files[0])">
   <div class="field">
-    <label>Putar searah jarum jam</label>
+    <label data-i18n="rotateDegLabel">Putar searah jarum jam</label>
     <select id="rotate-deg"><option value="90">90°</option><option value="180">180°</option><option value="270">270°</option></select>
   </div>
   <div class="action-bar">
-    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Diproses di HP ini — tidak diunggah</div>
-    <button class="btn-primary" id="rotate-btn" disabled onclick="doRotate()">Putar & Unduh</button>
+    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="privacyNote">Diproses di HP ini — tidak diunggah</span></div>
+    <button class="btn-primary" id="rotate-btn" disabled onclick="doRotate()" data-i18n="btnRotate">Putar & Unduh</button>
     <div class="status-msg" id="rotate-status"></div>
   </div>
 </div>
@@ -266,20 +273,20 @@
 <div id="watermark-screen" class="screen">
   <div class="topbar">
     <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
-    <div><div class="topbar-title">Tera Air</div><div class="topbar-sub">Satu file PDF</div></div>
+    <div><div class="topbar-title" data-i18n="toolWatermark">Tera Air</div><div class="topbar-sub" data-i18n="subOneFile">Satu file PDF</div></div>
   </div>
   <div class="dropzone" onclick="document.getElementById('wm-input').click()">
-    <div class="dz-title" id="wm-filename">Pilih file PDF</div>
-    <div class="dz-sub">Ketuk untuk pilih dari HP kamu</div>
+    <div class="dz-title" id="wm-filename" data-i18n="dzChoosePdf">Pilih file PDF</div>
+    <div class="dz-sub" data-i18n="dzTapChoose">Ketuk untuk pilih dari HP kamu</div>
   </div>
   <input type="file" id="wm-input" accept="application/pdf" onchange="handleWmFile(this.files[0])">
   <div class="field">
-    <label>Teks tera air</label>
-    <input type="text" id="wm-text" placeholder="mis. RAHASIA / DRAFT" value="DRAFT">
+    <label data-i18n="wmTextLabel">Teks tera air</label>
+    <input type="text" id="wm-text" data-i18n-placeholder="wmTextPlaceholder" placeholder="mis. RAHASIA / DRAFT" value="DRAFT">
   </div>
   <div class="action-bar">
-    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Diproses di HP ini — tidak diunggah</div>
-    <button class="btn-primary" id="wm-btn" disabled onclick="doWatermark()">Tambah Tera Air</button>
+    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="privacyNote">Diproses di HP ini — tidak diunggah</span></div>
+    <button class="btn-primary" id="wm-btn" disabled onclick="doWatermark()" data-i18n="btnWatermark">Tambah Tera Air</button>
     <div class="status-msg" id="wm-status"></div>
   </div>
 </div>
@@ -288,17 +295,17 @@
 <div id="img2pdf-screen" class="screen">
   <div class="topbar">
     <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
-    <div><div class="topbar-title">JPG ke PDF</div><div class="topbar-sub" id="img-count">0 gambar dipilih</div></div>
+    <div><div class="topbar-title" data-i18n="toolImg2Pdf">JPG ke PDF</div><div class="topbar-sub" id="img-count">0</div></div>
   </div>
   <div class="dropzone" onclick="document.getElementById('img-input').click()">
-    <div class="dz-title">Tambah gambar</div>
-    <div class="dz-sub">JPG atau PNG, bisa pilih beberapa</div>
+    <div class="dz-title" data-i18n="dzAddImg">Tambah gambar</div>
+    <div class="dz-sub" data-i18n="dzImgHint">JPG atau PNG, bisa pilih beberapa</div>
   </div>
   <input type="file" id="img-input" accept="image/jpeg,image/png" multiple onchange="handleImgFiles(this.files)">
-  <div class="file-scroll" id="img-list"><div class="empty">Belum ada gambar dipilih</div></div>
+  <div class="file-scroll" id="img-list"><div class="empty" data-i18n="emptyNoImages">Belum ada gambar dipilih</div></div>
   <div class="action-bar">
-    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Diproses di HP ini — tidak diunggah</div>
-    <button class="btn-primary" id="img-btn" disabled onclick="doImg2Pdf()">Jadikan PDF</button>
+    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="privacyNote">Diproses di HP ini — tidak diunggah</span></div>
+    <button class="btn-primary" id="img-btn" disabled onclick="doImg2Pdf()" data-i18n="btnImg2Pdf">Jadikan PDF</button>
     <div class="status-msg" id="img-status"></div>
   </div>
 </div>
@@ -307,16 +314,16 @@
 <div id="pdf2img-screen" class="screen">
   <div class="topbar">
     <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
-    <div><div class="topbar-title">PDF ke JPG</div><div class="topbar-sub">Satu file PDF</div></div>
+    <div><div class="topbar-title" data-i18n="toolPdf2Img">PDF ke JPG</div><div class="topbar-sub" data-i18n="subOneFile">Satu file PDF</div></div>
   </div>
   <div class="dropzone" onclick="document.getElementById('p2i-input').click()">
-    <div class="dz-title" id="p2i-filename">Pilih file PDF</div>
-    <div class="dz-sub">Tiap halaman jadi satu gambar JPG</div>
+    <div class="dz-title" id="p2i-filename" data-i18n="dzChoosePdf">Pilih file PDF</div>
+    <div class="dz-sub" data-i18n="dzPdf2ImgHint">Tiap halaman jadi satu gambar JPG</div>
   </div>
   <input type="file" id="p2i-input" accept="application/pdf" onchange="handleP2iFile(this.files[0])">
   <div class="action-bar">
-    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Diproses di HP ini — tidak diunggah</div>
-    <button class="btn-primary" id="p2i-btn" disabled onclick="doPdf2Img()">Ubah ke JPG (.zip)</button>
+    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="privacyNote">Diproses di HP ini — tidak diunggah</span></div>
+    <button class="btn-primary" id="p2i-btn" disabled onclick="doPdf2Img()" data-i18n="btnPdf2Img">Ubah ke JPG (.zip)</button>
     <div class="status-msg" id="p2i-status"></div>
   </div>
 </div>
@@ -325,20 +332,49 @@
 <div id="compress-screen" class="screen">
   <div class="topbar">
     <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
-    <div><div class="topbar-title">Kompres</div><div class="topbar-sub">Satu file PDF</div></div>
+    <div><div class="topbar-title" data-i18n="toolCompress">Kompres</div><div class="topbar-sub" data-i18n="subOneFile">Satu file PDF</div></div>
   </div>
   <div class="dropzone" onclick="document.getElementById('compress-input').click()">
-    <div class="dz-title" id="compress-filename">Pilih file PDF</div>
-    <div class="dz-sub">Ketuk untuk pilih dari HP kamu</div>
+    <div class="dz-title" id="compress-filename" data-i18n="dzChoosePdf">Pilih file PDF</div>
+    <div class="dz-sub" data-i18n="dzTapChoose">Ketuk untuk pilih dari HP kamu</div>
   </div>
   <input type="file" id="compress-input" accept="application/pdf" onchange="handleCompressFile(this.files[0])">
   <div class="field">
-    <label>Versi alpha: rapikan struktur file & buang metadata. Efeknya kecil untuk PDF berisi gambar besar — kompresi gambar belum tersedia.</label>
+    <label data-i18n="compressNote">Versi alpha: rapikan struktur file & buang metadata. Efeknya kecil untuk PDF berisi gambar besar — kompresi gambar belum tersedia.</label>
   </div>
   <div class="action-bar">
-    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Diproses di HP ini — tidak diunggah</div>
-    <button class="btn-primary" id="compress-btn" disabled onclick="doCompress()">Kompres File</button>
+    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="privacyNote">Diproses di HP ini — tidak diunggah</span></div>
+    <button class="btn-primary" id="compress-btn" disabled onclick="doCompress()" data-i18n="btnCompress">Kompres File</button>
     <div class="status-msg" id="compress-status"></div>
+  </div>
+</div>
+
+<!-- LOCK -->
+<div id="lock-screen" class="screen">
+  <div class="topbar">
+    <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div><div class="topbar-title" data-i18n="toolLock">Kunci PDF</div><div class="topbar-sub" data-i18n="subOneFile">Satu file PDF</div></div>
+  </div>
+  <div class="dropzone" onclick="document.getElementById('lock-input').click()">
+    <div class="dz-title" id="lock-filename" data-i18n="dzChoosePdf">Pilih file PDF</div>
+    <div class="dz-sub" data-i18n="dzTapChoose">Ketuk untuk pilih dari HP kamu</div>
+  </div>
+  <input type="file" id="lock-input" accept="application/pdf" onchange="handleLockFile(this.files[0])">
+  <div class="field">
+    <label data-i18n="lockPassLabel">Password</label>
+    <input type="password" id="lock-pass" data-i18n-placeholder="lockPassPlaceholder" placeholder="Minimal 4 karakter">
+  </div>
+  <div class="field">
+    <label data-i18n="lockPassConfirmLabel">Ulangi password</label>
+    <input type="password" id="lock-pass-confirm" data-i18n-placeholder="lockPassPlaceholder" placeholder="Minimal 4 karakter">
+  </div>
+  <div class="field">
+    <label data-i18n="lockNote">File yang terkunci butuh password ini buat dibuka di reader PDF manapun. Simpan baik-baik — kalau lupa, file gak bisa dibuka lagi.</label>
+  </div>
+  <div class="action-bar">
+    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="privacyNote">Diproses di HP ini — tidak diunggah</span></div>
+    <button class="btn-primary" id="lock-btn" disabled onclick="doLockPdf()" data-i18n="btnLock">Kunci File</button>
+    <div class="status-msg" id="lock-status"></div>
   </div>
 </div>
 
@@ -346,30 +382,131 @@
 <div id="pdf2word-screen" class="screen">
   <div class="topbar">
     <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
-    <div><div class="topbar-title">PDF ke Word</div><div class="topbar-sub">Satu file PDF</div></div>
+    <div><div class="topbar-title" data-i18n="toolPdf2Word">PDF ke Word</div><div class="topbar-sub" data-i18n="subOneFile">Satu file PDF</div></div>
   </div>
   <div class="dropzone" onclick="document.getElementById('p2w-input').click()">
-    <div class="dz-title" id="p2w-filename">Pilih file PDF</div>
-    <div class="dz-sub">Khusus PDF berisi teks (bukan hasil scan)</div>
+    <div class="dz-title" id="p2w-filename" data-i18n="dzChoosePdf">Pilih file PDF</div>
+    <div class="dz-sub" data-i18n="dzPdf2WordHint">Khusus PDF berisi teks (bukan hasil scan)</div>
   </div>
   <input type="file" id="p2w-input" accept="application/pdf" onchange="handleP2wFile(this.files[0])">
   <div class="field">
-    <label>Versi alpha: teks diekstrak apa adanya, tanpa mempertahankan tata letak asli (tabel/kolom/gambar tidak ikut).</label>
+    <label data-i18n="pdf2wordNote">Versi alpha: teks diekstrak apa adanya, tanpa mempertahankan tata letak asli (tabel/kolom/gambar tidak ikut).</label>
   </div>
   <div class="action-bar">
-    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Diproses di HP ini — tidak diunggah</div>
-    <button class="btn-primary" id="p2w-btn" disabled onclick="doPdf2Word()">Ubah ke Word</button>
+    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="privacyNote">Diproses di HP ini — tidak diunggah</span></div>
+    <button class="btn-primary" id="p2w-btn" disabled onclick="doPdf2Word()" data-i18n="btnPdf2Word">Ubah ke Word</button>
     <div class="status-msg" id="p2w-status"></div>
   </div>
 </div>
 
 <div class="update-toast" id="update-toast">
-  <div class="msg"><strong>Ada pembaruan baru</strong>Muat ulang buat pakai versi terbaru.</div>
-  <button class="reload" onclick="applyUpdate()">Muat ulang</button>
+  <div class="msg"><strong data-i18n="updateTitle">Ada pembaruan baru</strong><span data-i18n="updateBody">Muat ulang buat pakai versi terbaru.</span></div>
+  <button class="reload" onclick="applyUpdate()" data-i18n="updateReload">Muat ulang</button>
   <button class="dismiss" onclick="dismissUpdateToast()">✕</button>
 </div>
 
 <script>
+/* ===== I18N ===== */
+const I18N = {
+  id: {
+    heroTitle: 'Rapikan berkas.',
+    heroSub: 'Semua diproses langsung di HP kamu. Gak ada file yang dikirim ke server.',
+    chipAll: 'Semua', chipOrganize: 'Susun', chipConvert: 'Ubah Format', chipSecurity: 'Keamanan',
+    tagSize: 'Ukuran',
+    sectionReady: 'Siap dipakai',
+    toolMerge: 'Gabung PDF', toolSplit: 'Pisah Halaman', toolRotate: 'Putar Halaman', toolWatermark: 'Tera Air',
+    toolImg2Pdf: 'JPG ke PDF', toolPdf2Img: 'PDF ke JPG', toolCompress: 'Kompres', toolLock: 'Kunci PDF', toolPdf2Word: 'PDF ke Word',
+    subOneFile: 'Satu file PDF',
+    dzAddPdf: 'Tambah file PDF', dzChoosePdf: 'Pilih file PDF', dzTapChoose: 'Ketuk untuk pilih dari HP kamu',
+    dzAddImg: 'Tambah gambar', dzImgHint: 'JPG atau PNG, bisa pilih beberapa',
+    dzPdf2ImgHint: 'Tiap halaman jadi satu gambar JPG', dzPdf2WordHint: 'Khusus PDF berisi teks (bukan hasil scan)',
+    emptyNoFiles: 'Belum ada file dipilih', emptyNoImages: 'Belum ada gambar dipilih',
+    privacyNote: 'Diproses di HP ini — tidak diunggah',
+    btnMerge: 'Gabungkan File', btnSplit: 'Pisah Halaman', btnRotate: 'Putar & Unduh', btnWatermark: 'Tambah Tera Air',
+    btnImg2Pdf: 'Jadikan PDF', btnPdf2Img: 'Ubah ke JPG (.zip)', btnCompress: 'Kompres File', btnLock: 'Kunci File', btnPdf2Word: 'Ubah ke Word',
+    splitRangeLabel: 'Rentang halaman (mis. 1-3, 5, 7-9). Kosongkan untuk pisah semua halaman.',
+    splitRangePlaceholder: 'contoh: 1-3, 5',
+    rotateDegLabel: 'Putar searah jarum jam',
+    wmTextLabel: 'Teks tera air', wmTextPlaceholder: 'mis. RAHASIA / DRAFT',
+    compressNote: 'Versi alpha: rapikan struktur file & buang metadata. Efeknya kecil untuk PDF berisi gambar besar — kompresi gambar belum tersedia.',
+    pdf2wordNote: 'Versi alpha: teks diekstrak apa adanya, tanpa mempertahankan tata letak asli (tabel/kolom/gambar tidak ikut).',
+    lockPassLabel: 'Password', lockPassPlaceholder: 'Minimal 4 karakter',
+    lockPassConfirmLabel: 'Ulangi password',
+    lockNote: 'File yang terkunci butuh password ini buat dibuka di reader PDF manapun. Simpan baik-baik — kalau lupa, file gak bisa dibuka lagi.',
+    updateTitle: 'Ada pembaruan baru', updateBody: 'Muat ulang buat pakai versi terbaru.', updateReload: 'Muat ulang',
+    filesSelected: 'file dipilih', imagesSelected: 'gambar dipilih',
+    statusMerging: 'Menggabungkan...', statusMergeDone: 'Selesai — file terunduh.',
+    statusSplitting: 'Memisah halaman...', statusSplitDone: 'Selesai — {n} file dalam .zip.',
+    statusRotating: 'Memutar halaman...', statusRotateDone: 'Selesai — file terunduh.',
+    statusWatermarking: 'Menambahkan tera air...', statusWmDone: 'Selesai — file terunduh.',
+    statusImg2Pdf: 'Membuat PDF...', statusImg2PdfDone: 'Selesai — file terunduh.',
+    statusPdf2Img: 'Mengubah halaman...', statusPdf2ImgProgress: 'Memproses halaman {i}/{n}...', statusPdf2ImgDone: 'Selesai — {n} gambar dalam .zip.',
+    statusCompressing: 'Mengompres...', statusCompressDone: 'Selesai — {a} → {b} (turun {pct}%).', statusCompressSame: 'Selesai — ukuran nyaris sama ({a} → {b}). File ini kemungkinan sudah padat.',
+    statusExtracting: 'Mengekstrak teks...', statusPdf2WordDone: 'Selesai — file terunduh.', statusPdf2WordNoText: 'Gak ada teks yang kebaca — kemungkinan ini PDF hasil scan (gambar).',
+    statusLocking: 'Mengunci file...', statusLockDone: 'Selesai — file terunduh.',
+    errPassShort: 'Password minimal 4 karakter', errPassMismatch: 'Password gak sama',
+    errGeneric: 'Gagal: {msg}',
+  },
+  en: {
+    heroTitle: 'Tidy up your files.',
+    heroSub: 'Everything is processed right on your device. No files are ever uploaded to a server.',
+    chipAll: 'All', chipOrganize: 'Organize', chipConvert: 'Convert', chipSecurity: 'Security',
+    tagSize: 'Size',
+    sectionReady: 'Ready to use',
+    toolMerge: 'Merge PDF', toolSplit: 'Split Pages', toolRotate: 'Rotate Pages', toolWatermark: 'Watermark',
+    toolImg2Pdf: 'JPG to PDF', toolPdf2Img: 'PDF to JPG', toolCompress: 'Compress', toolLock: 'Lock PDF', toolPdf2Word: 'PDF to Word',
+    subOneFile: 'One PDF file',
+    dzAddPdf: 'Add PDF files', dzChoosePdf: 'Choose a PDF file', dzTapChoose: 'Tap to pick from your device',
+    dzAddImg: 'Add images', dzImgHint: 'JPG or PNG, multiple allowed',
+    dzPdf2ImgHint: 'Each page becomes one JPG image', dzPdf2WordHint: 'Text-based PDFs only (not scans)',
+    emptyNoFiles: 'No files selected yet', emptyNoImages: 'No images selected yet',
+    privacyNote: 'Processed on this device — never uploaded',
+    btnMerge: 'Merge Files', btnSplit: 'Split Pages', btnRotate: 'Rotate & Download', btnWatermark: 'Add Watermark',
+    btnImg2Pdf: 'Create PDF', btnPdf2Img: 'Convert to JPG (.zip)', btnCompress: 'Compress File', btnLock: 'Lock File', btnPdf2Word: 'Convert to Word',
+    splitRangeLabel: 'Page range (e.g. 1-3, 5, 7-9). Leave blank to split every page.',
+    splitRangePlaceholder: 'e.g. 1-3, 5',
+    rotateDegLabel: 'Rotate clockwise',
+    wmTextLabel: 'Watermark text', wmTextPlaceholder: 'e.g. CONFIDENTIAL / DRAFT',
+    compressNote: 'Alpha version: tidies up the file structure & strips metadata. Effect is small for image-heavy PDFs — image compression isn\u2019t available yet.',
+    pdf2wordNote: 'Alpha version: text is extracted as-is, without preserving the original layout (tables/columns/images are not included).',
+    lockPassLabel: 'Password', lockPassPlaceholder: 'At least 4 characters',
+    lockPassConfirmLabel: 'Confirm password',
+    lockNote: 'The locked file needs this password to open in any PDF reader. Keep it safe — if it\u2019s lost, the file can\u2019t be opened again.',
+    updateTitle: 'A new update is available', updateBody: 'Reload to use the latest version.', updateReload: 'Reload',
+    filesSelected: 'files selected', imagesSelected: 'images selected',
+    statusMerging: 'Merging...', statusMergeDone: 'Done — file downloaded.',
+    statusSplitting: 'Splitting pages...', statusSplitDone: 'Done — {n} files in a .zip.',
+    statusRotating: 'Rotating pages...', statusRotateDone: 'Done — file downloaded.',
+    statusWatermarking: 'Adding watermark...', statusWmDone: 'Done — file downloaded.',
+    statusImg2Pdf: 'Creating PDF...', statusImg2PdfDone: 'Done — file downloaded.',
+    statusPdf2Img: 'Converting pages...', statusPdf2ImgProgress: 'Processing page {i}/{n}...', statusPdf2ImgDone: 'Done — {n} images in a .zip.',
+    statusCompressing: 'Compressing...', statusCompressDone: 'Done — {a} → {b} (down {pct}%).', statusCompressSame: 'Done — size is nearly the same ({a} → {b}). This file is likely already dense.',
+    statusExtracting: 'Extracting text...', statusPdf2WordDone: 'Done — file downloaded.', statusPdf2WordNoText: 'No readable text found — this PDF is likely a scanned image.',
+    statusLocking: 'Locking file...', statusLockDone: 'Done — file downloaded.',
+    errPassShort: 'Password must be at least 4 characters', errPassMismatch: 'Passwords don\u2019t match',
+    errGeneric: 'Failed: {msg}',
+  }
+};
+let currentLang = localStorage.getItem('berkas_lang') || 'id';
+function t(key, vars){
+  let str = (I18N[currentLang] && I18N[currentLang][key] !== undefined) ? I18N[currentLang][key] : key;
+  if(vars) Object.keys(vars).forEach(k => { str = str.replace('{'+k+'}', vars[k]); });
+  return str;
+}
+function applyLang(lang){
+  currentLang = lang;
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    el.textContent = t(el.getAttribute('data-i18n'));
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el=>{
+    el.placeholder = t(el.getAttribute('data-i18n-placeholder'));
+  });
+  document.querySelectorAll('.lang-pill').forEach(p=>p.classList.toggle('active', p.dataset.lang === lang));
+  localStorage.setItem('berkas_lang', lang);
+  renderMergeList(); renderImgList();
+}
+
 let waitingWorker = null;
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -458,21 +595,21 @@ function moveMergeFile(i, dir){
 }
 function renderMergeList(){
   const list = document.getElementById('merge-list');
-  document.getElementById('merge-count').textContent = mergeFiles.length + ' file dipilih';
+  document.getElementById('merge-count').textContent = mergeFiles.length + ' ' + t('filesSelected');
   document.getElementById('merge-btn').disabled = mergeFiles.length < 2;
-  if(mergeFiles.length === 0){ list.innerHTML = '<div class="empty">Belum ada file dipilih</div>'; return; }
+  if(mergeFiles.length === 0){ list.innerHTML = `<div class="empty">${t('emptyNoFiles')}</div>`; return; }
   list.innerHTML = mergeFiles.map((f,i)=>`
     <div class="file-row">
       <div class="num">${String(i+1).padStart(2,'0')}</div>
       <div class="thumb"></div>
       <div class="meta"><div class="fname">${f.name}</div><div class="fsize">${fmtSize(f.size)}</div></div>
-      <button onclick="moveMergeFile(${i},-1)" title="Naik">↑</button>
-      <button onclick="moveMergeFile(${i},1)" title="Turun">↓</button>
-      <button onclick="removeMergeFile(${i})" title="Hapus">✕</button>
+      <button onclick="moveMergeFile(${i},-1)" title="↑">↑</button>
+      <button onclick="moveMergeFile(${i},1)" title="↓">↓</button>
+      <button onclick="removeMergeFile(${i})" title="✕">✕</button>
     </div>`).join('');
 }
 async function doMerge(){
-  setStatus('merge-status', 'Menggabungkan...', false);
+  setStatus('merge-status', t('statusMerging'), false);
   try{
     const { PDFDocument } = PDFLib;
     const merged = await PDFDocument.create();
@@ -484,9 +621,9 @@ async function doMerge(){
     }
     const out = await merged.save();
     downloadBlob(new Blob([out], {type:'application/pdf'}), 'gabungan.pdf');
-    setStatus('merge-status', 'Selesai — file terunduh.', false);
+    setStatus('merge-status', t('statusMergeDone'), false);
   }catch(e){
-    setStatus('merge-status', 'Gagal: ' + e.message, true);
+    setStatus('merge-status', t('errGeneric',{msg:e.message}), true);
   }
 }
 
@@ -494,7 +631,7 @@ async function doMerge(){
 let splitFile = null;
 function handleSplitFile(f){
   splitFile = f;
-  document.getElementById('split-filename').textContent = f ? f.name : 'Pilih file PDF';
+  document.getElementById('split-filename').textContent = f ? f.name : t('dzChoosePdf');
   document.getElementById('split-btn').disabled = !f;
 }
 function parseRanges(str, max){
@@ -515,7 +652,7 @@ function parseRanges(str, max){
   return groups;
 }
 async function doSplit(){
-  setStatus('split-status', 'Memisah halaman...', false);
+  setStatus('split-status', t('statusSplitting'), false);
   try{
     const { PDFDocument } = PDFLib;
     const bytes = await splitFile.arrayBuffer();
@@ -532,9 +669,9 @@ async function doSplit(){
     }
     const blob = await zip.generateAsync({type:'blob'});
     downloadBlob(blob, 'hasil_pisah.zip');
-    setStatus('split-status', 'Selesai — ' + groups.length + ' file dalam .zip.', false);
+    setStatus('split-status', t('statusSplitDone',{n:groups.length}), false);
   }catch(e){
-    setStatus('split-status', 'Gagal: ' + e.message, true);
+    setStatus('split-status', t('errGeneric',{msg:e.message}), true);
   }
 }
 
@@ -542,11 +679,11 @@ async function doSplit(){
 let rotateFile = null;
 function handleRotateFile(f){
   rotateFile = f;
-  document.getElementById('rotate-filename').textContent = f ? f.name : 'Pilih file PDF';
+  document.getElementById('rotate-filename').textContent = f ? f.name : t('dzChoosePdf');
   document.getElementById('rotate-btn').disabled = !f;
 }
 async function doRotate(){
-  setStatus('rotate-status', 'Memutar halaman...', false);
+  setStatus('rotate-status', t('statusRotating'), false);
   try{
     const { PDFDocument, degrees } = PDFLib;
     const bytes = await rotateFile.arrayBuffer();
@@ -558,9 +695,9 @@ async function doRotate(){
     });
     const out = await doc.save();
     downloadBlob(new Blob([out],{type:'application/pdf'}), 'terputar.pdf');
-    setStatus('rotate-status', 'Selesai — file terunduh.', false);
+    setStatus('rotate-status', t('statusRotateDone'), false);
   }catch(e){
-    setStatus('rotate-status', 'Gagal: ' + e.message, true);
+    setStatus('rotate-status', t('errGeneric',{msg:e.message}), true);
   }
 }
 
@@ -568,11 +705,11 @@ async function doRotate(){
 let wmFile = null;
 function handleWmFile(f){
   wmFile = f;
-  document.getElementById('wm-filename').textContent = f ? f.name : 'Pilih file PDF';
+  document.getElementById('wm-filename').textContent = f ? f.name : t('dzChoosePdf');
   document.getElementById('wm-btn').disabled = !f;
 }
 async function doWatermark(){
-  setStatus('wm-status', 'Menambahkan tera air...', false);
+  setStatus('wm-status', t('statusWatermarking'), false);
   try{
     const { PDFDocument, rgb, degrees, StandardFonts } = PDFLib;
     const bytes = await wmFile.arrayBuffer();
@@ -593,9 +730,9 @@ async function doWatermark(){
     });
     const out = await doc.save();
     downloadBlob(new Blob([out],{type:'application/pdf'}), 'tera_air.pdf');
-    setStatus('wm-status', 'Selesai — file terunduh.', false);
+    setStatus('wm-status', t('statusWmDone'), false);
   }catch(e){
-    setStatus('wm-status', 'Gagal: ' + e.message, true);
+    setStatus('wm-status', t('errGeneric',{msg:e.message}), true);
   }
 }
 
@@ -608,19 +745,19 @@ function handleImgFiles(fileList){
 function removeImgFile(i){ imgFiles.splice(i,1); renderImgList(); }
 function renderImgList(){
   const list = document.getElementById('img-list');
-  document.getElementById('img-count').textContent = imgFiles.length + ' gambar dipilih';
+  document.getElementById('img-count').textContent = imgFiles.length + ' ' + t('imagesSelected');
   document.getElementById('img-btn').disabled = imgFiles.length === 0;
-  if(imgFiles.length === 0){ list.innerHTML = '<div class="empty">Belum ada gambar dipilih</div>'; return; }
+  if(imgFiles.length === 0){ list.innerHTML = `<div class="empty">${t('emptyNoImages')}</div>`; return; }
   list.innerHTML = imgFiles.map((f,i)=>`
     <div class="file-row">
       <div class="num">${String(i+1).padStart(2,'0')}</div>
       <div class="thumb"></div>
       <div class="meta"><div class="fname">${f.name}</div><div class="fsize">${fmtSize(f.size)}</div></div>
-      <button onclick="removeImgFile(${i})" title="Hapus">✕</button>
+      <button onclick="removeImgFile(${i})" title="✕">✕</button>
     </div>`).join('');
 }
 async function doImg2Pdf(){
-  setStatus('img-status', 'Membuat PDF...', false);
+  setStatus('img-status', t('statusImg2Pdf'), false);
   try{
     const { PDFDocument } = PDFLib;
     const doc = await PDFDocument.create();
@@ -632,9 +769,9 @@ async function doImg2Pdf(){
     }
     const out = await doc.save();
     downloadBlob(new Blob([out],{type:'application/pdf'}), 'gambar_ke_pdf.pdf');
-    setStatus('img-status', 'Selesai — file terunduh.', false);
+    setStatus('img-status', t('statusImg2PdfDone'), false);
   }catch(e){
-    setStatus('img-status', 'Gagal: ' + e.message, true);
+    setStatus('img-status', t('errGeneric',{msg:e.message}), true);
   }
 }
 
@@ -642,18 +779,18 @@ async function doImg2Pdf(){
 let p2iFile = null;
 function handleP2iFile(f){
   p2iFile = f;
-  document.getElementById('p2i-filename').textContent = f ? f.name : 'Pilih file PDF';
+  document.getElementById('p2i-filename').textContent = f ? f.name : t('dzChoosePdf');
   document.getElementById('p2i-btn').disabled = !f;
 }
 /* ===== COMPRESS (alpha — structural resave, not image recompression) ===== */
 let compressFile = null;
 function handleCompressFile(f){
   compressFile = f;
-  document.getElementById('compress-filename').textContent = f ? f.name : 'Pilih file PDF';
+  document.getElementById('compress-filename').textContent = f ? f.name : t('dzChoosePdf');
   document.getElementById('compress-btn').disabled = !f;
 }
 async function doCompress(){
-  setStatus('compress-status', 'Mengompres...', false);
+  setStatus('compress-status', t('statusCompressing'), false);
   try{
     const { PDFDocument } = PDFLib;
     const originalSize = compressFile.size;
@@ -667,12 +804,44 @@ async function doCompress(){
     downloadBlob(new Blob([out], {type:'application/pdf'}), name);
     if(newSize < originalSize){
       const pct = Math.round((1 - newSize/originalSize) * 100);
-      setStatus('compress-status', `Selesai — ${fmtSize(originalSize)} → ${fmtSize(newSize)} (turun ${pct}%).`, false);
+      setStatus('compress-status', t('statusCompressDone',{a:fmtSize(originalSize), b:fmtSize(newSize), pct}), false);
     } else {
-      setStatus('compress-status', `Selesai — ukuran nyaris sama (${fmtSize(originalSize)} → ${fmtSize(newSize)}). File ini kemungkinan sudah padat.`, false);
+      setStatus('compress-status', t('statusCompressSame',{a:fmtSize(originalSize), b:fmtSize(newSize)}), false);
     }
   }catch(e){
-    setStatus('compress-status', 'Gagal: ' + e.message, true);
+    setStatus('compress-status', t('errGeneric',{msg:e.message}), true);
+  }
+}
+
+/* ===== LOCK PDF (alpha — password protection via pdf-encrypt-lite) ===== */
+let lockFile = null;
+let __encryptLiteMod = null;
+function handleLockFile(f){
+  lockFile = f;
+  document.getElementById('lock-filename').textContent = f ? f.name : t('dzChoosePdf');
+  document.getElementById('lock-btn').disabled = !f;
+}
+async function loadEncryptLite(){
+  if(!__encryptLiteMod){
+    __encryptLiteMod = await import('https://esm.sh/@pdfsmaller/pdf-encrypt-lite@1.0.2');
+  }
+  return __encryptLiteMod;
+}
+async function doLockPdf(){
+  const pass = document.getElementById('lock-pass').value;
+  const confirmPass = document.getElementById('lock-pass-confirm').value;
+  if(!pass || pass.length < 4){ setStatus('lock-status', t('errPassShort'), true); return; }
+  if(pass !== confirmPass){ setStatus('lock-status', t('errPassMismatch'), true); return; }
+  setStatus('lock-status', t('statusLocking'), false);
+  try{
+    const bytes = await lockFile.arrayBuffer();
+    const { encryptPDF } = await loadEncryptLite();
+    const encrypted = await encryptPDF(new Uint8Array(bytes), pass);
+    const name = (lockFile.name || 'dokumen.pdf').replace(/\.pdf$/i, '') + '_terkunci.pdf';
+    downloadBlob(new Blob([encrypted], {type:'application/pdf'}), name);
+    setStatus('lock-status', t('statusLockDone'), false);
+  }catch(e){
+    setStatus('lock-status', t('errGeneric',{msg:e.message}), true);
   }
 }
 
@@ -680,7 +849,7 @@ async function doCompress(){
 let p2wFile = null;
 function handleP2wFile(f){
   p2wFile = f;
-  document.getElementById('p2w-filename').textContent = f ? f.name : 'Pilih file PDF';
+  document.getElementById('p2w-filename').textContent = f ? f.name : t('dzChoosePdf');
   document.getElementById('p2w-btn').disabled = !f;
 }
 function escapeXml(str){
@@ -749,25 +918,25 @@ ${paras.join('\n')}
   return await zip.generateAsync({type:'blob', mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
 }
 async function doPdf2Word(){
-  setStatus('p2w-status', 'Mengekstrak teks...', false);
+  setStatus('p2w-status', t('statusExtracting'), false);
   try{
     const pages = await extractPdfLines(p2wFile);
     const totalLines = pages.reduce((n,p)=>n+p.length,0);
     if(totalLines === 0){
-      setStatus('p2w-status', 'Gak ada teks yang kebaca — kemungkinan ini PDF hasil scan (gambar).', true);
+      setStatus('p2w-status', t('statusPdf2WordNoText'), true);
       return;
     }
     const blob = await buildDocxBlob(pages);
     const name = (p2wFile.name || 'dokumen.pdf').replace(/\.pdf$/i, '') + '.docx';
     downloadBlob(blob, name);
-    setStatus('p2w-status', 'Selesai — file terunduh.', false);
+    setStatus('p2w-status', t('statusPdf2WordDone'), false);
   }catch(e){
-    setStatus('p2w-status', 'Gagal: ' + e.message, true);
+    setStatus('p2w-status', t('errGeneric',{msg:e.message}), true);
   }
 }
 
 async function doPdf2Img(){
-  setStatus('p2i-status', 'Mengubah halaman...', false);
+  setStatus('p2i-status', t('statusPdf2Img'), false);
   try{
     const bytes = await p2iFile.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({data: bytes}).promise;
@@ -781,15 +950,17 @@ async function doPdf2Img(){
       await page.render({canvasContext: ctx, viewport}).promise;
       const blob = await new Promise(res => canvas.toBlob(res, 'image/jpeg', 0.92));
       zip.file(`halaman_${String(i).padStart(2,'0')}.jpg`, blob);
-      setStatus('p2i-status', `Memproses halaman ${i}/${pdf.numPages}...`, false);
+      setStatus('p2i-status', t('statusPdf2ImgProgress',{i, n:pdf.numPages}), false);
     }
     const outBlob = await zip.generateAsync({type:'blob'});
     downloadBlob(outBlob, 'halaman_jpg.zip');
-    setStatus('p2i-status', 'Selesai — ' + pdf.numPages + ' gambar dalam .zip.', false);
+    setStatus('p2i-status', t('statusPdf2ImgDone',{n:pdf.numPages}), false);
   }catch(e){
-    setStatus('p2i-status', 'Gagal: ' + e.message, true);
+    setStatus('p2i-status', t('errGeneric',{msg:e.message}), true);
   }
 }
+
+applyLang(currentLang);
 </script>
 </body>
 </html>

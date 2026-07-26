@@ -14,9 +14,10 @@ Alat PDF client-side (PWA). Semua proses jalan di browser, gak ada file yang diu
 - JPG/PNG ke PDF
 - PDF ke JPG (per halaman, hasil .zip)
 - PDF ke Word (alpha: ekstrak teks polos aja, tabel/kolom/gambar belum ikut, .docx dibangun manual pakai JSZip — bukan library docx)
+- Kunci PDF (alpha: password protection RC4 128-bit via `@pdfsmaller/pdf-encrypt-lite`, kebuka di reader PDF manapun)
 
-## Belum ada (placeholder "segera" di UI)
-- Kunci / Buka Kunci PDF (butuh library enkripsi tambahan)
+## Bahasa
+- UI mendukung Indonesia & Inggris, toggle di pojok kanan atas beranda. Preferensi disimpan di localStorage HP.
 
 ## Catatan teknis
 - Library: pdf-lib (manipulasi), pdf.js (render halaman ke gambar), JSZip (bundling hasil)
