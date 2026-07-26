@@ -508,9 +508,11 @@ function applyLang(lang){
 }
 
 let waitingWorker = null;
+let swRegistration = null;
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').then(reg => {
+      swRegistration = reg;
       // A worker was already waiting when we loaded (update happened while app was closed)
       if (reg.waiting) {
         waitingWorker = reg.waiting;
@@ -532,6 +534,14 @@ if ('serviceWorker' in navigator) {
       if (refreshing) return;
       refreshing = true;
       window.location.reload();
+    });
+
+    // Don't wait for the browser's own throttled update schedule (can be up
+    // to 24h) — actively re-check whenever the app comes back to foreground.
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && swRegistration) {
+        swRegistration.update().catch(()=>{});
+      }
     });
   });
 }

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'berkas-alpha-v2';
+const CACHE_NAME = 'berkas-alpha-v3';
 const APP_SHELL = [
   './',
   './index.html',
@@ -9,11 +9,13 @@ const APP_SHELL = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_SHELL))
+    caches.open(CACHE_NAME).then((cache) => {
+      // cache:'reload' forces a true network fetch, bypassing the browser's
+      // HTTP cache, so a new SW version always grabs fresh app-shell files.
+      const requests = APP_SHELL.map((url) => new Request(url, { cache: 'reload' }));
+      return cache.addAll(requests);
+    })
   );
-  // Do NOT auto skipWaiting here — we want the app to control the
-  // update prompt (see message listener below), so a new version
-  // waits until the user taps "Muat ulang".
 });
 
 self.addEventListener('activate', (event) => {
@@ -31,21 +33,38 @@ self.addEventListener('message', (event) => {
   }
 });
 
-// Cache-first for app shell, network-first fallback for everything else (incl. CDN libs)
 self.addEventListener('fetch', (event) => {
   const req = event.request;
   if (req.method !== 'GET') return;
 
-  event.respondWith(
-    caches.match(req).then((cached) => {
-      if (cached) return cached;
-      return fetch(req)
+  const isSameOrigin = new URL(req.url).origin === self.location.origin;
+
+  if (isSameOrigin) {
+    // Network-first for our own app files: always try to get the latest
+    // version when online, fall back to cache only when offline.
+    event.respondWith(
+      fetch(req)
         .then((res) => {
           const resClone = res.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(req, resClone));
           return res;
         })
-        .catch(() => cached);
-    })
-  );
+        .catch(() => caches.match(req))
+    );
+  } else {
+    // Cache-first for third-party CDN libraries: they're versioned/immutable,
+    // so serving from cache keeps things fast and working offline.
+    event.respondWith(
+      caches.match(req).then((cached) => {
+        if (cached) return cached;
+        return fetch(req)
+          .then((res) => {
+            const resClone = res.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(req, resClone));
+            return res;
+          })
+          .catch(() => cached);
+      })
+    );
+  }
 });
