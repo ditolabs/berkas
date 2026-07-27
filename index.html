@@ -232,10 +232,144 @@
     body{ max-width:1040px; }
     .tool-grid{ grid-template-columns:repeat(3, 1fr); }
     main{ padding-bottom:40px; }
+
+    /* Sembunyikan header mobile & search di home-screen, gantiin sama hero desktop */
+    #home-screen > header.app-header,
+    #home-screen > .search{ display:none; }
+    #home-screen .cat-stack{ flex-direction:row; }
+
+    .desktop-hero-wrap{
+      display:block; width:100vw; position:relative; left:50%; margin-left:-50vw;
+      background:#06070a; overflow:hidden;
+    }
   }
+
+  /* ===== Hero Desktop ===== */
+  .desktop-hero-wrap{ display:none; }
+  .desktop-hero-wrap .glow.a{ width:420px;height:420px;top:-140px;left:-100px; }
+  .desktop-hero-wrap .glow.b{ width:360px;height:360px;top:120px;right:-120px;left:auto; }
+  .topnav{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;
+    max-width:1180px;margin:0 auto;padding:22px 32px;}
+  .nav-brand{display:flex;align-items:center;gap:10px;}
+  .nav-badge{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--c-indigo),#a06bf0);
+    display:flex;align-items:center;justify-content:center;box-shadow:0 8px 20px -6px rgba(124,107,240,.5);}
+  .nav-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;}
+  .nav-links{display:flex;align-items:center;gap:28px;font-size:13.5px;color:var(--dim);}
+  .nav-links a{color:var(--dim);text-decoration:none;cursor:pointer;}
+  .nav-links a:hover{color:var(--ivory);}
+  .nav-actions{display:flex;align-items:center;gap:10px;}
+  .btn-donate{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:20px;
+    background:rgba(227,165,72,.14);border:1px solid rgba(227,165,72,.3);color:var(--amber);
+    font-size:12.5px;font-weight:700;font-family:'Space Grotesk',sans-serif;cursor:pointer;}
+  .btn-install{padding:9px 18px;border-radius:20px;background:var(--teal);color:var(--ink-900);
+    font-size:12.5px;font-weight:700;font-family:'Space Grotesk',sans-serif;border:none;cursor:pointer;}
+
+  .hero{position:relative;max-width:1180px;margin:0 auto;padding:50px 32px 90px;
+    display:grid;grid-template-columns:1.05fr 0.95fr;gap:50px;align-items:center;z-index:1;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:20px;
+    background:rgba(52,193,156,.1);border:1px solid rgba(52,193,156,.25);color:var(--c-emerald);
+    font-size:12px;font-weight:700;font-family:'JetBrains Mono',monospace;letter-spacing:.03em;margin-bottom:22px;}
+  h1.hero-title{font-family:'Space Grotesk',sans-serif;font-size:44px;font-weight:800;line-height:1.12;
+    letter-spacing:-.02em;margin:0 0 20px;}
+  h1.hero-title .accent{color:var(--teal);}
+  .hero-sub{font-size:15.5px;color:var(--dim);line-height:1.6;max-width:480px;margin:0 0 30px;}
+  .hero-search{display:flex;align-items:center;gap:10px;background:var(--ink-700);border:1px solid var(--ink-line);
+    border-radius:14px;padding:6px 6px 6px 18px;max-width:460px;margin-bottom:26px;}
+  .hero-search svg{color:var(--dim-2);flex-shrink:0;}
+  .hero-search input{flex:1;background:none;border:none;color:var(--ivory);font-family:'Inter',sans-serif;
+    font-size:14px;padding:10px 0;outline:none;}
+  .trust-row{display:flex;gap:26px;flex-wrap:wrap;}
+  .trust-item{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--dim);}
+  .trust-item svg{color:var(--c-emerald);flex-shrink:0;}
+
+  .shot-wrap{position:relative;display:flex;justify-content:center;}
+  .phone-frame{width:250px;background:var(--ink-900);border:8px solid #1c202b;border-radius:36px;
+    box-shadow:0 40px 90px -20px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.04);overflow:hidden;position:relative;
+    transform:rotate(-4deg);}
+  .phone-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:84px;height:18px;
+    background:#1c202b;border-radius:0 0 13px 13px;z-index:3;}
+  .phone-screen{padding:28px 15px 18px;}
+  .ps-brand{display:flex;align-items:center;gap:7px;margin-bottom:14px;}
+  .ps-badge{width:20px;height:20px;border-radius:6px;background:linear-gradient(135deg,var(--c-indigo),#a06bf0);}
+  .ps-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:11px;}
+  .ps-title{font-family:'Space Grotesk',sans-serif;font-weight:800;font-size:14px;margin-bottom:14px;line-height:1.2;}
+  .ps-cat{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.03);border:1px solid var(--ink-line);
+    border-radius:11px;padding:10px;margin-bottom:8px;}
+  .ps-cat-icon{width:24px;height:24px;border-radius:7px;flex-shrink:0;}
+  .ps-cat-icon.pdf{background:rgba(124,107,240,.2);}
+  .ps-cat-icon.img{background:rgba(227,165,72,.2);}
+  .ps-cat-text{font-size:10px;font-weight:700;font-family:'Space Grotesk',sans-serif;}
+  .ps-cat-sub{font-size:8px;color:var(--dim-2);font-family:'JetBrains Mono',monospace;}
+  .floating-badge{position:absolute;background:var(--ink-800);border:1px solid var(--ink-line);border-radius:14px;
+    padding:10px 14px;display:flex;align-items:center;gap:8px;box-shadow:0 12px 30px -8px rgba(0,0,0,.5);
+    font-size:11.5px;font-weight:600;white-space:nowrap;}
+  .floating-badge.b1{top:36px;left:-20px;color:var(--c-emerald);}
+  .floating-badge.b2{bottom:56px;right:-26px;color:var(--amber);}
 </style>
 </head>
 <body>
+
+<!-- ===== HERO DESKTOP (cuma tampil ≥1100px, home-screen aja) ===== -->
+<div class="desktop-hero-wrap" id="desktop-hero-wrap">
+  <div class="glow a"></div>
+  <div class="glow b"></div>
+  <nav class="topnav">
+    <div class="nav-brand">
+      <div class="nav-badge"><img src="icons/icon-192.png" alt="Berkas" width="20" height="20"></div>
+      <span class="nav-name">Berkas.</span>
+    </div>
+    <div class="nav-links">
+      <a onclick="openScreen('pdf')" data-i18n="chipPdfTools">Alat PDF</a>
+      <a onclick="openScreen('gambar')" data-i18n="chipImage">Alat Gambar</a>
+    </div>
+    <div class="nav-actions">
+      <div class="btn-donate">☕ <span data-i18n="navDonate">Dukung</span></div>
+      <button class="btn-install" id="desktop-install-btn" style="display:none;" data-i18n="navInstall">Install App</button>
+      <button class="lang-pill" data-lang="id" onclick="applyLang('id')">ID</button>
+      <button class="lang-pill" data-lang="en" onclick="applyLang('en')">EN</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div>
+      <div class="eyebrow">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+        <span data-i18n="heroEyebrow">100% OFFLINE · TANPA UPLOAD KE SERVER</span>
+      </div>
+      <h1 class="hero-title"><span data-i18n="heroTitleDesktop">Kelola PDF & Gambar, langsung dari</span> <span class="accent" data-i18n="heroTitleAccent">browser kamu.</span></h1>
+      <p class="hero-sub" data-i18n="heroSubDesktop">Gabung, kompres, konversi PDF — atau bikin twibbon foto. Semua diproses di perangkat kamu sendiri, gak pernah dikirim ke server mana pun.</p>
+      <div class="hero-search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="tool-search-desktop" data-i18n-placeholder="searchPh" placeholder="Cari alat PDF (mis. Gabung)..." oninput="searchTools(this.value)">
+      </div>
+      <div class="trust-row">
+        <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="trust1">12 Alat Tersedia</span></div>
+        <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="trust2">Gratis Selamanya</span></div>
+        <div class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="trust3">Bisa Dipakai Offline</span></div>
+      </div>
+    </div>
+
+    <div class="shot-wrap">
+      <div class="phone-frame">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="ps-brand"><div class="ps-badge"></div><span class="ps-name">Berkas.</span></div>
+          <div class="ps-title" data-i18n="heroTitle">Mau ngapain hari ini?</div>
+          <div class="ps-cat">
+            <div class="ps-cat-icon pdf"></div>
+            <div><div class="ps-cat-text" data-i18n="chipPdfTools">Alat PDF</div><div class="ps-cat-sub" data-i18n="catPdfCount">9 ALAT</div></div>
+          </div>
+          <div class="ps-cat">
+            <div class="ps-cat-icon img"></div>
+            <div><div class="ps-cat-text" data-i18n="chipImage">Alat Gambar</div><div class="ps-cat-sub" data-i18n="catImgCount">3 ALAT</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="floating-badge b1">🔒 <span data-i18n="floatPrivacy">Privasi Terjaga</span></div>
+      <div class="floating-badge b2">⚡ <span data-i18n="floatInstant">Proses Instan</span></div>
+    </div>
+  </section>
+</div>
 
 <div id="home-screen" class="screen active">
   <div class="glow a"></div>
@@ -376,6 +510,33 @@
           <div class="desc" data-i18n="toolLockDesc">Amankan dokumen dengan menambahkan password.</div>
         </div>
       </button>
+      <button class="tool-card" data-category="susun" data-search="hapus susun ulang halaman reorder delete pages" onclick="openScreen('reorder')">
+        <div class="tool-icon ic-violet">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="9" height="12" rx="1.2"/><rect x="15" y="9" width="5" height="9" rx="1"/><path d="M8 21v-3M8 21l-2-2M8 21l2-2"/></svg>
+        </div>
+        <div class="tool-text">
+          <div class="name" data-i18n="toolReorder">Hapus/Susun Halaman</div>
+          <div class="desc" data-i18n="toolReorderDesc">Buang halaman gak perlu, atau urutin ulang halaman PDF.</div>
+        </div>
+      </button>
+      <button class="tool-card" data-category="susun" data-search="nomor halaman page number" onclick="openScreen('pagenum')">
+        <div class="tool-icon ic-cyan">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="1.5"/><text x="12" y="17" font-size="7" fill="currentColor" stroke="none" text-anchor="middle">12</text></svg>
+        </div>
+        <div class="tool-text">
+          <div class="name" data-i18n="toolPageNum">Nomor Halaman</div>
+          <div class="desc" data-i18n="toolPageNumDesc">Tambahkan nomor halaman otomatis ke tiap halaman PDF.</div>
+        </div>
+      </button>
+      <button class="tool-card" data-category="susun" data-search="tanda tangan sign pdf signature" onclick="openScreen('sign')">
+        <div class="tool-icon ic-amber">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17s2-1 4-1 3 1.5 5 1.5 3-1.5 5-1.5 4 1 4 1"/><path d="M5 13c3-6 5-9 7-9s1 5-1 9-3 5-1 5 5-2 8-6"/></svg>
+        </div>
+        <div class="tool-text">
+          <div class="name" data-i18n="toolSign">Tanda Tangan PDF</div>
+          <div class="desc" data-i18n="toolSignDesc">Gambar tanda tangan, tempel ke halaman PDF pilihanmu.</div>
+        </div>
+      </button>
       <button class="tool-card" data-category="resize" data-search="foto gambar ubah ukuran kompres resize" onclick="openScreen('imgresize')">
         <div class="tool-icon ic-sky">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
@@ -451,6 +612,18 @@
       <button class="tool-card" onclick="openScreen('lock')">
         <div class="tool-icon ic-rose"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
         <div class="tool-text"><div class="name" data-i18n="toolLock">Kunci PDF</div><div class="desc" data-i18n="toolLockDesc">Amankan dokumen dengan menambahkan password.</div></div>
+      </button>
+      <button class="tool-card" onclick="openScreen('reorder')">
+        <div class="tool-icon ic-violet"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="9" height="12" rx="1.2"/><rect x="15" y="9" width="5" height="9" rx="1"/><path d="M8 21v-3M8 21l-2-2M8 21l2-2"/></svg></div>
+        <div class="tool-text"><div class="name" data-i18n="toolReorder">Hapus/Susun Halaman</div><div class="desc" data-i18n="toolReorderDesc">Buang halaman gak perlu, atau urutin ulang halaman PDF.</div></div>
+      </button>
+      <button class="tool-card" onclick="openScreen('pagenum')">
+        <div class="tool-icon ic-cyan"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="1.5"/><text x="12" y="17" font-size="7" fill="currentColor" stroke="none" text-anchor="middle">12</text></svg></div>
+        <div class="tool-text"><div class="name" data-i18n="toolPageNum">Nomor Halaman</div><div class="desc" data-i18n="toolPageNumDesc">Tambahkan nomor halaman otomatis ke tiap halaman PDF.</div></div>
+      </button>
+      <button class="tool-card" onclick="openScreen('sign')">
+        <div class="tool-icon ic-amber"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17s2-1 4-1 3 1.5 5 1.5 3-1.5 5-1.5 4 1 4 1"/><path d="M5 13c3-6 5-9 7-9s1 5-1 9-3 5-1 5 5-2 8-6"/></svg></div>
+        <div class="tool-text"><div class="name" data-i18n="toolSign">Tanda Tangan PDF</div><div class="desc" data-i18n="toolSignDesc">Gambar tanda tangan, tempel ke halaman PDF pilihanmu.</div></div>
       </button>
     </div>
   </main>
@@ -652,6 +825,130 @@
   </div>
 </div>
 
+<!-- HAPUS/SUSUN ULANG HALAMAN -->
+<div id="reorder-screen" class="screen">
+  <div class="topbar">
+    <div class="back" onclick="goBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div><div class="topbar-title" data-i18n="toolReorder">Hapus/Susun Halaman</div><div class="topbar-sub" data-i18n="subOneFile">Satu file PDF</div></div>
+  </div>
+  <div class="dropzone" onclick="document.getElementById('reorder-input').click()">
+    <div class="dz-title" id="reorder-filename" data-i18n="dzChoosePdf">Pilih file PDF</div>
+    <div class="dz-sub" data-i18n="dzTapChoose">Ketuk untuk pilih dari HP kamu</div>
+  </div>
+  <input type="file" id="reorder-input" accept="application/pdf" onchange="handleReorderFile(this.files[0])">
+  <div class="field">
+    <label data-i18n="reorderListLabel">Halaman (geser ↑↓ buat urutin ulang, ✕ buat hapus)</label>
+  </div>
+  <div class="file-scroll" id="reorder-list"></div>
+  <div class="action-bar">
+    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="privacyNote">Diproses di HP ini — tidak diunggah</span></div>
+    <button class="btn-primary" id="reorder-btn" disabled onclick="doReorder()" data-i18n="btnReorder">Simpan PDF</button>
+    <div class="status-msg" id="reorder-status"></div>
+  </div>
+</div>
+
+<!-- NOMOR HALAMAN -->
+<div id="pagenum-screen" class="screen">
+  <div class="topbar">
+    <div class="back" onclick="goBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div><div class="topbar-title" data-i18n="toolPageNum">Nomor Halaman</div><div class="topbar-sub" data-i18n="subOneFile">Satu file PDF</div></div>
+  </div>
+  <div class="dropzone" onclick="document.getElementById('pagenum-input').click()">
+    <div class="dz-title" id="pagenum-filename" data-i18n="dzChoosePdf">Pilih file PDF</div>
+    <div class="dz-sub" data-i18n="dzTapChoose">Ketuk untuk pilih dari HP kamu</div>
+  </div>
+  <input type="file" id="pagenum-input" accept="application/pdf" onchange="handlePagenumFile(this.files[0])">
+  <div class="field">
+    <label data-i18n="pnPositionLabel">Posisi Nomor</label>
+    <select id="pn-position">
+      <option value="bottom-center" data-i18n="pnBottomCenter">Bawah Tengah</option>
+      <option value="bottom-right" data-i18n="pnBottomRight">Bawah Kanan</option>
+      <option value="bottom-left" data-i18n="pnBottomLeft">Bawah Kiri</option>
+      <option value="top-right" data-i18n="pnTopRight">Atas Kanan</option>
+    </select>
+  </div>
+  <div class="field-row">
+    <div class="field">
+      <label data-i18n="pnFormatLabel">Format</label>
+      <select id="pn-format">
+        <option value="n" data-i18n="pnFormatN">1, 2, 3...</option>
+        <option value="n-of-total" data-i18n="pnFormatNTotal">1 / 10, 2 / 10...</option>
+        <option value="page-n" data-i18n="pnFormatPageN">Halaman 1...</option>
+      </select>
+    </div>
+    <div class="field">
+      <label data-i18n="pnStartLabel">Mulai dari</label>
+      <input type="number" id="pn-start" value="1" min="0">
+    </div>
+  </div>
+  <div class="action-bar">
+    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="privacyNote">Diproses di HP ini — tidak diunggah</span></div>
+    <button class="btn-primary" id="pagenum-btn" disabled onclick="doPagenum()" data-i18n="btnPageNum">Tambah Nomor Halaman</button>
+    <div class="status-msg" id="pagenum-status"></div>
+  </div>
+</div>
+
+<!-- TANDA TANGAN PDF -->
+<div id="sign-screen" class="screen">
+  <div class="topbar">
+    <div class="back" onclick="goBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div><div class="topbar-title" data-i18n="toolSign">Tanda Tangan PDF</div><div class="topbar-sub" id="sign-step-label" data-i18n="signStepFile">Pilih File</div></div>
+  </div>
+
+  <!-- STEP 1: UPLOAD -->
+  <div class="tw-step active" id="sign-step-upload">
+    <div class="dropzone" onclick="document.getElementById('sign-input').click()">
+      <div class="dz-title" id="sign-filename" data-i18n="dzChoosePdf">Pilih file PDF</div>
+      <div class="dz-sub" data-i18n="dzTapChoose">Ketuk untuk pilih dari HP kamu</div>
+    </div>
+    <input type="file" id="sign-input" accept="application/pdf">
+    <div class="field">
+      <label data-i18n="signPageLabel">Halaman ke berapa yang mau ditandatangani?</label>
+      <input type="number" id="sign-page-num" value="1" min="1">
+    </div>
+    <div class="action-bar" style="border-top:none;">
+      <button class="btn-primary" id="sign-btn-next" disabled onclick="signGoToDraw()" data-i18n="signBtnNext">Lanjut, Gambar Tanda Tangan</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: GAMBAR TANDA TANGAN -->
+  <div class="tw-step" id="sign-step-draw">
+    <div class="note info">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
+      <span data-i18n="signDrawHint">Gambar tanda tangan kamu di bawah ini pakai jari/mouse.</span>
+    </div>
+    <div class="preview-container">
+      <canvas id="sign-pad-canvas" class="img-canvas" style="background:#fff;border-radius:8px;touch-action:none;cursor:crosshair;"></canvas>
+    </div>
+    <div class="action-bar" style="border-top:none;">
+      <button class="btn-secondary" onclick="signClearPad()" data-i18n="signClearPad">Hapus & Ulangi</button>
+      <button class="btn-primary" id="sign-btn-place" disabled onclick="signGoToPlace()" data-i18n="signBtnPlace">Lanjut, Tempatkan di Halaman</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: TEMPATKAN DI HALAMAN -->
+  <div class="tw-step" id="sign-step-place">
+    <div class="note ok">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+      <span data-i18n="signPlaceHint">Geser tanda tangan ke posisi yang kamu mau, atur ukurannya.</span>
+    </div>
+    <div class="preview-container">
+      <canvas id="sign-place-canvas" class="img-canvas" style="cursor:grab;touch-action:none;"></canvas>
+      <div class="drag-hint" data-i18n="signDragHint">Geser & besarkan tanda tangan biar pas</div>
+    </div>
+    <div class="field">
+      <label style="display:flex;justify-content:space-between;"><span data-i18n="signSizeLabel">Ukuran Tanda Tangan</span> <span id="sign-size-val">100%</span></label>
+      <input type="range" id="sign-size-slider" min="30" max="250" value="100">
+    </div>
+    <div class="action-bar">
+      <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="privacyNote">Diproses di HP ini — tidak diunggah</span></div>
+      <button class="btn-primary" id="sign-btn-download" data-i18n="signBtnDownload">Terapkan & Unduh</button>
+      <button class="btn-secondary" onclick="signBackToDraw()" data-i18n="signRedo">Gambar Ulang</button>
+      <div class="status-msg" id="sign-status"></div>
+    </div>
+  </div>
+</div>
+
 <!-- PDF TO WORD -->
 <div id="pdf2word-screen" class="screen">
   <div class="topbar">
@@ -847,6 +1144,13 @@ const I18N = {
   id: {
     heroTitle: 'Mau ngapain hari ini?',
     heroSub: 'Semua proses dilakukan langsung di perangkat kamu. Cepat, aman, tanpa server.',
+    heroEyebrow: '100% OFFLINE · TANPA UPLOAD KE SERVER',
+    heroTitleDesktop: 'Kelola PDF & Gambar, langsung dari',
+    heroTitleAccent: 'browser kamu.',
+    heroSubDesktop: 'Gabung, kompres, konversi PDF — atau bikin twibbon foto. Semua diproses di perangkat kamu sendiri, gak pernah dikirim ke server mana pun.',
+    trust1: '12 Alat Tersedia', trust2: 'Gratis Selamanya', trust3: 'Bisa Dipakai Offline',
+    navDonate: 'Dukung', navInstall: 'Install App',
+    floatPrivacy: 'Privasi Terjaga', floatInstant: 'Proses Instan',
     privacyPill: '100% Privasi Terjaga',
     searchPh: 'Cari alat PDF (mis. Gabung)...',
     searchEmpty: 'Alat gak ketemu — coba kata kunci lain.',
@@ -855,7 +1159,7 @@ const I18N = {
     chipImgResize: 'Ubah Ukuran', chipImgCollage: 'Kolase',
     catPdfDesc: 'Gabung, pisah, putar, tera air, kunci, kompres, dan lainnya.',
     catImgDesc: 'Ubah ukuran, kompres, dan bikin kolase dari beberapa foto.',
-    catPdfCount: '9 Alat', catImgCount: '3 Alat',
+    catPdfCount: '12 Alat', catImgCount: '3 Alat',
     sectionReady: 'Siap dipakai',
     toolMerge: 'Gabung PDF', toolSplit: 'Pisah Halaman', toolRotate: 'Putar Halaman', toolWatermark: 'Tera Air',
     toolImg2Pdf: 'JPG ke PDF', toolPdf2Img: 'PDF ke JPG', toolCompress: 'Kompres', toolLock: 'Kunci PDF', toolPdf2Word: 'PDF ke Word',
@@ -869,6 +1173,30 @@ const I18N = {
     toolPdf2WordDesc: 'Ubah PDF jadi dokumen Word yang bisa diedit.',
     toolCompressDesc: 'Perkecil ukuran file, rapikan struktur & metadata.',
     toolLockDesc: 'Amankan dokumen dengan menambahkan password.',
+    toolReorder: 'Hapus/Susun Halaman',
+    toolReorderDesc: 'Buang halaman gak perlu, atau urutin ulang halaman PDF.',
+    toolPageNum: 'Nomor Halaman',
+    toolPageNumDesc: 'Tambahkan nomor halaman otomatis ke tiap halaman PDF.',
+    toolSign: 'Tanda Tangan PDF',
+    toolSignDesc: 'Gambar tanda tangan, tempel ke halaman PDF pilihanmu.',
+    reorderListLabel: 'Halaman (geser ↑↓ buat urutin ulang, ✕ buat hapus)',
+    btnReorder: 'Simpan PDF',
+    statusLoadingPages: 'Memuat halaman...', statusReordering: 'Menyusun ulang...', statusReorderDone: 'PDF berhasil disusun ulang.',
+    emptyNoPages: 'Belum ada halaman', pagePrefix: 'Halaman {n}',
+    pnPositionLabel: 'Posisi Nomor', pnBottomCenter: 'Bawah Tengah', pnBottomRight: 'Bawah Kanan',
+    pnBottomLeft: 'Bawah Kiri', pnTopRight: 'Atas Kanan',
+    pnFormatLabel: 'Format', pnFormatN: '1, 2, 3...', pnFormatNTotal: '1 / 10, 2 / 10...', pnFormatPageN: 'Halaman 1...',
+    pnFormatPageNWord: 'Halaman', pnStartLabel: 'Mulai dari',
+    btnPageNum: 'Tambah Nomor Halaman', statusPagenum: 'Menambahkan nomor halaman...', statusPagenumDone: 'Nomor halaman berhasil ditambahkan.',
+    signStepFile: 'Pilih File', signStepDraw: 'Gambar Tanda Tangan', signStepPlace: 'Tempatkan di Halaman',
+    signPageLabel: 'Halaman ke berapa yang mau ditandatangani?',
+    signBtnNext: 'Lanjut, Gambar Tanda Tangan',
+    signDrawHint: 'Gambar tanda tangan kamu di bawah ini pakai jari/mouse.',
+    signClearPad: 'Hapus & Ulangi', signBtnPlace: 'Lanjut, Tempatkan di Halaman',
+    signPlaceHint: 'Geser tanda tangan ke posisi yang kamu mau, atur ukurannya.',
+    signDragHint: 'Geser & besarkan tanda tangan biar pas',
+    signSizeLabel: 'Ukuran Tanda Tangan', signBtnDownload: 'Terapkan & Unduh', signRedo: 'Gambar Ulang',
+    statusRenderingPage: 'Memuat halaman...', statusSigning: 'Menerapkan tanda tangan...', statusSignDone: 'Tanda tangan berhasil ditambahkan.',
     toolImgResizeDesc: 'Kecilkan dimensi & kompres foto agar ukurannya lebih ringan.',
     toolCollageDesc: 'Gabungkan 2-4 foto menjadi satu gambar. Bisa atur letak & geser foto.',
     toolTwibbon: 'Bingkai Foto',
@@ -893,11 +1221,13 @@ const I18N = {
     twSaveResult: 'Simpan Hasil', twRedoArea: 'Ulangi Pilih Area',
     subOneFile: 'Satu file PDF', subOneImg: 'Satu gambar', subMax4Img: 'Maks. 4 gambar',
     dzAddPdf: 'Tambah file PDF', dzChoosePdf: 'Pilih file PDF', dzTapChoose: 'Ketuk untuk pilih dari HP kamu',
+    dzTapChooseDesktop: 'Klik untuk pilih dari komputer kamu',
     dzAddImg: 'Tambah gambar', dzImgHint: 'JPG atau PNG, bisa pilih beberapa',
     dzChoose1Img: 'Pilih 1 Gambar', dzCollage: 'Pilih Gambar (Maks 4)', dzCollageHint: 'Bisa pilih beberapa sekaligus',
     dzPdf2ImgHint: 'Tiap halaman jadi satu gambar JPG', dzPdf2WordHint: 'Khusus PDF berisi teks (bukan hasil scan)',
     emptyNoFiles: 'Belum ada file dipilih', emptyNoImages: 'Belum ada gambar dipilih',
     privacyNote: 'Diproses di HP ini — tidak diunggah',
+    privacyNoteDesktop: 'Diproses di komputer ini — tidak diunggah',
     btnMerge: 'Gabungkan File', btnSplit: 'Pisah Halaman', btnRotate: 'Putar & Unduh', btnWatermark: 'Tambah Tera Air',
     btnImg2Pdf: 'Jadikan PDF', btnPdf2Img: 'Ubah ke JPG (.zip)', btnCompress: 'Kompres File', btnLock: 'Kunci File', btnPdf2Word: 'Ubah ke Word',
     btnSaveResized: 'Simpan Gambar Baru', btnSaveCollage: 'Simpan Kolase', btnDel: 'Hapus',
@@ -933,6 +1263,13 @@ const I18N = {
   en: {
     heroTitle: 'What do you want to do today?',
     heroSub: 'Everything happens right on your device. Fast, secure, no server.',
+    heroEyebrow: '100% OFFLINE · NOTHING UPLOADED TO ANY SERVER',
+    heroTitleDesktop: 'Manage PDFs & images, right from',
+    heroTitleAccent: 'your browser.',
+    heroSubDesktop: 'Merge, compress, convert PDFs — or make a photo twibbon. Everything is processed on your own device, never sent to any server.',
+    trust1: '12 Tools Available', trust2: 'Free Forever', trust3: 'Works Offline',
+    navDonate: 'Support', navInstall: 'Install App',
+    floatPrivacy: 'Privacy Protected', floatInstant: 'Instant Processing',
     privacyPill: '100% Privacy Protected',
     searchPh: 'Search PDF tools (e.g. Merge)...',
     searchEmpty: 'No tools found — try a different keyword.',
@@ -941,7 +1278,7 @@ const I18N = {
     chipImgResize: 'Resize', chipImgCollage: 'Collage',
     catPdfDesc: 'Merge, split, rotate, watermark, lock, compress, and more.',
     catImgDesc: 'Resize, compress, and make collages from several photos.',
-    catPdfCount: '9 Tools', catImgCount: '3 Tools',
+    catPdfCount: '12 Tools', catImgCount: '3 Tools',
     sectionReady: 'Ready to use',
     toolMerge: 'Merge PDF', toolSplit: 'Split Pages', toolRotate: 'Rotate Pages', toolWatermark: 'Watermark',
     toolImg2Pdf: 'JPG to PDF', toolPdf2Img: 'PDF to JPG', toolCompress: 'Compress', toolLock: 'Lock PDF', toolPdf2Word: 'PDF to Word',
@@ -955,6 +1292,30 @@ const I18N = {
     toolPdf2WordDesc: 'Convert PDFs into editable Word documents.',
     toolCompressDesc: 'Shrink file size, tidy up structure & metadata.',
     toolLockDesc: 'Secure your document by adding a password.',
+    toolReorder: 'Delete/Reorder Pages',
+    toolReorderDesc: 'Remove unneeded pages, or rearrange the order of PDF pages.',
+    toolPageNum: 'Page Numbers',
+    toolPageNumDesc: 'Automatically add page numbers to every PDF page.',
+    toolSign: 'Sign PDF',
+    toolSignDesc: 'Draw a signature and place it on the PDF page of your choice.',
+    reorderListLabel: 'Pages (drag ↑↓ to reorder, ✕ to delete)',
+    btnReorder: 'Save PDF',
+    statusLoadingPages: 'Loading pages...', statusReordering: 'Reordering...', statusReorderDone: 'PDF successfully reordered.',
+    emptyNoPages: 'No pages yet', pagePrefix: 'Page {n}',
+    pnPositionLabel: 'Number Position', pnBottomCenter: 'Bottom Center', pnBottomRight: 'Bottom Right',
+    pnBottomLeft: 'Bottom Left', pnTopRight: 'Top Right',
+    pnFormatLabel: 'Format', pnFormatN: '1, 2, 3...', pnFormatNTotal: '1 / 10, 2 / 10...', pnFormatPageN: 'Page 1...',
+    pnFormatPageNWord: 'Page', pnStartLabel: 'Start from',
+    btnPageNum: 'Add Page Numbers', statusPagenum: 'Adding page numbers...', statusPagenumDone: 'Page numbers added successfully.',
+    signStepFile: 'Choose File', signStepDraw: 'Draw Signature', signStepPlace: 'Place on Page',
+    signPageLabel: 'Which page do you want to sign?',
+    signBtnNext: 'Next, Draw Signature',
+    signDrawHint: 'Draw your signature below using your finger/mouse.',
+    signClearPad: 'Clear & Redo', signBtnPlace: 'Next, Place on Page',
+    signPlaceHint: 'Drag the signature to where you want it, then adjust its size.',
+    signDragHint: 'Drag & resize the signature to fit',
+    signSizeLabel: 'Signature Size', signBtnDownload: 'Apply & Download', signRedo: 'Redraw',
+    statusRenderingPage: 'Loading page...', statusSigning: 'Applying signature...', statusSignDone: 'Signature added successfully.',
     toolImgResizeDesc: 'Shrink dimensions & compress photos to reduce file size.',
     toolCollageDesc: 'Combine 2-4 photos into one image. Adjust layout & pan photos.',
     toolTwibbon: 'Photo Frame',
@@ -979,11 +1340,13 @@ const I18N = {
     twSaveResult: 'Save Result', twRedoArea: 'Redo Area Selection',
     subOneFile: 'One PDF file', subOneImg: 'One image', subMax4Img: 'Max. 4 images',
     dzAddPdf: 'Add PDF files', dzChoosePdf: 'Choose a PDF file', dzTapChoose: 'Tap to pick from your device',
+    dzTapChooseDesktop: 'Click to pick from your computer',
     dzAddImg: 'Add images', dzImgHint: 'JPG or PNG, multiple allowed',
     dzChoose1Img: 'Choose 1 Image', dzCollage: 'Choose Images (Max 4)', dzCollageHint: 'Select multiple at once',
     dzPdf2ImgHint: 'Each page becomes one JPG image', dzPdf2WordHint: 'Text-based PDFs only (not scans)',
     emptyNoFiles: 'No files selected yet', emptyNoImages: 'No images selected yet',
     privacyNote: 'Processed on this device — never uploaded',
+    privacyNoteDesktop: 'Processed on this computer — never uploaded',
     btnMerge: 'Merge Files', btnSplit: 'Split Pages', btnRotate: 'Rotate & Download', btnWatermark: 'Add Watermark',
     btnImg2Pdf: 'Create PDF', btnPdf2Img: 'Convert to JPG (.zip)', btnCompress: 'Compress File', btnLock: 'Lock File', btnPdf2Word: 'Convert to Word',
     btnSaveResized: 'Save New Image', btnSaveCollage: 'Save Collage', btnDel: 'Delete',
@@ -1035,7 +1398,20 @@ function applyLang(lang){
   document.querySelectorAll('.lang-pill').forEach(p=>p.classList.toggle('active', p.dataset.lang === lang));
   localStorage.setItem('berkas_lang', lang);
   renderMergeList(); renderImgList();
+  applyDeviceText();
 }
+
+const desktopMQ = window.matchMedia('(min-width: 720px)');
+function applyDeviceText(){
+  const isDesktop = desktopMQ.matches;
+  document.querySelectorAll('[data-i18n="privacyNote"]').forEach(el=>{
+    el.textContent = isDesktop ? t('privacyNoteDesktop') : t('privacyNote');
+  });
+  document.querySelectorAll('[data-i18n="dzTapChoose"]').forEach(el=>{
+    el.textContent = isDesktop ? t('dzTapChooseDesktop') : t('dzTapChoose');
+  });
+}
+desktopMQ.addEventListener('change', applyDeviceText);
 
 let waitingWorker = null;
 let swRegistration = null;
@@ -1096,13 +1472,15 @@ if (window.history.state === null) {
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id+'-screen').classList.add('active');
+  const heroWrap = document.getElementById('desktop-hero-wrap');
+  if(heroWrap) heroWrap.style.display = (id === 'home') ? '' : 'none';
   window.scrollTo(0, 0);
 }
 function navigate(toScreen, overrideParent){
   let parentScreen = 'home';
   if(overrideParent){
     parentScreen = overrideParent;
-  } else if(['merge','split','rotate','watermark','img2pdf','pdf2img','pdf2word','compress','lock'].includes(toScreen)){
+  } else if(['merge','split','rotate','watermark','img2pdf','pdf2img','pdf2word','compress','lock','reorder','pagenum','sign'].includes(toScreen)){
     parentScreen = 'pdf';
   } else if(['imgresize','collage','twibbon'].includes(toScreen)){
     parentScreen = 'gambar';
@@ -2016,6 +2394,304 @@ document.getElementById('tw-btn-download').addEventListener('click', () => {
   link.download = 'twibbon_hasil.png';
   link.href = twCanvas.toDataURL('image/png');
   link.click();
+});
+
+/* ===== HAPUS/SUSUN ULANG HALAMAN ===== */
+let reorderFile = null;
+let reorderPages = []; // {originalIndex, thumb}
+async function handleReorderFile(f){
+  reorderFile = f;
+  document.getElementById('reorder-filename').textContent = f ? f.name : t('dzChoosePdf');
+  document.getElementById('reorder-btn').disabled = true;
+  document.getElementById('reorder-list').innerHTML = '';
+  reorderPages = [];
+  if(!f) return;
+  setStatus('reorder-status', t('statusLoadingPages'), false);
+  try{
+    const bytes = await f.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({data: bytes}).promise;
+    for(let i=1; i<=pdf.numPages; i++){
+      const page = await pdf.getPage(i);
+      const viewport = page.getViewport({scale: 0.28});
+      const canvas = document.createElement('canvas');
+      canvas.width = viewport.width; canvas.height = viewport.height;
+      const ctx = canvas.getContext('2d');
+      await page.render({canvasContext: ctx, viewport}).promise;
+      reorderPages.push({ originalIndex: i-1, thumb: canvas.toDataURL('image/jpeg', 0.6) });
+    }
+    renderReorderList();
+    document.getElementById('reorder-btn').disabled = reorderPages.length === 0;
+    setStatus('reorder-status', '', false);
+  }catch(e){
+    setStatus('reorder-status', t('errGeneric',{msg:e.message}), true);
+  }
+}
+function moveReorderPage(i, dir){
+  const j = i+dir; if(j<0 || j>=reorderPages.length) return;
+  [reorderPages[i], reorderPages[j]] = [reorderPages[j], reorderPages[i]];
+  renderReorderList();
+}
+function removeReorderPage(i){
+  reorderPages.splice(i, 1);
+  renderReorderList();
+  document.getElementById('reorder-btn').disabled = reorderPages.length === 0;
+}
+function renderReorderList(){
+  const list = document.getElementById('reorder-list');
+  if(reorderPages.length === 0){ list.innerHTML = `<div class="empty">${t('emptyNoPages')}</div>`; return; }
+  list.innerHTML = reorderPages.map((p,i)=>`
+    <div class="file-row">
+      <div class="num">${String(i+1).padStart(2,'0')}</div>
+      <div class="thumb" style="background-image:url('${p.thumb}');background-size:cover;background-position:center;"></div>
+      <div class="meta"><div class="fname">${t('pagePrefix',{n:p.originalIndex+1})}</div></div>
+      <button onclick="moveReorderPage(${i},-1)" title="↑">↑</button>
+      <button onclick="moveReorderPage(${i},1)" title="↓">↓</button>
+      <button onclick="removeReorderPage(${i})" title="✕">✕</button>
+    </div>`).join('');
+}
+async function doReorder(){
+  if(reorderPages.length === 0) return;
+  setStatus('reorder-status', t('statusReordering'), false);
+  try{
+    const { PDFDocument } = PDFLib;
+    const bytes = await reorderFile.arrayBuffer();
+    const srcDoc = await PDFDocument.load(bytes);
+    const outDoc = await PDFDocument.create();
+    const indices = reorderPages.map(p => p.originalIndex);
+    const copied = await outDoc.copyPages(srcDoc, indices);
+    copied.forEach(p => outDoc.addPage(p));
+    const out = await outDoc.save();
+    downloadBlob(new Blob([out],{type:'application/pdf'}), 'halaman_tersusun.pdf');
+    setStatus('reorder-status', t('statusReorderDone'), false);
+  }catch(e){
+    setStatus('reorder-status', t('errGeneric',{msg:e.message}), true);
+  }
+}
+
+/* ===== NOMOR HALAMAN ===== */
+let pagenumFile = null;
+function handlePagenumFile(f){
+  pagenumFile = f;
+  document.getElementById('pagenum-filename').textContent = f ? f.name : t('dzChoosePdf');
+  document.getElementById('pagenum-btn').disabled = !f;
+}
+async function doPagenum(){
+  setStatus('pagenum-status', t('statusPagenum'), false);
+  try{
+    const { PDFDocument, rgb, StandardFonts } = PDFLib;
+    const bytes = await pagenumFile.arrayBuffer();
+    const doc = await PDFDocument.load(bytes);
+    const font = await doc.embedFont(StandardFonts.Helvetica);
+    const position = document.getElementById('pn-position').value;
+    const format = document.getElementById('pn-format').value;
+    const start = parseInt(document.getElementById('pn-start').value, 10) || 0;
+    const pages = doc.getPages();
+    const total = pages.length;
+    const margin = 28;
+    pages.forEach((p, idx) => {
+      const n = start + idx;
+      let label;
+      if(format === 'n-of-total') label = `${n} / ${start + total - 1}`;
+      else if(format === 'page-n') label = `${t('pnFormatPageNWord')} ${n}`;
+      else label = String(n);
+
+      const size = 10;
+      const textW = font.widthOfTextAtSize(label, size);
+      const { width, height } = p.getSize();
+      let x, y;
+      if(position === 'bottom-center'){ x = width/2 - textW/2; y = margin/1.6; }
+      else if(position === 'bottom-right'){ x = width - margin - textW; y = margin/1.6; }
+      else if(position === 'bottom-left'){ x = margin; y = margin/1.6; }
+      else { x = width - margin - textW; y = height - margin; } // top-right
+
+      p.drawText(label, { x, y, size, font, color: rgb(0.35,0.35,0.35) });
+    });
+    const out = await doc.save();
+    downloadBlob(new Blob([out],{type:'application/pdf'}), 'bernomor.pdf');
+    setStatus('pagenum-status', t('statusPagenumDone'), false);
+  }catch(e){
+    setStatus('pagenum-status', t('errGeneric',{msg:e.message}), true);
+  }
+}
+
+/* ===== TANDA TANGAN PDF ===== */
+let signFile = null;
+let signPageNum = 1;
+const signPadCanvas = document.getElementById('sign-pad-canvas');
+const signPadCtx = signPadCanvas.getContext('2d');
+let signDrawing = false;
+let signDataUrl = null;
+let signImgEl = null;
+const signPlaceCanvas = document.getElementById('sign-place-canvas');
+const signPlaceCtx = signPlaceCanvas.getContext('2d');
+let signPageImg = null;
+let sigX = 0, sigY = 0, sigScale = 1, sigBaseW = 0, sigBaseH = 0;
+let signDragging = false, signLastX = 0, signLastY = 0;
+
+document.getElementById('sign-input').addEventListener('change', function(e){
+  const f = e.target.files[0];
+  signFile = f;
+  document.getElementById('sign-filename').textContent = f ? f.name : t('dzChoosePdf');
+  document.getElementById('sign-btn-next').disabled = !f;
+});
+document.getElementById('sign-page-num').addEventListener('input', function(e){
+  signPageNum = parseInt(e.target.value, 10) || 1;
+});
+
+function signGoToDraw(){
+  document.querySelectorAll('#sign-screen .tw-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sign-step-draw').classList.add('active');
+  document.getElementById('sign-step-label').textContent = t('signStepDraw');
+  signPadCanvas.width = 700; signPadCanvas.height = 300;
+  signPadCtx.fillStyle = '#fff'; signPadCtx.fillRect(0, 0, signPadCanvas.width, signPadCanvas.height);
+  signPadCtx.strokeStyle = '#111'; signPadCtx.lineWidth = 4; signPadCtx.lineCap = 'round'; signPadCtx.lineJoin = 'round';
+  document.getElementById('sign-btn-place').disabled = true;
+}
+function signPadPos(e){
+  const rect = signPadCanvas.getBoundingClientRect();
+  const p = e.touches ? e.touches[0] : e;
+  const scaleX = signPadCanvas.width/rect.width, scaleY = signPadCanvas.height/rect.height;
+  return { x: (p.clientX-rect.left)*scaleX, y: (p.clientY-rect.top)*scaleY };
+}
+function signPadStart(e){ e.preventDefault(); signDrawing = true; const pos = signPadPos(e); signPadCtx.beginPath(); signPadCtx.moveTo(pos.x, pos.y); }
+function signPadMove(e){
+  if(!signDrawing) return; e.preventDefault();
+  const pos = signPadPos(e); signPadCtx.lineTo(pos.x, pos.y); signPadCtx.stroke();
+  document.getElementById('sign-btn-place').disabled = false;
+}
+function signPadEnd(){ signDrawing = false; }
+signPadCanvas.addEventListener('mousedown', signPadStart); window.addEventListener('mousemove', signPadMove); window.addEventListener('mouseup', signPadEnd);
+signPadCanvas.addEventListener('touchstart', signPadStart, {passive:false}); window.addEventListener('touchmove', signPadMove, {passive:false}); window.addEventListener('touchend', signPadEnd);
+
+function signClearPad(){
+  signPadCtx.fillStyle = '#fff'; signPadCtx.fillRect(0, 0, signPadCanvas.width, signPadCanvas.height);
+  document.getElementById('sign-btn-place').disabled = true;
+}
+
+function signTrimCanvas(sourceCanvas){
+  const ctx = sourceCanvas.getContext('2d');
+  const w = sourceCanvas.width, h = sourceCanvas.height;
+  const data = ctx.getImageData(0, 0, w, h).data;
+  let minX=w, minY=h, maxX=0, maxY=0, found=false;
+  for(let y=0; y<h; y+=2){
+    for(let x=0; x<w; x+=2){
+      const i = (y*w+x)*4;
+      if(data[i]<240 || data[i+1]<240 || data[i+2]<240){
+        found = true;
+        if(x<minX)minX=x; if(x>maxX)maxX=x; if(y<minY)minY=y; if(y>maxY)maxY=y;
+      }
+    }
+  }
+  if(!found) return sourceCanvas;
+  const pad = 10;
+  minX = Math.max(0,minX-pad); minY = Math.max(0,minY-pad);
+  maxX = Math.min(w,maxX+pad); maxY = Math.min(h,maxY+pad);
+  const out = document.createElement('canvas');
+  out.width = maxX-minX; out.height = maxY-minY;
+  out.getContext('2d').drawImage(sourceCanvas, minX, minY, out.width, out.height, 0, 0, out.width, out.height);
+  return out;
+}
+
+async function signGoToPlace(){
+  const trimmed = signTrimCanvas(signPadCanvas);
+  signDataUrl = trimmed.toDataURL('image/png');
+  signImgEl = new Image();
+  await new Promise(res => { signImgEl.onload = res; signImgEl.src = signDataUrl; });
+
+  document.querySelectorAll('#sign-screen .tw-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sign-step-place').classList.add('active');
+  document.getElementById('sign-step-label').textContent = t('signStepPlace');
+  setStatus('sign-status', t('statusRenderingPage'), false);
+
+  try{
+    const bytes = await signFile.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({data: bytes}).promise;
+    const pageIndex = Math.min(Math.max(signPageNum, 1), pdf.numPages);
+    const page = await pdf.getPage(pageIndex);
+    const viewport = page.getViewport({scale: 1.4});
+    signPlaceCanvas.width = viewport.width; signPlaceCanvas.height = viewport.height;
+    const bgCanvas = document.createElement('canvas');
+    bgCanvas.width = viewport.width; bgCanvas.height = viewport.height;
+    await page.render({canvasContext: bgCanvas.getContext('2d'), viewport}).promise;
+    signPageImg = bgCanvas;
+
+    sigBaseW = Math.min(viewport.width*0.35, signImgEl.width);
+    sigBaseH = sigBaseW * (signImgEl.height/signImgEl.width);
+    sigX = viewport.width/2;
+    sigY = viewport.height - sigBaseH - 40;
+    sigScale = 1;
+    document.getElementById('sign-size-slider').value = 100;
+    document.getElementById('sign-size-val').textContent = '100%';
+
+    signRenderPlace();
+    setStatus('sign-status', '', false);
+  }catch(e){
+    setStatus('sign-status', t('errGeneric',{msg:e.message}), true);
+  }
+}
+
+function signRenderPlace(){
+  signPlaceCtx.clearRect(0, 0, signPlaceCanvas.width, signPlaceCanvas.height);
+  signPlaceCtx.drawImage(signPageImg, 0, 0);
+  const w = sigBaseW * sigScale, h = sigBaseH * sigScale;
+  signPlaceCtx.drawImage(signImgEl, sigX-w/2, sigY-h/2, w, h);
+}
+
+function signGetPos(e){ const p = e.touches ? e.touches[0] : e; return {x:p.clientX, y:p.clientY}; }
+function signDragStart(e){ if(!signImgEl) return; e.preventDefault(); signDragging = true; const p = signGetPos(e); signLastX=p.x; signLastY=p.y; }
+function signDragMove(e){
+  if(!signDragging) return; e.preventDefault();
+  const p = signGetPos(e);
+  const rect = signPlaceCanvas.getBoundingClientRect();
+  const scale = signPlaceCanvas.width/rect.width;
+  sigX += (p.x-signLastX)*scale; sigY += (p.y-signLastY)*scale;
+  signLastX=p.x; signLastY=p.y;
+  signRenderPlace();
+}
+function signDragEnd(){ signDragging = false; }
+signPlaceCanvas.addEventListener('mousedown', signDragStart); window.addEventListener('mousemove', signDragMove); window.addEventListener('mouseup', signDragEnd);
+signPlaceCanvas.addEventListener('touchstart', signDragStart, {passive:false}); window.addEventListener('touchmove', signDragMove, {passive:false}); window.addEventListener('touchend', signDragEnd);
+
+document.getElementById('sign-size-slider').addEventListener('input', function(e){
+  sigScale = e.target.value/100;
+  document.getElementById('sign-size-val').textContent = e.target.value+'%';
+  signRenderPlace();
+});
+
+function signBackToDraw(){
+  document.querySelectorAll('#sign-screen .tw-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sign-step-draw').classList.add('active');
+  document.getElementById('sign-step-label').textContent = t('signStepDraw');
+}
+
+document.getElementById('sign-btn-download').addEventListener('click', async () => {
+  setStatus('sign-status', t('statusSigning'), false);
+  try{
+    const { PDFDocument } = PDFLib;
+    const bytes = await signFile.arrayBuffer();
+    const doc = await PDFDocument.load(bytes);
+    const pages = doc.getPages();
+    const pageIndex = Math.min(Math.max(signPageNum, 1), pages.length) - 1;
+    const page = pages[pageIndex];
+    const { width: pdfW, height: pdfH } = page.getSize();
+
+    const pngBytes = await (await fetch(signDataUrl)).arrayBuffer();
+    const pngImage = await doc.embedPng(pngBytes);
+
+    const scaleToPdf = pdfW / signPlaceCanvas.width;
+    const w = sigBaseW * sigScale * scaleToPdf;
+    const h = sigBaseH * sigScale * scaleToPdf;
+    const xPdf = (sigX * scaleToPdf) - w/2;
+    const yPdf = pdfH - (sigY * scaleToPdf) - h/2;
+
+    page.drawImage(pngImage, { x: xPdf, y: yPdf, width: w, height: h });
+
+    const out = await doc.save();
+    downloadBlob(new Blob([out],{type:'application/pdf'}), 'tertandatangan.pdf');
+    setStatus('sign-status', t('statusSignDone'), false);
+  }catch(e){
+    setStatus('sign-status', t('errGeneric',{msg:e.message}), true);
+  }
 });
 
 applyLang(currentLang);
