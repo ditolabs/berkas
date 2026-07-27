@@ -1870,13 +1870,13 @@ function twApplyFeatherAndPreview(){
   const tmp = document.createElement('canvas');
   tmp.width = twWandCanvas.width; tmp.height = twWandCanvas.height;
   const tctx = tmp.getContext('2d');
-  tctx.fillStyle = '#34c19c';
+  tctx.fillStyle = '#ff2d9e';
   tctx.fillRect(0, 0, tmp.width, tmp.height);
   tctx.globalCompositeOperation = 'destination-in';
   tctx.imageSmoothingEnabled = true;
   tctx.drawImage(twWandMaskSmall, 0, 0, tmp.width, tmp.height);
   twWandCtx.save();
-  twWandCtx.globalAlpha = 0.55;
+  twWandCtx.globalAlpha = 0.65;
   twWandCtx.drawImage(tmp, 0, 0);
   twWandCtx.restore();
 
