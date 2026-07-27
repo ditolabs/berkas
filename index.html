@@ -60,6 +60,24 @@
     border:1px solid transparent;color:var(--dim);white-space:nowrap;cursor:pointer;}
   .chip.active{background:var(--ink-700);border-color:var(--ink-line);color:var(--ivory);}
 
+  /* ===== Kartu kategori (home level 0) ===== */
+  .cat-stack{display:flex;flex-direction:column;gap:14px;margin-bottom:6px;}
+  .cat-card{position:relative;display:flex;align-items:center;gap:16px;text-align:left;
+    background:rgba(255,255,255,0.03);border:1px solid var(--ink-line);border-radius:20px;padding:20px;
+    color:var(--ivory);font-family:inherit;cursor:pointer;overflow:hidden;width:100%;}
+  .cat-card:active{transform:scale(.985);}
+  .cat-card .cat-icon{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .cat-card.pdf .cat-icon{background:rgba(124,107,240,.16);color:var(--c-indigo);}
+  .cat-card.img .cat-icon{background:rgba(227,165,72,.16);color:var(--c-amber);}
+  .cat-card .cat-text{flex:1;min-width:0;}
+  .cat-card .cat-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;margin-bottom:3px;}
+  .cat-card .cat-desc{font-size:12.5px;color:var(--dim);line-height:1.4;margin-bottom:8px;}
+  .cat-card .cat-count{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;
+    font-size:10.5px;color:var(--dim-2);letter-spacing:.04em;text-transform:uppercase;}
+  .cat-card .cat-glow{position:absolute;width:140px;height:140px;border-radius:50%;filter:blur(50px);opacity:.16;pointer-events:none;}
+  .cat-card.pdf .cat-glow{background:var(--c-indigo);top:-50px;right:-30px;}
+  .cat-card.img .cat-glow{background:var(--c-amber);top:-50px;right:-30px;}
+
   main{flex:1;overflow-y:auto;padding:4px 20px 30px;position:relative;z-index:1;}
   .tool-grid{display:grid;grid-template-columns:1fr;gap:10px;}
   .tool-card{position:relative;display:flex;align-items:flex-start;gap:14px;text-align:left;
@@ -79,8 +97,10 @@
   .ic-sky{background:rgba(91,157,240,.16);color:var(--c-sky);}
   .ic-rose{background:rgba(224,112,138,.16);color:var(--c-rose);}
   .glow{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;opacity:.28;z-index:0;}
-  .glow.a{width:220px;height:220px;background:var(--c-indigo);top:-70px;left:-70px;}
-  .glow.b{width:190px;height:190px;background:var(--c-emerald);top:220px;right:-80px;opacity:.18;}
+  .glow.a{width:220px;height:220px;background:var(--c-indigo);top:-70px;left:-70px;animation:floatA 14s ease-in-out infinite;}
+  .glow.b{width:190px;height:190px;background:var(--c-emerald);top:220px;right:-80px;opacity:.18;animation:floatB 17s ease-in-out infinite;}
+  @keyframes floatA{0%{transform:translate(0,0);}50%{transform:translate(20px,30px) scale(1.1);}100%{transform:translate(0,0);}}
+  @keyframes floatB{0%{transform:translate(0,0);}50%{transform:translate(-30px,-20px) scale(1.05);}100%{transform:translate(0,0);}}
 
   /* Tool screen */
   .screen{display:none;flex-direction:column;flex:1;position:relative;overflow:hidden;}
@@ -114,6 +134,49 @@
     padding:11px 12px;font-family:'Inter',sans-serif;font-size:14px;}
   .field-row{display:flex;gap:10px;margin:0 20px 14px;}
   .field-row .field{margin:0;flex:1;}
+
+  /* --- Alat Gambar: slider & kanvas --- */
+  input[type=range]{width:100%;-webkit-appearance:none;background:transparent;margin:6px 0;}
+  input[type=range]:focus{outline:none;}
+  input[type=range]::-webkit-slider-runnable-track{width:100%;height:6px;background:var(--ink-line);border-radius:3px;cursor:pointer;}
+  input[type=range]::-webkit-slider-thumb{height:18px;width:18px;border-radius:50%;background:var(--teal);cursor:pointer;-webkit-appearance:none;margin-top:-6px;}
+
+  .preview-container{width:auto;margin:0 20px 16px;background:repeating-conic-gradient(#151822 0% 25%, #0b0d12 0% 25% 50%) 50% / 20px 20px;
+    border:1px solid var(--ink-line);border-radius:12px;overflow:hidden;display:flex;justify-content:center;align-items:center;
+    padding:16px;min-height:200px;position:relative;}
+  canvas.img-canvas{max-width:100%;max-height:45vh;display:block;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.3);}
+  canvas#collage-canvas{touch-action:none;cursor:grab;}
+  canvas#collage-canvas:active{cursor:grabbing;}
+  .drag-hint{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:10px;color:var(--dim);
+    pointer-events:none;background:rgba(11,13,18,.7);padding:4px;backdrop-filter:blur(4px);}
+
+  .layout-opts{display:flex;flex-wrap:wrap;gap:8px;margin:0 20px 12px;}
+  .layout-opt{flex:1;min-width:20%;padding:10px 4px;background:var(--ink-700);border:1px solid var(--ink-line);
+    border-radius:10px;text-align:center;cursor:pointer;font-size:12px;font-weight:500;}
+  .layout-opt.active{background:rgba(124,107,240,.15);border-color:var(--teal);color:var(--teal);}
+
+  .input-row{display:flex;gap:10px;margin:0 20px 14px;}
+  .input-group{flex:1;}
+  .input-group span{font-size:11px;color:var(--dim);display:block;margin-bottom:6px;}
+
+  .img-file-list{margin:0 20px 16px;}
+  .img-file-item{display:flex;align-items:center;justify-content:space-between;background:var(--ink-700);
+    padding:8px 12px;border-radius:8px;margin-bottom:6px;font-size:12px;border:1px solid var(--ink-line);}
+  .img-file-item button{background:none;border:none;color:var(--danger);cursor:pointer;padding:4px;}
+
+  /* ===== Bingkai Foto (Twibbon) ===== */
+  .btn-secondary{width:calc(100% - 40px);margin:0 20px 12px;background:var(--ink-700);color:var(--ivory);
+    border:1px solid var(--ink-line);border-radius:12px;padding:12px;font-family:'Space Grotesk',sans-serif;
+    font-weight:700;font-size:13px;text-align:center;cursor:pointer;}
+  .note{display:flex;gap:8px;align-items:flex-start;margin:0 20px 14px;padding:10px 12px;border-radius:10px;
+    font-size:11.5px;line-height:1.5;}
+  .note svg{flex-shrink:0;margin-top:1px;}
+  .note.info{background:rgba(124,107,240,.08);border:1px solid rgba(124,107,240,.25);color:#a99bf5;}
+  .note.ok{background:rgba(52,193,156,.08);border:1px solid rgba(52,193,156,.25);color:var(--c-emerald);}
+  .tw-step{display:none;}
+  .tw-step.active{display:block;}
+  #tw-wand-canvas{cursor:crosshair;touch-action:none;}
+  .tw-status{text-align:center;font-size:11.5px;color:var(--dim);font-family:'JetBrains Mono',monospace;margin:0 20px 14px;}
 
   .action-bar{flex-shrink:0;padding:14px 20px 26px;border-top:1px solid var(--ink-line);}
   .privacy-note{display:flex;align-items:center;gap:8px;font-size:11px;color:#7d838c;margin-bottom:12px;}
@@ -204,16 +267,34 @@
     <input type="text" id="tool-search" data-i18n-placeholder="searchPh" placeholder="Cari alat PDF (mis. Gabung)..." oninput="searchTools(this.value)">
   </div>
 
-  <div class="chips">
-    <div class="chip active" data-filter="semua" onclick="filterTools('semua', this)" data-i18n="chipAll">Semua</div>
-    <div class="chip" data-filter="susun" onclick="filterTools('susun', this)" data-i18n="chipOrganize">Susun</div>
-    <div class="chip" data-filter="ubah-format" onclick="filterTools('ubah-format', this)" data-i18n="chipConvert">Ubah Format</div>
-    <div class="chip" data-filter="keamanan" onclick="filterTools('keamanan', this)" data-i18n="chipSecurity">Keamanan</div>
-    <div class="chip" data-filter="ukuran" onclick="filterTools('ukuran', this)" data-i18n="tagSize">Ukuran</div>
-  </div>
-
   <main>
-    <div class="tool-grid" id="tool-list">
+    <div class="cat-stack" id="cat-stack">
+      <button class="cat-card pdf" onclick="openScreen('pdf')">
+        <div class="cat-glow"></div>
+        <div class="cat-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h4"/></svg>
+        </div>
+        <div class="cat-text">
+          <div class="cat-name" data-i18n="chipPdfTools">Alat PDF</div>
+          <div class="cat-desc" data-i18n="catPdfDesc">Gabung, pisah, putar, tera air, kunci, kompres, dan lainnya.</div>
+          <div class="cat-count"><span data-i18n="catPdfCount">9 Alat</span> →</div>
+        </div>
+      </button>
+
+      <button class="cat-card img" onclick="openScreen('gambar')">
+        <div class="cat-glow"></div>
+        <div class="cat-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="1.6"/><path d="m5 18 4.5-5 3 3 3.5-4.5L20 17"/></svg>
+        </div>
+        <div class="cat-text">
+          <div class="cat-name" data-i18n="chipImage">Alat Gambar</div>
+          <div class="cat-desc" data-i18n="catImgDesc">Ubah ukuran, kompres, dan bikin kolase dari beberapa foto.</div>
+          <div class="cat-count"><span data-i18n="catImgCount">2 Alat</span> →</div>
+        </div>
+      </button>
+    </div>
+
+    <div class="tool-grid" id="tool-list" style="display:none;">
       <button class="tool-card" data-category="susun" data-search="gabung merge pdf" onclick="openScreen('merge')">
         <div class="tool-icon ic-indigo">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="10" height="14" rx="1.5"/><rect x="10" y="7" width="10" height="14" rx="1.5"/></svg>
@@ -295,15 +376,114 @@
           <div class="desc" data-i18n="toolLockDesc">Amankan dokumen dengan menambahkan password.</div>
         </div>
       </button>
+      <button class="tool-card" data-category="resize" data-search="foto gambar ubah ukuran kompres resize" onclick="openScreen('imgresize')">
+        <div class="tool-icon ic-sky">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        </div>
+        <div class="tool-text">
+          <div class="name" data-i18n="toolImgResize">Ubah Ukuran Gambar</div>
+          <div class="desc" data-i18n="toolImgResizeDesc">Kecilkan dimensi & kompres foto agar ukurannya lebih ringan.</div>
+        </div>
+      </button>
+      <button class="tool-card" data-category="kolase" data-search="foto gambar kolase collage gabung" onclick="openScreen('collage')">
+        <div class="tool-icon ic-amber">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 12h18M12 3v18"/></svg>
+        </div>
+        <div class="tool-text">
+          <div class="name" data-i18n="toolCollage">Kolase Gambar</div>
+          <div class="desc" data-i18n="toolCollageDesc">Gabungkan 2-4 foto menjadi satu gambar. Bisa atur letak & geser foto.</div>
+        </div>
+      </button>
+      <button class="tool-card" data-category="twibbon" data-search="twibbon bingkai foto frame mpls" onclick="openScreen('twibbon')">
+        <div class="tool-icon ic-rose">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
+        </div>
+        <div class="tool-text">
+          <div class="name" data-i18n="toolTwibbon">Bingkai Foto</div>
+          <div class="desc" data-i18n="toolTwibbonDesc">Pasang foto ke bingkai/twibbon, area foto terdeteksi otomatis.</div>
+        </div>
+      </button>
     </div>
     <div class="empty" id="tool-empty" style="display:none;" data-i18n="searchEmpty">Alat gak ketemu — coba kata kunci lain.</div>
+  </main>
+</div>
+
+<!-- KATEGORI: ALAT PDF -->
+<div id="pdf-screen" class="screen">
+  <div class="topbar">
+    <div class="back" onclick="goBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div><div class="topbar-title" data-i18n="chipPdfTools">Alat PDF</div><div class="topbar-sub" data-i18n="catPdfCount">9 Alat</div></div>
+  </div>
+  <main style="padding-top:0;">
+    <div class="tool-grid">
+      <button class="tool-card" onclick="openScreen('merge')">
+        <div class="tool-icon ic-indigo"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="10" height="14" rx="1.5"/><rect x="10" y="7" width="10" height="14" rx="1.5"/></svg></div>
+        <div class="tool-text"><div class="name" data-i18n="toolMerge">Gabung PDF</div><div class="desc" data-i18n="toolMergeDesc">Satukan beberapa file PDF jadi satu dokumen utuh.</div></div>
+      </button>
+      <button class="tool-card" onclick="openScreen('split')">
+        <div class="tool-icon ic-emerald"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M5 12h14" stroke-dasharray="2 2"/></svg></div>
+        <div class="tool-text"><div class="name" data-i18n="toolSplit">Pisah Halaman</div><div class="desc" data-i18n="toolSplitDesc">Ekstrak atau pisahkan halaman tertentu dari PDF.</div></div>
+      </button>
+      <button class="tool-card" onclick="openScreen('rotate')">
+        <div class="tool-icon ic-violet"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12a10 10 0 1 1 4 8"/><path d="M2 20v-6h6"/></svg></div>
+        <div class="tool-text"><div class="name" data-i18n="toolRotate">Putar Halaman</div><div class="desc" data-i18n="toolRotateDesc">Rotasi halaman PDF yang posisinya terbalik.</div></div>
+      </button>
+      <button class="tool-card" onclick="openScreen('watermark')">
+        <div class="tool-icon ic-fuchsia"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v16H4z"/><path d="M8 16l8-8"/></svg></div>
+        <div class="tool-text"><div class="name" data-i18n="toolWatermark">Tera Air</div><div class="desc" data-i18n="toolWatermarkDesc">Tambahkan teks tera air ke setiap halaman.</div></div>
+      </button>
+      <button class="tool-card" onclick="openScreen('img2pdf')">
+        <div class="tool-icon ic-cyan"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m5 18 4.5-5 3 3 3.5-4.5L20 17"/></svg></div>
+        <div class="tool-text"><div class="name" data-i18n="toolImg2Pdf">JPG ke PDF</div><div class="desc" data-i18n="toolImg2PdfDesc">Konversi gambar (JPG/PNG) jadi dokumen PDF.</div></div>
+      </button>
+      <button class="tool-card" onclick="openScreen('pdf2img')">
+        <div class="tool-icon ic-teal"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 15l2-2 2 2 2-3"/></svg></div>
+        <div class="tool-text"><div class="name" data-i18n="toolPdf2Img">PDF ke JPG</div><div class="desc" data-i18n="toolPdf2ImgDesc">Ubah tiap halaman PDF jadi gambar JPG.</div></div>
+      </button>
+      <button class="tool-card" onclick="openScreen('pdf2word')">
+        <div class="tool-icon ic-sky"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 9h6M9 13h6M9 17h3"/></svg></div>
+        <div class="tool-text"><div class="name" data-i18n="toolPdf2Word">PDF ke Word</div><div class="desc" data-i18n="toolPdf2WordDesc">Ubah PDF jadi dokumen Word yang bisa diedit.</div></div>
+      </button>
+      <button class="tool-card" onclick="openScreen('compress')">
+        <div class="tool-icon ic-amber"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 14l4 4M4 14l4-4M4 14h16M20 10l-4-4M20 10l-4 4M20 10H4"/></svg></div>
+        <div class="tool-text"><div class="name" data-i18n="toolCompress">Kompres</div><div class="desc" data-i18n="toolCompressDesc">Perkecil ukuran file, rapikan struktur & metadata.</div></div>
+      </button>
+      <button class="tool-card" onclick="openScreen('lock')">
+        <div class="tool-icon ic-rose"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <div class="tool-text"><div class="name" data-i18n="toolLock">Kunci PDF</div><div class="desc" data-i18n="toolLockDesc">Amankan dokumen dengan menambahkan password.</div></div>
+      </button>
+    </div>
+  </main>
+</div>
+
+<!-- KATEGORI: ALAT GAMBAR -->
+<div id="gambar-screen" class="screen">
+  <div class="topbar">
+    <div class="back" onclick="goBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div><div class="topbar-title" data-i18n="chipImage">Alat Gambar</div><div class="topbar-sub" data-i18n="catImgCount">3 Alat</div></div>
+  </div>
+  <main style="padding-top:0;">
+    <div class="tool-grid">
+      <button class="tool-card" onclick="openScreen('imgresize')">
+        <div class="tool-icon ic-sky"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+        <div class="tool-text"><div class="name" data-i18n="toolImgResize">Ubah Ukuran Gambar</div><div class="desc" data-i18n="toolImgResizeDesc">Kecilkan dimensi & kompres foto agar ukurannya lebih ringan.</div></div>
+      </button>
+      <button class="tool-card" onclick="openScreen('collage')">
+        <div class="tool-icon ic-amber"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 12h18M12 3v18"/></svg></div>
+        <div class="tool-text"><div class="name" data-i18n="toolCollage">Kolase Gambar</div><div class="desc" data-i18n="toolCollageDesc">Gabungkan 2-4 foto menjadi satu gambar. Bisa atur letak & geser foto.</div></div>
+      </button>
+      <button class="tool-card" onclick="openScreen('twibbon')">
+        <div class="tool-icon ic-rose"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></div>
+        <div class="tool-text"><div class="name" data-i18n="toolTwibbon">Bingkai Foto</div><div class="desc" data-i18n="toolTwibbonDesc">Pasang foto ke bingkai/twibbon, area foto terdeteksi otomatis.</div></div>
+      </button>
+    </div>
   </main>
 </div>
 
 <!-- MERGE -->
 <div id="merge-screen" class="screen">
   <div class="topbar">
-    <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div class="back" onclick="goBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
     <div><div class="topbar-title" data-i18n="toolMerge">Gabung PDF</div><div class="topbar-sub" id="merge-count">0</div></div>
   </div>
   <div class="dropzone" onclick="document.getElementById('merge-input').click()">
@@ -322,7 +502,7 @@
 <!-- SPLIT -->
 <div id="split-screen" class="screen">
   <div class="topbar">
-    <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div class="back" onclick="goBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
     <div><div class="topbar-title" data-i18n="toolSplit">Pisah Halaman</div><div class="topbar-sub" data-i18n="subOneFile">Satu file PDF</div></div>
   </div>
   <div class="dropzone" onclick="document.getElementById('split-input').click()">
@@ -344,7 +524,7 @@
 <!-- ROTATE -->
 <div id="rotate-screen" class="screen">
   <div class="topbar">
-    <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div class="back" onclick="goBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
     <div><div class="topbar-title" data-i18n="toolRotate">Putar Halaman</div><div class="topbar-sub" data-i18n="subOneFile">Satu file PDF</div></div>
   </div>
   <div class="dropzone" onclick="document.getElementById('rotate-input').click()">
@@ -366,7 +546,7 @@
 <!-- WATERMARK -->
 <div id="watermark-screen" class="screen">
   <div class="topbar">
-    <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div class="back" onclick="goBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
     <div><div class="topbar-title" data-i18n="toolWatermark">Tera Air</div><div class="topbar-sub" data-i18n="subOneFile">Satu file PDF</div></div>
   </div>
   <div class="dropzone" onclick="document.getElementById('wm-input').click()">
@@ -388,7 +568,7 @@
 <!-- IMG TO PDF -->
 <div id="img2pdf-screen" class="screen">
   <div class="topbar">
-    <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div class="back" onclick="goBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
     <div><div class="topbar-title" data-i18n="toolImg2Pdf">JPG ke PDF</div><div class="topbar-sub" id="img-count">0</div></div>
   </div>
   <div class="dropzone" onclick="document.getElementById('img-input').click()">
@@ -407,7 +587,7 @@
 <!-- PDF TO IMG -->
 <div id="pdf2img-screen" class="screen">
   <div class="topbar">
-    <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div class="back" onclick="goBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
     <div><div class="topbar-title" data-i18n="toolPdf2Img">PDF ke JPG</div><div class="topbar-sub" data-i18n="subOneFile">Satu file PDF</div></div>
   </div>
   <div class="dropzone" onclick="document.getElementById('p2i-input').click()">
@@ -425,7 +605,7 @@
 <!-- COMPRESS -->
 <div id="compress-screen" class="screen">
   <div class="topbar">
-    <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div class="back" onclick="goBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
     <div><div class="topbar-title" data-i18n="toolCompress">Kompres</div><div class="topbar-sub" data-i18n="subOneFile">Satu file PDF</div></div>
   </div>
   <div class="dropzone" onclick="document.getElementById('compress-input').click()">
@@ -446,7 +626,7 @@
 <!-- LOCK -->
 <div id="lock-screen" class="screen">
   <div class="topbar">
-    <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div class="back" onclick="goBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
     <div><div class="topbar-title" data-i18n="toolLock">Kunci PDF</div><div class="topbar-sub" data-i18n="subOneFile">Satu file PDF</div></div>
   </div>
   <div class="dropzone" onclick="document.getElementById('lock-input').click()">
@@ -475,7 +655,7 @@
 <!-- PDF TO WORD -->
 <div id="pdf2word-screen" class="screen">
   <div class="topbar">
-    <div class="back" onclick="goHome()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div class="back" onclick="goBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
     <div><div class="topbar-title" data-i18n="toolPdf2Word">PDF ke Word</div><div class="topbar-sub" data-i18n="subOneFile">Satu file PDF</div></div>
   </div>
   <div class="dropzone" onclick="document.getElementById('p2w-input').click()">
@@ -490,6 +670,168 @@
     <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="privacyNote">Diproses di HP ini — tidak diunggah</span></div>
     <button class="btn-primary" id="p2w-btn" disabled onclick="doPdf2Word()" data-i18n="btnPdf2Word">Ubah ke Word</button>
     <div class="status-msg" id="p2w-status"></div>
+  </div>
+</div>
+
+<!-- IMG RESIZE -->
+<div id="imgresize-screen" class="screen">
+  <div class="topbar">
+    <div class="back" onclick="goBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div><div class="topbar-title" data-i18n="toolImgResize">Ubah Ukuran Gambar</div><div class="topbar-sub" data-i18n="subOneImg">Satu gambar</div></div>
+  </div>
+  <div class="dropzone" onclick="document.getElementById('imgresize-input').click()">
+    <div class="dz-title" id="imgresize-filename" data-i18n="dzChoose1Img">Pilih 1 Gambar</div>
+    <div class="dz-sub" data-i18n="dzTapChoose">Ketuk untuk pilih dari HP kamu</div>
+  </div>
+  <input type="file" id="imgresize-input" accept="image/*">
+
+  <div id="imgresize-editor" style="display:none;">
+    <div class="preview-container"><canvas id="imgresize-canvas" class="img-canvas"></canvas></div>
+
+    <div class="field">
+      <label><span data-i18n="resLabel">Resolusi (piksel)</span></label>
+      <div class="input-row">
+        <div class="input-group">
+          <span data-i18n="resWidth">Lebar</span>
+          <input type="number" id="res-width">
+        </div>
+        <div class="input-group">
+          <span data-i18n="resHeight">Tinggi</span>
+          <input type="number" id="res-height">
+        </div>
+      </div>
+      <div style="font-size:11px;color:var(--dim);margin:0 20px 14px;" data-i18n="resNote">*Rasio dikunci otomatis.</div>
+    </div>
+
+    <div class="field">
+      <label style="display:flex;justify-content:space-between;"><span data-i18n="qualLabel">Kualitas (Kompresi JPG)</span> <span id="qual-val">80%</span></label>
+      <input type="range" id="qual-slider" min="0.1" max="1" step="0.05" value="0.8">
+    </div>
+
+    <div class="action-bar">
+      <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="privacyNote">Diproses di HP ini — tidak diunggah</span></div>
+      <button class="btn-primary" id="btn-download-resize" data-i18n="btnSaveResized">Simpan Gambar Baru</button>
+    </div>
+  </div>
+</div>
+
+<!-- COLLAGE -->
+<div id="collage-screen" class="screen">
+  <div class="topbar">
+    <div class="back" onclick="goBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div><div class="topbar-title" data-i18n="toolCollage">Kolase Gambar</div><div class="topbar-sub" data-i18n="subMax4Img">Maks. 4 gambar</div></div>
+  </div>
+  <div class="dropzone" onclick="document.getElementById('collage-input').click()">
+    <div class="dz-title" data-i18n="dzCollage">Pilih Gambar (Maks 4)</div>
+    <div class="dz-sub" data-i18n="dzCollageHint">Bisa pilih beberapa sekaligus</div>
+  </div>
+  <input type="file" id="collage-input" accept="image/*" multiple>
+
+  <div class="img-file-list" id="collage-list"></div>
+
+  <div id="collage-editor" style="display:none;">
+    <div class="field">
+      <label><span data-i18n="ratioLabel">Bentuk Kolase (Rasio)</span></label>
+      <div class="layout-opts" id="ratio-opts">
+        <div class="layout-opt active" data-ratio="1:1">1:1<br><span style="font-size:9px;color:var(--dim)" data-i18n="layoutSquare">Persegi</span></div>
+        <div class="layout-opt" data-ratio="4:5">4:5<br><span style="font-size:9px;color:var(--dim)">IG</span></div>
+        <div class="layout-opt" data-ratio="16:9">16:9<br><span style="font-size:9px;color:var(--dim)" data-i18n="layoutLand">Lanskap</span></div>
+        <div class="layout-opt" data-ratio="9:16">9:16<br><span style="font-size:9px;color:var(--dim)" data-i18n="layoutStory">Story</span></div>
+      </div>
+    </div>
+    <div class="field">
+      <label><span data-i18n="layoutLabel">Susunan</span></label>
+      <div class="layout-opts" id="layout-opts">
+        <div class="layout-opt active" data-layout="grid" data-i18n="optGrid">Grid</div>
+        <div class="layout-opt" data-layout="horizontal" data-i18n="optHori">Samping</div>
+        <div class="layout-opt" data-layout="vertical" data-i18n="optVert">Bawah</div>
+      </div>
+    </div>
+    <div class="preview-container">
+      <canvas id="collage-canvas" class="img-canvas"></canvas>
+      <div class="drag-hint" data-i18n="dragHint">Ketuk & geser gambar di atas untuk menyesuaikan posisinya</div>
+    </div>
+    <div class="field">
+      <label style="display:flex;justify-content:space-between;"><span data-i18n="gapLabel">Jarak Antar Gambar (Gap)</span> <span id="gap-val">10px</span></label>
+      <input type="range" id="gap-slider" min="0" max="60" value="10">
+    </div>
+    <div class="action-bar">
+      <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="privacyNote">Diproses di HP ini — tidak diunggah</span></div>
+      <button class="btn-primary" id="btn-download-collage" data-i18n="btnSaveCollage">Simpan Kolase</button>
+    </div>
+  </div>
+</div>
+
+<!-- TWIBBON / BINGKAI FOTO -->
+<div id="twibbon-screen" class="screen">
+  <div class="topbar">
+    <div class="back" id="tw-back-btn" onclick="goBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div><div class="topbar-title" data-i18n="toolTwibbon">Bingkai Foto</div><div class="topbar-sub" id="tw-step-label" data-i18n="twStepUpload">Upload Bingkai</div></div>
+  </div>
+
+  <!-- STEP 1: UPLOAD BINGKAI -->
+  <div class="tw-step active" id="tw-step-upload">
+    <div class="field">
+      <label data-i18n="twFrameLabel">Upload Bingkai (PNG/JPG)</label>
+    </div>
+    <div class="dropzone" id="tw-frame-dz" onclick="document.getElementById('tw-frame-input').click()">
+      <div class="dz-title" id="tw-frame-filename" data-i18n="twChooseFrame">Pilih Gambar Bingkai</div>
+      <div class="dz-sub" data-i18n="twChooseFrameHint">Bingkai/twibbon dengan area kosong buat foto</div>
+    </div>
+    <input type="file" id="tw-frame-input" accept="image/*">
+    <div class="tw-status" id="tw-detect-status"></div>
+  </div>
+
+  <!-- STEP 2: MAGIC WAND -->
+  <div class="tw-step" id="tw-step-wand">
+    <div class="note info">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01"/><circle cx="12" cy="12" r="10"/></svg>
+      <span data-i18n="twWandHint">Ketuk area yang mau diisi foto (mis. tengah lingkaran). Warna yang mirip di sekitarnya bakal ke-seleksi otomatis.</span>
+    </div>
+    <div class="preview-container">
+      <canvas id="tw-wand-canvas"></canvas>
+    </div>
+    <div class="field">
+      <label style="display:flex;justify-content:space-between;"><span data-i18n="twToleranceLabel">Toleransi Warna</span> <span id="tw-tol-val">30</span></label>
+      <input type="range" id="tw-tol-slider" min="5" max="80" value="30">
+    </div>
+    <div class="field">
+      <label style="display:flex;justify-content:space-between;"><span data-i18n="twFeatherLabel">Kehalusan Tepi</span> <span id="tw-feather-val">3px</span></label>
+      <input type="range" id="tw-feather-slider" min="0" max="10" value="3">
+    </div>
+    <div class="tw-status" id="tw-wand-status" data-i18n="twTapHint">Ketuk area foto di gambar di atas.</div>
+    <div class="action-bar" style="border-top:none;">
+      <button class="btn-primary" id="tw-btn-confirm-wand" disabled data-i18n="twConfirmArea">Konfirmasi Area Ini</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: UPLOAD FOTO + KOMPOSIT -->
+  <div class="tw-step" id="tw-step-photo">
+    <div class="note ok" id="tw-area-source-note"></div>
+    <div class="field">
+      <label data-i18n="twPhotoLabel">Foto Kamu</label>
+    </div>
+    <div class="dropzone" id="tw-photo-dz" onclick="document.getElementById('tw-photo-input').click()">
+      <div class="dz-title" id="tw-photo-filename" data-i18n="dzChoose1Img">Pilih 1 Gambar</div>
+      <div class="dz-sub" data-i18n="dzTapChoose">Ketuk untuk pilih dari HP kamu</div>
+    </div>
+    <input type="file" id="tw-photo-input" accept="image/*">
+
+    <div id="tw-editor" style="display:none;">
+      <div class="preview-container">
+        <canvas id="tw-canvas" class="img-canvas"></canvas>
+        <div class="drag-hint" data-i18n="twDragHint">Geser & besarkan foto biar pas di areanya</div>
+      </div>
+      <div class="field">
+        <label style="display:flex;justify-content:space-between;"><span data-i18n="twZoomLabel">Perbesar Foto</span> <span id="tw-zoom-val">100%</span></label>
+        <input type="range" id="tw-zoom-slider" min="100" max="300" value="100">
+      </div>
+      <div class="action-bar">
+        <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="privacyNote">Diproses di HP ini — tidak diunggah</span></div>
+        <button class="btn-primary" id="tw-btn-download" data-i18n="twSaveResult">Simpan Hasil</button>
+        <button class="btn-secondary" onclick="twBackToWand()" data-i18n="twRedoArea">Ulangi Pilih Area</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -509,10 +851,15 @@ const I18N = {
     searchPh: 'Cari alat PDF (mis. Gabung)...',
     searchEmpty: 'Alat gak ketemu — coba kata kunci lain.',
     chipAll: 'Semua', chipOrganize: 'Susun', chipConvert: 'Ubah Format', chipSecurity: 'Keamanan',
-    tagSize: 'Ukuran',
+    tagSize: 'Ukuran', chipImage: 'Gambar', chipPdfTools: 'Alat PDF',
+    chipImgResize: 'Ubah Ukuran', chipImgCollage: 'Kolase',
+    catPdfDesc: 'Gabung, pisah, putar, tera air, kunci, kompres, dan lainnya.',
+    catImgDesc: 'Ubah ukuran, kompres, dan bikin kolase dari beberapa foto.',
+    catPdfCount: '9 Alat', catImgCount: '3 Alat',
     sectionReady: 'Siap dipakai',
     toolMerge: 'Gabung PDF', toolSplit: 'Pisah Halaman', toolRotate: 'Putar Halaman', toolWatermark: 'Tera Air',
     toolImg2Pdf: 'JPG ke PDF', toolPdf2Img: 'PDF ke JPG', toolCompress: 'Kompres', toolLock: 'Kunci PDF', toolPdf2Word: 'PDF ke Word',
+    toolImgResize: 'Ubah Ukuran Gambar', toolCollage: 'Kolase Gambar',
     toolMergeDesc: 'Satukan beberapa file PDF jadi satu dokumen utuh.',
     toolSplitDesc: 'Ekstrak atau pisahkan halaman tertentu dari PDF.',
     toolRotateDesc: 'Rotasi halaman PDF yang posisinya terbalik.',
@@ -522,14 +869,38 @@ const I18N = {
     toolPdf2WordDesc: 'Ubah PDF jadi dokumen Word yang bisa diedit.',
     toolCompressDesc: 'Perkecil ukuran file, rapikan struktur & metadata.',
     toolLockDesc: 'Amankan dokumen dengan menambahkan password.',
-    subOneFile: 'Satu file PDF',
+    toolImgResizeDesc: 'Kecilkan dimensi & kompres foto agar ukurannya lebih ringan.',
+    toolCollageDesc: 'Gabungkan 2-4 foto menjadi satu gambar. Bisa atur letak & geser foto.',
+    toolTwibbon: 'Bingkai Foto',
+    toolTwibbonDesc: 'Pasang foto ke bingkai/twibbon, area foto terdeteksi otomatis.',
+    twStepUpload: 'Upload Bingkai', twStepWand: 'Pilih Area Foto', twStepPhoto: 'Upload Foto & Atur',
+    twFrameLabel: 'Upload Bingkai (PNG/JPG)',
+    twChooseFrame: 'Pilih Gambar Bingkai',
+    twChooseFrameHint: 'Bingkai/twibbon dengan area kosong buat foto',
+    twDetectOk: 'Area transparan asli terdeteksi otomatis di bingkai ini.',
+    twDetectFail: 'Bingkai ini gak punya area transparan — gunakan Magic Wand di bawah.',
+    twWandHint: 'Ketuk area yang mau diisi foto (mis. tengah lingkaran). Warna yang mirip di sekitarnya bakal ke-seleksi otomatis.',
+    twToleranceLabel: 'Toleransi Warna', twFeatherLabel: 'Kehalusan Tepi',
+    twTapHint: 'Ketuk area foto di gambar di atas.',
+    twProcessing: 'Memproses seleksi...',
+    twFailPoint: 'Gagal memilih area itu, coba titik lain.',
+    twAreaSelected: 'Area terpilih: {w}×{h}px. Atur toleransi & kehalusan tepi kalau kurang pas.',
+    twConfirmArea: 'Konfirmasi Area Ini',
+    twAreaSourceWand: 'Area foto dipilih manual pakai Magic Wand.',
+    twPhotoLabel: 'Foto Kamu',
+    twDragHint: 'Geser & besarkan foto biar pas di areanya',
+    twZoomLabel: 'Perbesar Foto',
+    twSaveResult: 'Simpan Hasil', twRedoArea: 'Ulangi Pilih Area',
+    subOneFile: 'Satu file PDF', subOneImg: 'Satu gambar', subMax4Img: 'Maks. 4 gambar',
     dzAddPdf: 'Tambah file PDF', dzChoosePdf: 'Pilih file PDF', dzTapChoose: 'Ketuk untuk pilih dari HP kamu',
     dzAddImg: 'Tambah gambar', dzImgHint: 'JPG atau PNG, bisa pilih beberapa',
+    dzChoose1Img: 'Pilih 1 Gambar', dzCollage: 'Pilih Gambar (Maks 4)', dzCollageHint: 'Bisa pilih beberapa sekaligus',
     dzPdf2ImgHint: 'Tiap halaman jadi satu gambar JPG', dzPdf2WordHint: 'Khusus PDF berisi teks (bukan hasil scan)',
     emptyNoFiles: 'Belum ada file dipilih', emptyNoImages: 'Belum ada gambar dipilih',
     privacyNote: 'Diproses di HP ini — tidak diunggah',
     btnMerge: 'Gabungkan File', btnSplit: 'Pisah Halaman', btnRotate: 'Putar & Unduh', btnWatermark: 'Tambah Tera Air',
     btnImg2Pdf: 'Jadikan PDF', btnPdf2Img: 'Ubah ke JPG (.zip)', btnCompress: 'Kompres File', btnLock: 'Kunci File', btnPdf2Word: 'Ubah ke Word',
+    btnSaveResized: 'Simpan Gambar Baru', btnSaveCollage: 'Simpan Kolase', btnDel: 'Hapus',
     splitRangeLabel: 'Rentang halaman (mis. 1-3, 5, 7-9). Kosongkan untuk pisah semua halaman.',
     splitRangePlaceholder: 'contoh: 1-3, 5',
     rotateDegLabel: 'Putar searah jarum jam',
@@ -539,6 +910,12 @@ const I18N = {
     lockPassLabel: 'Password', lockPassPlaceholder: 'Minimal 4 karakter',
     lockPassConfirmLabel: 'Ulangi password',
     lockNote: 'File yang terkunci butuh password ini buat dibuka di reader PDF manapun. Simpan baik-baik — kalau lupa, file gak bisa dibuka lagi.',
+    resLabel: 'Resolusi (piksel)', resWidth: 'Lebar', resHeight: 'Tinggi', resNote: '*Rasio dikunci otomatis.',
+    qualLabel: 'Kualitas (Kompresi JPG)',
+    ratioLabel: 'Bentuk Kolase (Rasio)', layoutSquare: 'Persegi', layoutLand: 'Lanskap', layoutStory: 'Story',
+    layoutLabel: 'Susunan', optGrid: 'Grid', optHori: 'Samping', optVert: 'Bawah',
+    gapLabel: 'Jarak Antar Gambar (Gap)', dragHint: 'Ketuk & geser gambar di atas untuk menyesuaikan posisinya',
+    imgFilePrefix: 'Gambar {i}',
     updateTitle: 'Ada pembaruan baru', updateBody: 'Muat ulang buat pakai versi terbaru.', updateReload: 'Muat ulang',
     filesSelected: 'file dipilih', imagesSelected: 'gambar dipilih',
     statusMerging: 'Menggabungkan...', statusMergeDone: 'Selesai — file terunduh.',
@@ -560,10 +937,15 @@ const I18N = {
     searchPh: 'Search PDF tools (e.g. Merge)...',
     searchEmpty: 'No tools found — try a different keyword.',
     chipAll: 'All', chipOrganize: 'Organize', chipConvert: 'Convert', chipSecurity: 'Security',
-    tagSize: 'Size',
+    tagSize: 'Size', chipImage: 'Images', chipPdfTools: 'PDF Tools',
+    chipImgResize: 'Resize', chipImgCollage: 'Collage',
+    catPdfDesc: 'Merge, split, rotate, watermark, lock, compress, and more.',
+    catImgDesc: 'Resize, compress, and make collages from several photos.',
+    catPdfCount: '9 Tools', catImgCount: '3 Tools',
     sectionReady: 'Ready to use',
     toolMerge: 'Merge PDF', toolSplit: 'Split Pages', toolRotate: 'Rotate Pages', toolWatermark: 'Watermark',
     toolImg2Pdf: 'JPG to PDF', toolPdf2Img: 'PDF to JPG', toolCompress: 'Compress', toolLock: 'Lock PDF', toolPdf2Word: 'PDF to Word',
+    toolImgResize: 'Resize Image', toolCollage: 'Image Collage',
     toolMergeDesc: 'Combine multiple PDF files into a single document.',
     toolSplitDesc: 'Extract or separate specific pages from your PDF.',
     toolRotateDesc: 'Rotate pages that are upside down.',
@@ -573,14 +955,38 @@ const I18N = {
     toolPdf2WordDesc: 'Convert PDFs into editable Word documents.',
     toolCompressDesc: 'Shrink file size, tidy up structure & metadata.',
     toolLockDesc: 'Secure your document by adding a password.',
-    subOneFile: 'One PDF file',
+    toolImgResizeDesc: 'Shrink dimensions & compress photos to reduce file size.',
+    toolCollageDesc: 'Combine 2-4 photos into one image. Adjust layout & pan photos.',
+    toolTwibbon: 'Photo Frame',
+    toolTwibbonDesc: 'Fit your photo into a frame/twibbon, the photo area is auto-detected.',
+    twStepUpload: 'Upload Frame', twStepWand: 'Select Photo Area', twStepPhoto: 'Upload Photo & Adjust',
+    twFrameLabel: 'Upload Frame (PNG/JPG)',
+    twChooseFrame: 'Choose Frame Image',
+    twChooseFrameHint: 'A frame/twibbon with an empty area for the photo',
+    twDetectOk: 'A real transparent area was auto-detected on this frame.',
+    twDetectFail: "This frame has no transparent area — use Magic Wand below.",
+    twWandHint: 'Tap the area where the photo should go (e.g. center of the circle). Similar colors nearby will be auto-selected.',
+    twToleranceLabel: 'Color Tolerance', twFeatherLabel: 'Edge Softness',
+    twTapHint: 'Tap the photo area on the image above.',
+    twProcessing: 'Processing selection...',
+    twFailPoint: "Couldn't select that area, try another point.",
+    twAreaSelected: 'Selected area: {w}×{h}px. Adjust tolerance & edge softness if needed.',
+    twConfirmArea: 'Confirm This Area',
+    twAreaSourceWand: 'Photo area was manually selected with Magic Wand.',
+    twPhotoLabel: 'Your Photo',
+    twDragHint: 'Drag & scale the photo to fit the area',
+    twZoomLabel: 'Scale Photo',
+    twSaveResult: 'Save Result', twRedoArea: 'Redo Area Selection',
+    subOneFile: 'One PDF file', subOneImg: 'One image', subMax4Img: 'Max. 4 images',
     dzAddPdf: 'Add PDF files', dzChoosePdf: 'Choose a PDF file', dzTapChoose: 'Tap to pick from your device',
     dzAddImg: 'Add images', dzImgHint: 'JPG or PNG, multiple allowed',
+    dzChoose1Img: 'Choose 1 Image', dzCollage: 'Choose Images (Max 4)', dzCollageHint: 'Select multiple at once',
     dzPdf2ImgHint: 'Each page becomes one JPG image', dzPdf2WordHint: 'Text-based PDFs only (not scans)',
     emptyNoFiles: 'No files selected yet', emptyNoImages: 'No images selected yet',
     privacyNote: 'Processed on this device — never uploaded',
     btnMerge: 'Merge Files', btnSplit: 'Split Pages', btnRotate: 'Rotate & Download', btnWatermark: 'Add Watermark',
     btnImg2Pdf: 'Create PDF', btnPdf2Img: 'Convert to JPG (.zip)', btnCompress: 'Compress File', btnLock: 'Lock File', btnPdf2Word: 'Convert to Word',
+    btnSaveResized: 'Save New Image', btnSaveCollage: 'Save Collage', btnDel: 'Delete',
     splitRangeLabel: 'Page range (e.g. 1-3, 5, 7-9). Leave blank to split every page.',
     splitRangePlaceholder: 'e.g. 1-3, 5',
     rotateDegLabel: 'Rotate clockwise',
@@ -590,6 +996,12 @@ const I18N = {
     lockPassLabel: 'Password', lockPassPlaceholder: 'At least 4 characters',
     lockPassConfirmLabel: 'Confirm password',
     lockNote: 'The locked file needs this password to open in any PDF reader. Keep it safe — if it\u2019s lost, the file can\u2019t be opened again.',
+    resLabel: 'Resolution (pixels)', resWidth: 'Width', resHeight: 'Height', resNote: '*Aspect ratio locked automatically.',
+    qualLabel: 'Quality (JPG Compression)',
+    ratioLabel: 'Collage Shape (Ratio)', layoutSquare: 'Square', layoutLand: 'Landscape', layoutStory: 'Story',
+    layoutLabel: 'Layout', optGrid: 'Grid', optHori: 'Horizontal', optVert: 'Vertical',
+    gapLabel: 'Gap Between Images', dragHint: 'Tap & drag images above to adjust positioning',
+    imgFilePrefix: 'Image {i}',
     updateTitle: 'A new update is available', updateBody: 'Reload to use the latest version.', updateReload: 'Reload',
     filesSelected: 'files selected', imagesSelected: 'images selected',
     statusMerging: 'Merging...', statusMergeDone: 'Done — file downloaded.',
@@ -676,36 +1088,84 @@ function applyUpdate(){
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-function openScreen(id){
+let screenHistory = ['home'];
+if (window.history.state === null) {
+  window.history.replaceState({ screen: 'home' }, '');
+}
+
+function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id+'-screen').classList.add('active');
+  window.scrollTo(0, 0);
 }
-function goHome(){ openScreen('home'); }
+function navigate(toScreen, overrideParent){
+  let parentScreen = 'home';
+  if(overrideParent){
+    parentScreen = overrideParent;
+  } else if(['merge','split','rotate','watermark','img2pdf','pdf2img','pdf2word','compress','lock'].includes(toScreen)){
+    parentScreen = 'pdf';
+  } else if(['imgresize','collage','twibbon'].includes(toScreen)){
+    parentScreen = 'gambar';
+  }
+  // Kalau lompat langsung dari home ke tool (mis. dari hasil pencarian), sisipkan layar kategori
+  // ke history dulu supaya tombol back / gesture tetap jalan lewat kategori dulu.
+  if(screenHistory[screenHistory.length-1] === 'home' && parentScreen !== 'home' && toScreen !== 'pdf' && toScreen !== 'gambar'){
+    window.history.pushState({ screen: parentScreen }, '');
+    screenHistory.push(parentScreen);
+  }
+  window.history.pushState({ screen: toScreen }, '');
+  screenHistory.push(toScreen);
+  showScreen(toScreen);
+}
+function goBack(){ window.history.back(); }
+window.addEventListener('popstate', (e)=>{
+  if(e.state && e.state.screen){
+    const target = e.state.screen;
+    while(screenHistory.length > 0 && screenHistory[screenHistory.length-1] !== target){
+      screenHistory.pop();
+    }
+    if(screenHistory.length === 0) screenHistory.push(target);
+    showScreen(target);
+  } else {
+    screenHistory = ['home'];
+    showScreen('home');
+  }
+});
+function openScreen(id){ navigate(id); }
+function goHome(){
+  window.history.pushState({ screen: 'home' }, '');
+  screenHistory = ['home'];
+  showScreen('home');
+}
 
-let toolFilterCat = 'semua';
 let toolSearchQuery = '';
-function filterTools(cat, chipEl){
-  toolFilterCat = cat;
-  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
-  chipEl.classList.add('active');
-  applyToolVisibility();
-}
+
 function searchTools(q){
   toolSearchQuery = q.trim().toLowerCase();
   applyToolVisibility();
 }
 function applyToolVisibility(){
+  const catStack = document.getElementById('cat-stack');
+  const resultGrid = document.getElementById('tool-list');
+  const emptyEl = document.getElementById('tool-empty');
+
+  if(toolSearchQuery === ''){
+    catStack.style.display = 'flex';
+    resultGrid.style.display = 'none';
+    emptyEl.style.display = 'none';
+    return;
+  }
+  catStack.style.display = 'none';
+  resultGrid.style.display = 'grid';
+
   let anyVisible = false;
-  document.querySelectorAll('.tool-card[data-category]').forEach(card=>{
-    const matchesCat = toolFilterCat === 'semua' || card.dataset.category === toolFilterCat;
+  resultGrid.querySelectorAll('.tool-card').forEach(card=>{
     const haystack = (card.dataset.search || '') + ' ' + card.querySelector('.name').textContent.toLowerCase();
-    const matchesSearch = toolSearchQuery === '' || haystack.toLowerCase().includes(toolSearchQuery);
-    const show = matchesCat && matchesSearch;
+    const show = haystack.toLowerCase().includes(toolSearchQuery);
     card.style.display = show ? '' : 'none';
     if(show) anyVisible = true;
   });
-  const emptyEl = document.getElementById('tool-empty');
-  if(emptyEl) emptyEl.style.display = anyVisible ? 'none' : 'block';
+  emptyEl.style.display = anyVisible ? 'none' : 'block';
 }
 
 function fmtSize(bytes){
@@ -1105,7 +1565,461 @@ async function doPdf2Img(){
   }
 }
 
+/* ===== RESIZE GAMBAR ===== */
+const rCanvas = document.getElementById('imgresize-canvas');
+const rCtx = rCanvas.getContext('2d');
+let rImg = null; let originalRatio = 1;
+
+document.getElementById('imgresize-input').addEventListener('change', function(e){
+  const file = e.target.files[0]; if(!file) return;
+  document.getElementById('imgresize-filename').textContent = file.name;
+  const img = new Image();
+  img.src = URL.createObjectURL(file);
+  img.onload = () => {
+    rImg = img; originalRatio = img.width / img.height;
+    document.getElementById('res-width').value = img.width;
+    document.getElementById('res-height').value = img.height;
+    document.getElementById('imgresize-editor').style.display = 'block';
+    updateResizeCanvas();
+  };
+});
+document.getElementById('res-width').addEventListener('input', function(e){
+  if(!rImg) return; const w = parseInt(e.target.value) || 0;
+  document.getElementById('res-height').value = Math.round(w / originalRatio);
+  updateResizeCanvas();
+});
+document.getElementById('res-height').addEventListener('input', function(e){
+  if(!rImg) return; const h = parseInt(e.target.value) || 0;
+  document.getElementById('res-width').value = Math.round(h * originalRatio);
+  updateResizeCanvas();
+});
+document.getElementById('qual-slider').addEventListener('input', function(e){
+  document.getElementById('qual-val').textContent = Math.round(e.target.value * 100) + '%';
+});
+function updateResizeCanvas(){
+  if(!rImg) return;
+  const w = parseInt(document.getElementById('res-width').value) || rImg.width;
+  const h = parseInt(document.getElementById('res-height').value) || rImg.height;
+  rCanvas.width = w; rCanvas.height = h;
+  rCtx.drawImage(rImg, 0, 0, w, h);
+}
+document.getElementById('btn-download-resize').addEventListener('click', () => {
+  const quality = parseFloat(document.getElementById('qual-slider').value);
+  const link = document.createElement('a');
+  link.download = 'hasil_resize.jpg'; link.href = rCanvas.toDataURL('image/jpeg', quality); link.click();
+});
+
+/* ===== KOLASE GAMBAR ===== */
+const cCanvas = document.getElementById('collage-canvas');
+const cCtx = cCanvas.getContext('2d');
+let collageItems = []; let currentCells = [];
+let currentLayout = 'grid'; let currentRatio = '1:1';
+const COLLAGE_BASE_WIDTH = 1080;
+let activeDragIndex = -1; let isDraggingCollage = false; let startCollageX = 0, startCollageY = 0;
+
+document.getElementById('collage-input').addEventListener('change', async function(e){
+  const files = Array.from(e.target.files).slice(0, 4);
+  for(let file of files){
+    if(collageItems.length < 4){
+      const img = new Image(); img.src = URL.createObjectURL(file);
+      await new Promise(resolve => img.onload = resolve);
+      collageItems.push({ file: file, img: img, panX: 0, panY: 0 });
+    }
+  }
+  renderCollageList(); updateCollageCanvas();
+});
+function removeCollageItem(index){
+  collageItems.splice(index, 1);
+  renderCollageList(); updateCollageCanvas();
+}
+function renderCollageList(){
+  const listEl = document.getElementById('collage-list'); listEl.innerHTML = '';
+  collageItems.forEach((item, i) => {
+    listEl.innerHTML += `<div class="img-file-item"><span>${t('imgFilePrefix', {i: i+1})}: ${item.file.name.substring(0,20)}...</span><button onclick="removeCollageItem(${i})">${t('btnDel')}</button></div>`;
+  });
+  document.getElementById('collage-editor').style.display = collageItems.length > 0 ? 'block' : 'none';
+}
+document.querySelectorAll('#ratio-opts .layout-opt').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    document.querySelectorAll('#ratio-opts .layout-opt').forEach(b => b.classList.remove('active'));
+    e.currentTarget.classList.add('active'); currentRatio = e.currentTarget.dataset.ratio; updateCollageCanvas();
+  });
+});
+document.querySelectorAll('#layout-opts .layout-opt').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    document.querySelectorAll('#layout-opts .layout-opt').forEach(b => b.classList.remove('active'));
+    e.currentTarget.classList.add('active'); currentLayout = e.currentTarget.dataset.layout; updateCollageCanvas();
+  });
+});
+document.getElementById('gap-slider').addEventListener('input', function(e){
+  document.getElementById('gap-val').textContent = e.target.value + 'px'; updateCollageCanvas();
+});
+function drawImageCover(ctx, item, x, y, w, h){
+  const img = item.img; const imgRatio = img.width / img.height; const boxRatio = w / h;
+  let renderW, renderH, defaultOffsetX = 0, defaultOffsetY = 0;
+  if(imgRatio > boxRatio){ renderH = h; renderW = h * imgRatio; defaultOffsetX = (renderW - w) / 2; }
+  else { renderW = w; renderH = w / imgRatio; defaultOffsetY = (renderH - h) / 2; }
+  let finalOffsetX = defaultOffsetX - item.panX;
+  let finalOffsetY = defaultOffsetY - item.panY;
+  finalOffsetX = Math.max(0, Math.min(finalOffsetX, renderW - w));
+  finalOffsetY = Math.max(0, Math.min(finalOffsetY, renderH - h));
+  item.panX = defaultOffsetX - finalOffsetX;
+  item.panY = defaultOffsetY - finalOffsetY;
+  ctx.save(); ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+  ctx.drawImage(img, x - finalOffsetX, y - finalOffsetY, renderW, renderH);
+  ctx.restore();
+}
+function calculateCells(canvasW, canvasH, count, gap){
+  let cells = [];
+  if(currentLayout === 'horizontal' || (count === 2 && currentLayout === 'grid')){
+    const cellW = (canvasW - gap * (count + 1)) / count; const cellH = canvasH - (gap * 2);
+    for(let i=0; i<count; i++) cells.push({ x: gap + (cellW + gap) * i, y: gap, w: cellW, h: cellH });
+  }
+  else if(currentLayout === 'vertical'){
+    const cellW = canvasW - (gap * 2); const cellH = (canvasH - gap * (count + 1)) / count;
+    for(let i=0; i<count; i++) cells.push({ x: gap, y: gap + (cellH + gap) * i, w: cellW, h: cellH });
+  }
+  else {
+    const cellW = (canvasW - (gap * 3)) / 2; const cellH = (canvasH - (gap * 3)) / 2;
+    cells.push({ x: gap, y: gap, w: cellW, h: cellH }); cells.push({ x: gap*2 + cellW, y: gap, w: cellW, h: cellH });
+    if(count >= 3) cells.push({ x: gap, y: gap*2 + cellH, w: cellW, h: cellH });
+    if(count === 4) cells.push({ x: gap*2 + cellW, y: gap*2 + cellH, w: cellW, h: cellH });
+    else if(count === 3) cells[2].w = canvasW - (gap * 2);
+  }
+  return cells;
+}
+function updateCollageCanvas(){
+  if(collageItems.length === 0) return;
+  let canvasW = COLLAGE_BASE_WIDTH; let canvasH = COLLAGE_BASE_WIDTH;
+  if(currentRatio === '4:5') canvasH = canvasW * (5 / 4);
+  else if(currentRatio === '16:9') canvasH = Math.round(canvasW * (9 / 16));
+  else if(currentRatio === '9:16') canvasH = Math.round(canvasW * (16 / 9));
+  cCanvas.width = canvasW; cCanvas.height = canvasH;
+  cCtx.fillStyle = '#ffffff'; cCtx.fillRect(0, 0, canvasW, canvasH);
+  const gap = parseInt(document.getElementById('gap-slider').value) * (canvasW / 500);
+  currentCells = calculateCells(canvasW, canvasH, collageItems.length, gap);
+  collageItems.forEach((item, i) => { if(currentCells[i]) drawImageCover(cCtx, item, currentCells[i].x, currentCells[i].y, currentCells[i].w, currentCells[i].h); });
+}
+function getPointerPos(e){
+  if(e.touches) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  return { x: e.clientX, y: e.clientY };
+}
+function handleDragStart(e){
+  if(collageItems.length === 0) return;
+  e.preventDefault();
+  const pos = getPointerPos(e); const rect = cCanvas.getBoundingClientRect();
+  const scaleX = cCanvas.width / rect.width; const scaleY = cCanvas.height / rect.height;
+  const clickX = (pos.x - rect.left) * scaleX; const clickY = (pos.y - rect.top) * scaleY;
+  activeDragIndex = -1;
+  for(let i = 0; i < currentCells.length; i++){
+    const cell = currentCells[i];
+    if(clickX >= cell.x && clickX <= cell.x + cell.w && clickY >= cell.y && clickY <= cell.y + cell.h){
+      activeDragIndex = i; break;
+    }
+  }
+  if(activeDragIndex !== -1){ isDraggingCollage = true; startCollageX = pos.x; startCollageY = pos.y; }
+}
+function handleDragMove(e){
+  if(!isDraggingCollage || activeDragIndex === -1) return;
+  e.preventDefault();
+  const pos = getPointerPos(e); const dx = pos.x - startCollageX; const dy = pos.y - startCollageY;
+  const rect = cCanvas.getBoundingClientRect(); const scaleX = cCanvas.width / rect.width; const scaleY = cCanvas.height / rect.height;
+  collageItems[activeDragIndex].panX += (dx * scaleX); collageItems[activeDragIndex].panY += (dy * scaleY);
+  startCollageX = pos.x; startCollageY = pos.y;
+  updateCollageCanvas();
+}
+function handleDragEnd(){ isDraggingCollage = false; activeDragIndex = -1; }
+cCanvas.addEventListener('mousedown', handleDragStart); window.addEventListener('mousemove', handleDragMove); window.addEventListener('mouseup', handleDragEnd);
+cCanvas.addEventListener('touchstart', handleDragStart, { passive: false }); window.addEventListener('touchmove', handleDragMove, { passive: false }); window.addEventListener('touchend', handleDragEnd);
+document.getElementById('btn-download-collage').addEventListener('click', () => {
+  if(collageItems.length === 0) return;
+  const link = document.createElement('a'); link.download = 'hasil_kolase.jpg'; link.href = cCanvas.toDataURL('image/jpeg', 0.9); link.click();
+});
+
+/* ===== BINGKAI FOTO (TWIBBON) ===== */
+let twFrameImg = null;
+let twHoleMode = null; // 'alpha' | 'wand'
+let twHole = null; // {x,y,w,h} di resolusi asli frame
+let twRenderFrame = null; // frame asli, atau canvas hasil punch-hole, dipakai buat digambar di atas foto
+let twWandMaskRaw = null; // mask biner hasil flood-fill, sebelum di-feather
+let twWandMaskSmall = null; // mask setelah di-feather, dipakai buat preview & punch-hole
+let twSelectedX = 0, twSelectedY = 0;
+let twPhotoImg = null;
+let twPanX = 0, twPanY = 0, twZoom = 1, twDragging = false, twLastX = 0, twLastY = 0;
+
+const twFrameInput = document.getElementById('tw-frame-input');
+const twWandCanvas = document.getElementById('tw-wand-canvas');
+const twWandCtx = twWandCanvas.getContext('2d');
+const twCanvas = document.getElementById('tw-canvas');
+const twCtx = twCanvas.getContext('2d');
+
+twFrameInput.addEventListener('change', function(e){
+  const file = e.target.files[0]; if(!file) return;
+  document.getElementById('tw-frame-filename').textContent = file.name;
+  document.getElementById('tw-frame-dz').classList.add('done');
+  const img = new Image();
+  img.src = URL.createObjectURL(file);
+  img.onload = () => twOnFrameLoaded(img);
+});
+
+function twOnFrameLoaded(img){
+  twFrameImg = img;
+  const alphaHole = twDetectAlphaHole(img);
+  if(alphaHole){
+    twHoleMode = 'alpha';
+    twHole = alphaHole;
+    twRenderFrame = twFrameImg;
+    document.getElementById('tw-detect-status').textContent = '';
+    twGoToPhotoStep(t('twDetectOk'));
+  } else {
+    document.getElementById('tw-detect-status').textContent = t('twDetectFail');
+    twStartWandMode();
+  }
+}
+
+/* ---- Percobaan pertama: deteksi area transparan asli ---- */
+function twDetectAlphaHole(img){
+  const c = document.createElement('canvas');
+  c.width = img.width; c.height = img.height;
+  const cx = c.getContext('2d');
+  cx.drawImage(img, 0, 0);
+  const data = cx.getImageData(0, 0, c.width, c.height).data;
+  let minX=c.width, minY=c.height, maxX=0, maxY=0, found=false;
+  const step = 4;
+  for(let y=0; y<c.height; y+=step){
+    for(let x=0; x<c.width; x+=step){
+      const a = data[(y*c.width+x)*4+3];
+      if(a < 250){ found=true; if(x<minX)minX=x; if(x>maxX)maxX=x; if(y<minY)minY=y; if(y>maxY)maxY=y; }
+    }
+  }
+  if(!found) return null;
+  return {x:minX, y:minY, w:maxX-minX, h:maxY-minY};
+}
+
+/* ---- Mode Magic Wand (flood-fill berdasar kemiripan warna) ---- */
+function twStartWandMode(){
+  document.getElementById('tw-step-upload').classList.remove('active');
+  document.getElementById('tw-step-wand').classList.add('active');
+  document.getElementById('tw-step-label').textContent = t('twStepWand');
+  twWandCanvas.width = twFrameImg.width;
+  twWandCanvas.height = twFrameImg.height;
+  twWandCtx.drawImage(twFrameImg, 0, 0);
+  document.getElementById('tw-btn-confirm-wand').disabled = true;
+  document.getElementById('tw-wand-status').textContent = t('twTapHint');
+}
+
+function twBackToWand(){
+  document.getElementById('tw-step-photo').classList.remove('active');
+  document.getElementById('tw-step-wand').classList.add('active');
+  document.getElementById('tw-step-label').textContent = t('twStepWand');
+}
+
+function twGetCanvasPoint(e, canvasEl){
+  const rect = canvasEl.getBoundingClientRect();
+  const p = e.touches ? e.touches[0] : e;
+  const scaleX = canvasEl.width / rect.width;
+  const scaleY = canvasEl.height / rect.height;
+  return { x: Math.round((p.clientX - rect.left) * scaleX), y: Math.round((p.clientY - rect.top) * scaleY) };
+}
+
+twWandCanvas.addEventListener('click', (e) => {
+  const pt = twGetCanvasPoint(e, twWandCanvas);
+  twSelectedX = pt.x; twSelectedY = pt.y;
+  twRunFloodFill();
+});
+
+document.getElementById('tw-tol-slider').addEventListener('input', (e) => {
+  document.getElementById('tw-tol-val').textContent = e.target.value;
+  if(twWandMaskRaw) twRunFloodFill();
+});
+document.getElementById('tw-feather-slider').addEventListener('input', (e) => {
+  document.getElementById('tw-feather-val').textContent = e.target.value + 'px';
+  if(twWandMaskRaw) twApplyFeatherAndPreview();
+});
+
+function twRunFloodFill(){
+  document.getElementById('tw-wand-status').textContent = t('twProcessing');
+  setTimeout(() => {
+    const tolerance = parseInt(document.getElementById('tw-tol-slider').value, 10);
+    const result = twFloodFillMask(twFrameImg, twSelectedX, twSelectedY, tolerance);
+    if(!result){
+      document.getElementById('tw-wand-status').textContent = t('twFailPoint');
+      document.getElementById('tw-btn-confirm-wand').disabled = true;
+      twWandMaskRaw = null;
+      return;
+    }
+    twWandMaskRaw = result.maskCanvas;
+    twHole = result.bbox; // sudah dalam skala resolusi asli
+    twApplyFeatherAndPreview();
+    document.getElementById('tw-btn-confirm-wand').disabled = false;
+  }, 10);
+}
+
+function twApplyFeatherAndPreview(){
+  const featherPx = parseInt(document.getElementById('tw-feather-slider').value, 10);
+  const w = twWandMaskRaw.width, h = twWandMaskRaw.height;
+  const feathered = document.createElement('canvas');
+  feathered.width = w; feathered.height = h;
+  const fctx = feathered.getContext('2d');
+  if(featherPx > 0){ fctx.filter = `blur(${featherPx}px)`; }
+  fctx.drawImage(twWandMaskRaw, 0, 0);
+  twWandMaskSmall = feathered;
+
+  twWandCtx.clearRect(0, 0, twWandCanvas.width, twWandCanvas.height);
+  twWandCtx.drawImage(twFrameImg, 0, 0);
+  const tmp = document.createElement('canvas');
+  tmp.width = twWandCanvas.width; tmp.height = twWandCanvas.height;
+  const tctx = tmp.getContext('2d');
+  tctx.fillStyle = '#34c19c';
+  tctx.fillRect(0, 0, tmp.width, tmp.height);
+  tctx.globalCompositeOperation = 'destination-in';
+  tctx.imageSmoothingEnabled = true;
+  tctx.drawImage(twWandMaskSmall, 0, 0, tmp.width, tmp.height);
+  twWandCtx.save();
+  twWandCtx.globalAlpha = 0.55;
+  twWandCtx.drawImage(tmp, 0, 0);
+  twWandCtx.restore();
+
+  document.getElementById('tw-wand-status').textContent = t('twAreaSelected', {w: twHole.w, h: twHole.h});
+}
+
+function twFloodFillMask(img, startX, startY, tolerancePct){
+  const maxDim = 1000;
+  const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+  const w = Math.max(1, Math.round(img.width * scale));
+  const h = Math.max(1, Math.round(img.height * scale));
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  const cx = c.getContext('2d');
+  cx.drawImage(img, 0, 0, w, h);
+  const data = cx.getImageData(0, 0, w, h).data;
+  const sx = Math.min(w-1, Math.max(0, Math.round(startX*scale)));
+  const sy = Math.min(h-1, Math.max(0, Math.round(startY*scale)));
+  const idx0 = (sy*w+sx)*4;
+  const r0=data[idx0], g0=data[idx0+1], b0=data[idx0+2];
+  const thresh = (tolerancePct/100) * 441.7;
+  const visited = new Uint8Array(w*h);
+  const stack = [sx + sy*w];
+  visited[sx+sy*w] = 2;
+  let minX=w, minY=h, maxX=0, maxY=0;
+  while(stack.length){
+    const i = stack.pop();
+    const x = i % w, y = (i / w) | 0;
+    const di = i*4;
+    const dr=data[di]-r0, dg=data[di+1]-g0, db=data[di+2]-b0;
+    const dist = Math.sqrt(dr*dr+dg*dg+db*db);
+    if(dist > thresh){ visited[i]=0; continue; }
+    visited[i]=1;
+    if(x<minX)minX=x; if(x>maxX)maxX=x; if(y<minY)minY=y; if(y>maxY)maxY=y;
+    const neighbors = [i-1, i+1, i-w, i+w];
+    for(const n of neighbors){
+      const nx = n % w;
+      if(n<0 || n>=w*h) continue;
+      if(Math.abs(nx-x)>1) continue; // cegah wrap kiri-kanan antar baris
+      if(visited[n]) continue;
+      visited[n]=2;
+      stack.push(n);
+    }
+  }
+  if(maxX<minX) return null;
+
+  const maskCanvas = document.createElement('canvas');
+  maskCanvas.width=w; maskCanvas.height=h;
+  const mctx = maskCanvas.getContext('2d');
+  const maskData = mctx.createImageData(w,h);
+  for(let i=0;i<w*h;i++){ if(visited[i]===1) maskData.data[i*4+3]=255; }
+  mctx.putImageData(maskData,0,0);
+
+  return {
+    maskCanvas,
+    bbox: { x: Math.round(minX/scale), y: Math.round(minY/scale), w: Math.round((maxX-minX)/scale), h: Math.round((maxY-minY)/scale) }
+  };
+}
+
+document.getElementById('tw-btn-confirm-wand').addEventListener('click', () => {
+  const c = document.createElement('canvas');
+  c.width = twFrameImg.width; c.height = twFrameImg.height;
+  const cx = c.getContext('2d');
+  cx.drawImage(twFrameImg, 0, 0);
+  cx.globalCompositeOperation = 'destination-out';
+  cx.drawImage(twWandMaskSmall, 0, 0, c.width, c.height);
+  cx.globalCompositeOperation = 'source-over';
+  twRenderFrame = c;
+  twHoleMode = 'wand';
+  twGoToPhotoStep(t('twAreaSourceWand'));
+});
+
+function twGoToPhotoStep(msg){
+  document.querySelectorAll('.tw-step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('tw-step-photo').classList.add('active');
+  document.getElementById('tw-step-label').textContent = t('twStepPhoto');
+  const note = document.getElementById('tw-area-source-note');
+  note.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0;margin-top:1px;"><path d="M20 6 9 17l-5-5"/></svg><span>${msg}</span>`;
+}
+
+/* ---- Upload foto + komposit (foto ditumpuk di belakang, bingkai/hasil-lubang di atas) ---- */
+document.getElementById('tw-photo-input').addEventListener('change', function(e){
+  const file = e.target.files[0]; if(!file) return;
+  document.getElementById('tw-photo-filename').textContent = file.name;
+  document.getElementById('tw-photo-dz').classList.add('done');
+  const img = new Image();
+  img.src = URL.createObjectURL(file);
+  img.onload = () => {
+    twPhotoImg = img;
+    twPanX = 0; twPanY = 0; twZoom = 1;
+    document.getElementById('tw-zoom-slider').value = 100;
+    document.getElementById('tw-zoom-val').textContent = '100%';
+    document.getElementById('tw-editor').style.display = 'block';
+    twCanvas.width = twFrameImg.width; twCanvas.height = twFrameImg.height;
+    twRenderComposite();
+  };
+});
+
+function twRenderComposite(){
+  twCtx.clearRect(0, 0, twCanvas.width, twCanvas.height);
+  if(twPhotoImg){
+    const area = twHole || {x:0, y:0, w:twCanvas.width, h:twCanvas.height};
+    const imgRatio = twPhotoImg.width / twPhotoImg.height;
+    const boxRatio = area.w / area.h;
+    let rw, rh;
+    if(imgRatio > boxRatio){ rh = area.h * twZoom; rw = rh * imgRatio; }
+    else { rw = area.w * twZoom; rh = rw / imgRatio; }
+    const cx0 = area.x + area.w/2 + twPanX, cy0 = area.y + area.h/2 + twPanY;
+    twCtx.save();
+    twCtx.beginPath();
+    twCtx.rect(area.x, area.y, area.w, area.h);
+    twCtx.clip();
+    twCtx.drawImage(twPhotoImg, cx0-rw/2, cy0-rh/2, rw, rh);
+    twCtx.restore();
+  }
+  twCtx.drawImage(twRenderFrame, 0, 0, twCanvas.width, twCanvas.height);
+}
+
+function twGetPos(e){ const p = e.touches ? e.touches[0] : e; return {x:p.clientX, y:p.clientY}; }
+function twDragStart(e){ if(!twPhotoImg) return; e.preventDefault(); twDragging=true; const p=twGetPos(e); twLastX=p.x; twLastY=p.y; }
+function twDragMove(e){
+  if(!twDragging) return; e.preventDefault();
+  const p = twGetPos(e); const rect = twCanvas.getBoundingClientRect(); const scale = twCanvas.width/rect.width;
+  twPanX += (p.x-twLastX)*scale; twPanY += (p.y-twLastY)*scale; twLastX=p.x; twLastY=p.y; twRenderComposite();
+}
+function twDragEnd(){ twDragging=false; }
+twCanvas.addEventListener('mousedown', twDragStart); window.addEventListener('mousemove', twDragMove); window.addEventListener('mouseup', twDragEnd);
+twCanvas.addEventListener('touchstart', twDragStart, {passive:false}); window.addEventListener('touchmove', twDragMove, {passive:false}); window.addEventListener('touchend', twDragEnd);
+
+document.getElementById('tw-zoom-slider').addEventListener('input', (e) => {
+  twZoom = e.target.value / 100;
+  document.getElementById('tw-zoom-val').textContent = e.target.value + '%';
+  twRenderComposite();
+});
+
+document.getElementById('tw-btn-download').addEventListener('click', () => {
+  const link = document.createElement('a');
+  link.download = 'twibbon_hasil.png';
+  link.href = twCanvas.toDataURL('image/png');
+  link.click();
+});
+
 applyLang(currentLang);
+applyToolVisibility();
 </script>
 </body>
 </html>

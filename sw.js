@@ -1,4 +1,4 @@
-const CACHE_NAME = 'berkas-alpha-v4';
+const CACHE_NAME = 'berkas-alpha-v5';
 const APP_SHELL = [
   './',
   './index.html',
