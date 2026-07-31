@@ -2920,7 +2920,10 @@ function w2pParseHtml(html){
     if(node.nodeType !== 1) return;
     const tag = node.tagName.toLowerCase();
     if(tag === 'ul' || tag === 'ol'){
-      node.querySelectorAll('li').forEach(li => blocks.push({ type:'li', tokens: w2pExtractTokens(li) }));
+      const isOrdered = tag === 'ol';
+      Array.from(node.children).filter(c => c.tagName.toLowerCase()==='li').forEach((li, i) => {
+        blocks.push({ type:'li', ordered: isOrdered, num: i+1, tokens: w2pExtractTokens(li) });
+      });
       return;
     }
     if(!['p','h1','h2','h3','h4','h5','h6'].includes(tag)) return;
@@ -2956,27 +2959,38 @@ async function doWord2Pdf(){
 
     blocks.forEach(block => {
       let size = 11, lineHeight = 15, gapBefore = 6, indent = 0;
-      if(block.type === 'h1'){ size=19; lineHeight=24; gapBefore=16; }
-      else if(block.type === 'h2'){ size=16; lineHeight=21; gapBefore=13; }
-      else if(block.type === 'h3'){ size=13.5; lineHeight=18; gapBefore=11; }
-      else if(['h4','h5','h6'].includes(block.type)){ size=12; lineHeight=16; gapBefore=9; }
+      let centered = false;
+      if(block.type === 'h1'){ size=19; lineHeight=24; gapBefore=16; centered=true; }
+      else if(block.type === 'h2'){ size=16; lineHeight=21; gapBefore=13; centered=true; }
+      else if(block.type === 'h3'){ size=13.5; lineHeight=18; gapBefore=11; centered=true; }
+      else if(['h4','h5','h6'].includes(block.type)){ size=12; lineHeight=16; gapBefore=9; centered=true; }
       else if(block.type === 'li'){ indent=16; }
 
       if(block.tokens.length === 0){ y -= lineHeight*0.6; return; }
       if(y - gapBefore < margin) newPage();
       y -= gapBefore;
 
-      const bulletPrefix = block.type === 'li' ? '\u2022  ' : '';
-      const bulletW = bulletPrefix ? fontRegular.widthOfTextAtSize(bulletPrefix, size) : 0;
+      // list: nomor beneran (1. 2. 3.) buat <ol>, bullet buat <ul> — biar lebih dekat ke aslinya
+      const listPrefix = block.type === 'li' ? (block.ordered ? `${block.num}.  ` : '\u2022  ') : '';
+      const listPrefixW = listPrefix ? fontRegular.widthOfTextAtSize(listPrefix, size) : 0;
       let line = [], lineWidth = 0, firstLineOfBlock = true;
 
       function flushLine(){
         if(line.length === 0) return;
         if(y < margin) newPage();
-        let x = margin + indent;
-        if(firstLineOfBlock && bulletPrefix){
-          page.drawText(bulletPrefix, { x, y, size, font: fontRegular, color: rgb(0.15,0.15,0.15) });
-          x += bulletW;
+        // total lebar baris ini (buat heading yang di-center)
+        let totalW = (firstLineOfBlock ? listPrefixW : 0);
+        line.forEach(tok => { totalW += pickFont(tok.bold, tok.italic).widthOfTextAtSize(tok.text + ' ', size); });
+
+        let x;
+        if(centered){
+          x = margin + indent + Math.max(0, (contentW - indent - totalW) / 2);
+        } else {
+          x = margin + indent;
+        }
+        if(firstLineOfBlock && listPrefix){
+          page.drawText(listPrefix, { x, y, size, font: fontRegular, color: rgb(0.15,0.15,0.15) });
+          x += listPrefixW;
         }
         line.forEach(tok => {
           const f = pickFont(tok.bold, tok.italic);
@@ -2990,7 +3004,7 @@ async function doWord2Pdf(){
       block.tokens.forEach(tok => {
         const f = pickFont(tok.bold, tok.italic);
         const w = f.widthOfTextAtSize(tok.text + ' ', size);
-        const availW = contentW - indent - (firstLineOfBlock ? bulletW : 0);
+        const availW = contentW - indent - (firstLineOfBlock ? listPrefixW : 0);
         if(lineWidth + w > availW && line.length > 0) flushLine();
         line.push(tok);
         lineWidth += w;
