@@ -14,6 +14,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.12.0/mammoth.browser.min.js"></script>
 <style>
   :root{
     --ink-900:#0b0d12; --ink-800:#12141b; --ink-700:#151822; --ink-line:#282d3a;
@@ -568,6 +569,15 @@
           <div class="desc" data-i18n="toolSignDesc">Gambar tanda tangan, tempel ke halaman PDF pilihanmu.</div>
         </div>
       </button>
+      <button class="tool-card" data-category="ubah-format" data-search="word docx ke pdf convert" onclick="openScreen('word2pdf')">
+        <div class="tool-icon ic-sky">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+        </div>
+        <div class="tool-text">
+          <div class="name" data-i18n="toolWord2Pdf">Word ke PDF</div>
+          <div class="desc" data-i18n="toolWord2PdfDesc">Ubah dokumen Word (.docx) jadi PDF.</div>
+        </div>
+      </button>
       <button class="tool-card" data-category="resize" data-search="foto gambar ubah ukuran kompres resize" onclick="openScreen('imgresize')">
         <div class="tool-icon ic-sky">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
@@ -655,6 +665,10 @@
       <button class="tool-card" onclick="openScreen('sign')">
         <div class="tool-icon ic-amber"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17s2-1 4-1 3 1.5 5 1.5 3-1.5 5-1.5 4 1 4 1"/><path d="M5 13c3-6 5-9 7-9s1 5-1 9-3 5-1 5 5-2 8-6"/></svg></div>
         <div class="tool-text"><div class="name" data-i18n="toolSign">Tanda Tangan PDF</div><div class="desc" data-i18n="toolSignDesc">Gambar tanda tangan, tempel ke halaman PDF pilihanmu.</div></div>
+      </button>
+      <button class="tool-card" onclick="openScreen('word2pdf')">
+        <div class="tool-icon ic-sky"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
+        <div class="tool-text"><div class="name" data-i18n="toolWord2Pdf">Word ke PDF</div><div class="desc" data-i18n="toolWord2PdfDesc">Ubah dokumen Word (.docx) jadi PDF.</div></div>
       </button>
     </div>
   </main>
@@ -984,6 +998,27 @@
   </div>
 </div>
 
+<!-- WORD TO PDF -->
+<div id="word2pdf-screen" class="screen">
+  <div class="topbar">
+    <div class="back" onclick="goBack()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg></div>
+    <div><div class="topbar-title" data-i18n="toolWord2Pdf">Word ke PDF</div><div class="topbar-sub" data-i18n="subOneFile">Satu file Word</div></div>
+  </div>
+  <div class="dropzone" onclick="document.getElementById('word2pdf-input').click()">
+    <div class="dz-title" id="word2pdf-filename" data-i18n="dzChooseWord">Pilih file Word (.docx)</div>
+    <div class="dz-sub" data-i18n="dzWord2PdfHint">Khusus format .docx (bukan .doc lama)</div>
+  </div>
+  <input type="file" id="word2pdf-input" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onchange="handleWord2PdfFile(this.files[0])">
+  <div class="field">
+    <label data-i18n="word2pdfNote">Versi alpha: fokus ke teks (paragraf, judul, bold/italic). Tabel, gambar, dan kolom ganda belum didukung.</label>
+  </div>
+  <div class="action-bar">
+    <div class="privacy-note"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span data-i18n="privacyNote">Diproses di HP ini — tidak diunggah</span></div>
+    <button class="btn-primary" id="word2pdf-btn" disabled onclick="doWord2Pdf()" data-i18n="btnWord2Pdf">Ubah ke PDF</button>
+    <div class="status-msg" id="word2pdf-status"></div>
+  </div>
+</div>
+
 <!-- PDF TO WORD -->
 <div id="pdf2word-screen" class="screen">
   <div class="topbar">
@@ -1183,7 +1218,7 @@ const I18N = {
     heroTitleDesktop: 'Kelola PDF & Gambar, langsung dari',
     heroTitleAccent: 'browser kamu.',
     heroSubDesktop: 'Gabung, kompres, konversi PDF — atau bikin twibbon foto. Semua diproses di perangkat kamu sendiri, gak pernah dikirim ke server mana pun.',
-    trust1: '12 Alat Tersedia', trust2: 'Gratis Selamanya', trust3: 'Bisa Dipakai Offline',
+    trust1: '13 Alat Tersedia', trust2: 'Gratis Selamanya', trust3: 'Bisa Dipakai Offline',
     navDonate: 'Dukung', navInstall: 'Install App',
     floatPrivacy: 'Privasi Terjaga', floatInstant: 'Proses Instan',
     privacyPill: '100% Privasi Terjaga',
@@ -1194,7 +1229,7 @@ const I18N = {
     chipImgResize: 'Ubah Ukuran', chipImgCollage: 'Kolase',
     catPdfDesc: 'Gabung, pisah, putar, tera air, kunci, kompres, dan lainnya.',
     catImgDesc: 'Ubah ukuran, kompres, dan bikin kolase dari beberapa foto.',
-    catPdfCount: '12 Alat', catImgCount: '3 Alat',
+    catPdfCount: '13 Alat', catImgCount: '3 Alat',
     sectionReady: 'Siap dipakai',
     toolMerge: 'Gabung PDF', toolSplit: 'Pisah Halaman', toolRotate: 'Putar Halaman', toolWatermark: 'Tera Air',
     toolImg2Pdf: 'JPG ke PDF', toolPdf2Img: 'PDF ke JPG', toolCompress: 'Kompres', toolLock: 'Kunci PDF', toolPdf2Word: 'PDF ke Word',
@@ -1214,6 +1249,13 @@ const I18N = {
     toolPageNumDesc: 'Tambahkan nomor halaman otomatis ke tiap halaman PDF.',
     toolSign: 'Tanda Tangan PDF',
     toolSignDesc: 'Gambar tanda tangan, tempel ke halaman PDF pilihanmu.',
+    toolWord2Pdf: 'Word ke PDF',
+    toolWord2PdfDesc: 'Ubah dokumen Word (.docx) jadi PDF.',
+    dzChooseWord: 'Pilih file Word (.docx)',
+    dzWord2PdfHint: 'Khusus format .docx (bukan .doc lama)',
+    word2pdfNote: 'Versi alpha: fokus ke teks (paragraf, judul, bold/italic). Tabel, gambar, dan kolom ganda belum didukung.',
+    btnWord2Pdf: 'Ubah ke PDF',
+    statusConvertingWord: 'Mengubah dokumen...', statusWord2PdfDone: 'Berhasil diubah jadi PDF.',
     reorderListLabel: 'Halaman (geser ↑↓ buat urutin ulang, ✕ buat hapus)',
     reorderListLabelGrid: 'Tekan & tahan halaman buat geser urutannya. Ketuk ✕ buat hapus.',
     reorderListLabelList: 'Ketuk panah ↑↓ buat urutin, ✕ buat hapus halaman.',
@@ -1305,7 +1347,7 @@ const I18N = {
     heroTitleDesktop: 'Manage PDFs & images, right from',
     heroTitleAccent: 'your browser.',
     heroSubDesktop: 'Merge, compress, convert PDFs — or make a photo twibbon. Everything is processed on your own device, never sent to any server.',
-    trust1: '12 Tools Available', trust2: 'Free Forever', trust3: 'Works Offline',
+    trust1: '13 Tools Available', trust2: 'Free Forever', trust3: 'Works Offline',
     navDonate: 'Support', navInstall: 'Install App',
     floatPrivacy: 'Privacy Protected', floatInstant: 'Instant Processing',
     privacyPill: '100% Privacy Protected',
@@ -1316,7 +1358,7 @@ const I18N = {
     chipImgResize: 'Resize', chipImgCollage: 'Collage',
     catPdfDesc: 'Merge, split, rotate, watermark, lock, compress, and more.',
     catImgDesc: 'Resize, compress, and make collages from several photos.',
-    catPdfCount: '12 Tools', catImgCount: '3 Tools',
+    catPdfCount: '13 Tools', catImgCount: '3 Tools',
     sectionReady: 'Ready to use',
     toolMerge: 'Merge PDF', toolSplit: 'Split Pages', toolRotate: 'Rotate Pages', toolWatermark: 'Watermark',
     toolImg2Pdf: 'JPG to PDF', toolPdf2Img: 'PDF to JPG', toolCompress: 'Compress', toolLock: 'Lock PDF', toolPdf2Word: 'PDF to Word',
@@ -1336,6 +1378,13 @@ const I18N = {
     toolPageNumDesc: 'Automatically add page numbers to every PDF page.',
     toolSign: 'Sign PDF',
     toolSignDesc: 'Draw a signature and place it on the PDF page of your choice.',
+    toolWord2Pdf: 'Word to PDF',
+    toolWord2PdfDesc: 'Convert a Word document (.docx) into a PDF.',
+    dzChooseWord: 'Choose a Word file (.docx)',
+    dzWord2PdfHint: '.docx format only (not the old .doc)',
+    word2pdfNote: 'Alpha version: text-focused (paragraphs, headings, bold/italic). Tables, images, and multi-column layouts are not supported yet.',
+    btnWord2Pdf: 'Convert to PDF',
+    statusConvertingWord: 'Converting document...', statusWord2PdfDone: 'Successfully converted to PDF.',
     reorderListLabel: 'Pages (drag ↑↓ to reorder, ✕ to delete)',
     reorderListLabelGrid: 'Press & hold a page to drag it around. Tap ✕ to delete.',
     reorderListLabelList: 'Tap ↑↓ to reorder, ✕ to delete a page.',
@@ -1525,7 +1574,7 @@ function navigate(toScreen, overrideParent){
   let parentScreen = 'home';
   if(overrideParent){
     parentScreen = overrideParent;
-  } else if(['merge','split','rotate','watermark','img2pdf','pdf2img','pdf2word','compress','lock','reorder','pagenum','sign'].includes(toScreen)){
+  } else if(['merge','split','rotate','watermark','img2pdf','pdf2img','pdf2word','compress','lock','reorder','pagenum','sign','word2pdf'].includes(toScreen)){
     parentScreen = 'pdf';
   } else if(['imgresize','collage','twibbon'].includes(toScreen)){
     parentScreen = 'gambar';
@@ -2838,6 +2887,125 @@ document.getElementById('sign-btn-download').addEventListener('click', async () 
     setStatus('sign-status', t('errGeneric',{msg:e.message}), true);
   }
 });
+
+/* ===== WORD KE PDF ===== */
+let word2pdfFile = null;
+function handleWord2PdfFile(f){
+  word2pdfFile = f;
+  document.getElementById('word2pdf-filename').textContent = f ? f.name : t('dzChooseWord');
+  document.getElementById('word2pdf-btn').disabled = !f;
+}
+function w2pExtractTokens(el){
+  const tokens = [];
+  function walk(node, bold, italic){
+    if(node.nodeType === 3){
+      const words = node.textContent.split(/\s+/).filter(w => w.length > 0);
+      words.forEach(w => tokens.push({ text: w, bold, italic }));
+      return;
+    }
+    if(node.nodeType !== 1) return;
+    const tag = node.tagName.toLowerCase();
+    const nb = bold || tag === 'strong' || tag === 'b';
+    const ni = italic || tag === 'em' || tag === 'i';
+    node.childNodes.forEach(c => walk(c, nb, ni));
+  }
+  el.childNodes.forEach(c => walk(c, false, false));
+  return tokens;
+}
+function w2pParseHtml(html){
+  const container = document.createElement('div');
+  container.innerHTML = html;
+  const blocks = [];
+  container.childNodes.forEach(node => {
+    if(node.nodeType !== 1) return;
+    const tag = node.tagName.toLowerCase();
+    if(tag === 'ul' || tag === 'ol'){
+      node.querySelectorAll('li').forEach(li => blocks.push({ type:'li', tokens: w2pExtractTokens(li) }));
+      return;
+    }
+    if(!['p','h1','h2','h3','h4','h5','h6'].includes(tag)) return;
+    blocks.push({ type: tag, tokens: w2pExtractTokens(node) });
+  });
+  return blocks;
+}
+async function doWord2Pdf(){
+  setStatus('word2pdf-status', t('statusConvertingWord'), false);
+  try{
+    const arrayBuffer = await word2pdfFile.arrayBuffer();
+    const result = await mammoth.convertToHtml({ arrayBuffer });
+    const blocks = w2pParseHtml(result.value);
+
+    const { PDFDocument, StandardFonts, rgb } = PDFLib;
+    const doc = await PDFDocument.create();
+    const fontRegular = await doc.embedFont(StandardFonts.Helvetica);
+    const fontBold = await doc.embedFont(StandardFonts.HelveticaBold);
+    const fontItalic = await doc.embedFont(StandardFonts.HelveticaOblique);
+    const fontBoldItalic = await doc.embedFont(StandardFonts.HelveticaBoldOblique);
+    function pickFont(bold, italic){
+      if(bold && italic) return fontBoldItalic;
+      if(bold) return fontBold;
+      if(italic) return fontItalic;
+      return fontRegular;
+    }
+
+    const pageW = 595.28, pageH = 841.89, margin = 56;
+    const contentW = pageW - margin*2;
+    let page = doc.addPage([pageW, pageH]);
+    let y = pageH - margin;
+    function newPage(){ page = doc.addPage([pageW, pageH]); y = pageH - margin; }
+
+    blocks.forEach(block => {
+      let size = 11, lineHeight = 15, gapBefore = 6, indent = 0;
+      if(block.type === 'h1'){ size=19; lineHeight=24; gapBefore=16; }
+      else if(block.type === 'h2'){ size=16; lineHeight=21; gapBefore=13; }
+      else if(block.type === 'h3'){ size=13.5; lineHeight=18; gapBefore=11; }
+      else if(['h4','h5','h6'].includes(block.type)){ size=12; lineHeight=16; gapBefore=9; }
+      else if(block.type === 'li'){ indent=16; }
+
+      if(block.tokens.length === 0){ y -= lineHeight*0.6; return; }
+      if(y - gapBefore < margin) newPage();
+      y -= gapBefore;
+
+      const bulletPrefix = block.type === 'li' ? '\u2022  ' : '';
+      const bulletW = bulletPrefix ? fontRegular.widthOfTextAtSize(bulletPrefix, size) : 0;
+      let line = [], lineWidth = 0, firstLineOfBlock = true;
+
+      function flushLine(){
+        if(line.length === 0) return;
+        if(y < margin) newPage();
+        let x = margin + indent;
+        if(firstLineOfBlock && bulletPrefix){
+          page.drawText(bulletPrefix, { x, y, size, font: fontRegular, color: rgb(0.15,0.15,0.15) });
+          x += bulletW;
+        }
+        line.forEach(tok => {
+          const f = pickFont(tok.bold, tok.italic);
+          page.drawText(tok.text, { x, y, size, font: f, color: rgb(0.12,0.12,0.12) });
+          x += f.widthOfTextAtSize(tok.text + ' ', size);
+        });
+        y -= lineHeight;
+        line = []; lineWidth = 0; firstLineOfBlock = false;
+      }
+
+      block.tokens.forEach(tok => {
+        const f = pickFont(tok.bold, tok.italic);
+        const w = f.widthOfTextAtSize(tok.text + ' ', size);
+        const availW = contentW - indent - (firstLineOfBlock ? bulletW : 0);
+        if(lineWidth + w > availW && line.length > 0) flushLine();
+        line.push(tok);
+        lineWidth += w;
+      });
+      flushLine();
+    });
+
+    const out = await doc.save();
+    const baseName = (word2pdfFile.name || 'dokumen').replace(/\.docx$/i, '');
+    downloadBlob(new Blob([out],{type:'application/pdf'}), baseName + '.pdf');
+    setStatus('word2pdf-status', t('statusWord2PdfDone'), false);
+  }catch(e){
+    setStatus('word2pdf-status', t('errGeneric',{msg:e.message}), true);
+  }
+}
 
 applyLang(currentLang);
 applyToolVisibility();
